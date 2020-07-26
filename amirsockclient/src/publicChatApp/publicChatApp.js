@@ -12,7 +12,7 @@ const PublicMessage = (props) => {
 
 
 
-  var connect = async(username) => {
+  var connect = (username) => {
     if (username) {
      var sockjs = new Sockjs("/ws");
       stompClient = Stomp.over(sockjs);
@@ -48,8 +48,9 @@ const PublicMessage = (props) => {
 
 
   var onMessageReceived=(payload)=>{
+      console.log(51)
+      console.log(payload)
       var message=JSON.parse(payload.body)
-      console.log(52)
       console.log(message)
       setBroadCastMessage(prev=>[...prev,message.content])
 
@@ -63,6 +64,7 @@ const PublicMessage = (props) => {
       </div>
       <form>
           <input type="text" value={value} onChange={(e)=>setValue(e.target.value)}/>
+          
         
           <button type="button" onClick={sendMessage}>Send</button>
           <button type="button" onClick={connect}>connect</button>
