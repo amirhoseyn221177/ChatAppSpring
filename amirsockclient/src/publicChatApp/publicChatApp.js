@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Stomp from "stompjs";
 import Sockjs from "sockjs-client";
 var stompClient = null;
 
 const PublicMessage = (props) => {
+  const [user,setUser]=useState("")
   const [broadCastMessage, setBroadCastMessage] = useState([]);
-  const [openMessageBox, setOpenMessageBox] = useState(false);
-  const [channelConnected, setChannelConnected] = useState(false);
-  const [message,setMessage]=useState([])
+  const [grouChatName,setGroupChatName]=useState("")
   const [value,setValue]=useState("")
 
 
@@ -24,24 +23,24 @@ const PublicMessage = (props) => {
 
   var onConnected = () => {
       console.log(25)
-    setChannelConnected(true);
-    stompClient.subscribe("/topic/public",onMessageReceived)
-    stompClient.send("/app/addUser", {}, JSON.stringify({ sender:"amir", type: 'JOIN' }))
+    // setChannelConnected(true);
+    console.log(grouChatName)
+    stompClient.subscribe(`/topic/public/${user}`,onMessageReceived)
+    stompClient.send("/app/addUser", {}, JSON.stringify({ sender:user, type: 'JOIN' }))
 
 
   };
 
-  var onError=()=>{
-      console.error("error")
+  var onError=(e)=>{
+      console.error(e)
   }
 
   var sendMessage=()=>{
       console.log(value)
       let chatMassege={
-          sender:"amir sayyar",
+          sender:user,
           content:value,
-          type:"CHAT",
-          receiver:"sepehr",
+          type:"CHAT"
       }
       stompClient.send("/app/sendMessage",{},JSON.stringify(chatMassege))
   }
@@ -62,10 +61,10 @@ const PublicMessage = (props) => {
       <div>
           <h2>messages</h2>
       </div>
+      <input value={user} onChange={e=>setUser(e.target.value)} placeholder="username"/>
       <form>
           <input type="text" value={value} onChange={(e)=>setValue(e.target.value)}/>
-          
-        
+          <input type="text" value={grouChatName} onChange={e=>setGroupChatName(e.target.value)} placeholder="groupChatName"/>
           <button type="button" onClick={sendMessage}>Send</button>
           <button type="button" onClick={connect}>connect</button>
       </form>

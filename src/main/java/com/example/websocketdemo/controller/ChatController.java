@@ -12,12 +12,24 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Controller
 public class ChatController {
 
 	private final SimpMessagingTemplate simpMessagingTemplate;
+	private static final String GroupChat="BAN";
+	private static final ArrayList<String> GroupChatUsers=new ArrayList<String>(){
+		{
+			add("amir");
+			add("sepehr");
+			add("mmd");
+		}
+	};
+
 
 	public ChatController(SimpMessagingTemplate simpMessagingTemplate) {
 		this.simpMessagingTemplate = simpMessagingTemplate;
@@ -26,11 +38,13 @@ public class ChatController {
 	/*-------------------- Group (Public) chat--------------------*/
 	@MessageMapping("/sendMessage")
 	@SendTo("/topic/public")
-	public ChatMessage sendMessage(@Payload ChatMessage chatMessage, MessageHeaders messageHeaders, StompHeaderAccessor stompHeaderAccessor) {
-
-		System.out.println(messageHeaders.toString()+"  "+ 29);
-		System.out.println(stompHeaderAccessor+" "+31);
-		return chatMessage;
+	public void sendMessage(@Payload ChatMessage chatMessage, MessageHeaders messageHeaders, StompHeaderAccessor stompHeaderAccessor) {
+		System.out.println(34+" "+messageHeaders);
+		System.out.println(35+" "+stompHeaderAccessor);
+		if(!GroupChatUsers.contains(chatMessage.getSender())){
+			return;
+		}
+		GroupChatUsers.forEach(user ->simpMessagingTemplate.convertAndSend("/topic/public/"+user,chatMessage));
 	}
 
 	@MessageMapping("/addUser")
@@ -48,10 +62,13 @@ public class ChatController {
 
 	@MessageMapping("/sendPrivateMessage/{username}/{otheruser}")
 //	@SendTo("/queue/reply")
-	public void sendPrivateMessage(@Payload ChatMessage chatMessage, @DestinationVariable String username,@DestinationVariable String otheruser) {
-		System.out.println(52);
-		System.out.println(username);
-	 	simpMessagingTemplate.convertAndSend("/queue/"+username,chatMessage);
+	public void sendPrivateMessage(@Payload ChatMessage chatMessage, @DestinationVariable String username,@DestinationVariable String otheruser
+	,MessageHeaders messageHeaders,SimpMessageHeaderAccessor simpMessageHeaderAccessor,StompHeaderAccessor stompHeaderAccessor) {
+		System.out.println(53+ " "+messageHeaders);
+		System.out.println(54+" "+simpMessageHeaderAccessor);
+		System.out.println(55+ " "+stompHeaderAccessor);
+
+		simpMessagingTemplate.convertAndSend("/queue/"+username,chatMessage);
 	 	simpMessagingTemplate.convertAndSend("/queue/"+otheruser,chatMessage);
 //		simpMessagingTemplate.convertAndSendToUser(chatMessage.getSender().trim(),"queue/reply",chatMessage);
 
@@ -62,8 +79,12 @@ public class ChatController {
 	public ChatMessage addPrivateUser(@Payload ChatMessage chatMessage,
 			SimpMessageHeaderAccessor headerAccessor) {
 		// Add user in web socket session
-		headerAccessor.getSessionAttributes().put("private-username", chatMessage.getSender());
-		simpMessagingTemplate.convertAndSendToUser(chatMessage.getReceiver(),"/queue","user has been connected");
+		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("private-username", chatMessage.getSender());
 		return chatMessage;
 	}
+
+
+
+
+
 }

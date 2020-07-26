@@ -1,6 +1,8 @@
 package com.example.websocketdemo.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
 
 public class ChatMessage {
@@ -8,7 +10,8 @@ public class ChatMessage {
     private String content;
     private String sender;
     private String receiver;
-	private LocalDateTime dateTime=LocalDateTime.now();; 
+    private ArrayList<String> GroupChats;
+	private LocalDateTime dateTime=LocalDateTime.now();
     
     public enum MessageType {
         CHAT,
@@ -56,6 +59,14 @@ public class ChatMessage {
 	public void setDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
+
+    public ArrayList<String> getGroupChats() {
+        return GroupChats;
+    }
+
+    public void setGroupChats(ArrayList<String> groupChats) {
+        GroupChats = groupChats;
+    }
 
     @Override
     public String toString() {

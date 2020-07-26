@@ -18,7 +18,7 @@ public class HandshakerInterceptor implements HandshakeInterceptor {
             ServletServerHttpRequest servletServerHttpRequest=(ServletServerHttpRequest) serverHttpRequest;
             HttpSession session =servletServerHttpRequest.getServletRequest().getSession(true);
             if(session!=null){
-                map.put("HTTPSESSION ",session.getId());
+                map.put("httpSession ",session.getId());
             }
         }
         return true;

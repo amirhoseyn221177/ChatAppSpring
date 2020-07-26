@@ -40,7 +40,7 @@ var PrivateMessage = (props) => {
     var chatMessage = {
       content: value,
       sender: user,
-      receiver: otherUser,
+      receiver: [otherUser],
       type: "TYPING",
     };
     console.log(user)
