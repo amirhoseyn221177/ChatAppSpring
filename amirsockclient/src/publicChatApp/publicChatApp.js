@@ -16,6 +16,7 @@ const PublicMessage = (props) => {
      var sockjs = new Sockjs("/ws");
       stompClient = Stomp.over(sockjs);
      stompClient.connect({}, onConnected, onError);
+     stompClient.send()
       console.log(20)
     }
   };
