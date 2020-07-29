@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Stomp from "stompjs";
 import Sockjs from "sockjs-client";
+import CreateGroupChat from "./CreateGroupChat";
+import { withRouter } from "react-router-dom";
 var stompClient = null;
 
 const PublicMessage = (props) => {
@@ -16,7 +18,6 @@ const PublicMessage = (props) => {
      var sockjs = new Sockjs("/ws");
       stompClient = Stomp.over(sockjs);
      stompClient.connect({}, onConnected, onError);
-     stompClient.send()
       console.log(20)
     }
   };
@@ -26,7 +27,7 @@ const PublicMessage = (props) => {
       console.log(25)
     // setChannelConnected(true);
     console.log(grouChatName)
-    stompClient.subscribe(`/topic/public/${user}`,onMessageReceived)
+    stompClient.subscribe(`/topic/public/${grouChatName}`,onMessageReceived)
     stompClient.send("/app/addUser", {}, JSON.stringify({ sender:user, type: 'JOIN' }))
 
 
@@ -41,7 +42,8 @@ const PublicMessage = (props) => {
       let chatMassege={
           sender:user,
           content:value,
-          type:"CHAT"
+          type:"CHAT",
+          groupChats:grouChatName
       }
       stompClient.send("/app/sendMessage",{},JSON.stringify(chatMassege))
   }
@@ -74,11 +76,9 @@ const PublicMessage = (props) => {
               broadCastMessage.map(x => <p>{x}</p>)
           }
       </div>
-
-
       </>
      
   )
 };
 
-export default PublicMessage;
+export default withRouter(PublicMessage);

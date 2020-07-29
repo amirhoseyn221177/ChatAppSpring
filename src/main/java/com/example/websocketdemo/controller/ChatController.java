@@ -11,6 +11,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,8 @@ public class ChatController {
 
 	private final SimpMessagingTemplate simpMessagingTemplate;
 	private static final String GroupChat="BAN";
+
+	//it is a temporary way to make sure to only send the message to the people in the group chat
 	private static final ArrayList<String> GroupChatUsers=new ArrayList<String>(){
 		{
 			add("amir");
@@ -38,13 +41,17 @@ public class ChatController {
 	/*-------------------- Group (Public) chat--------------------*/
 	@MessageMapping("/sendMessage")
 	@SendTo("/topic/public")
-	public void sendMessage(@Payload ChatMessage chatMessage, MessageHeaders messageHeaders, StompHeaderAccessor stompHeaderAccessor) {
+	public void sendMessage(@Payload ChatMessage chatMessage, MessageHeaders messageHeaders,
+							StompHeaderAccessor stompHeaderAccessor ) {
 		System.out.println(34+" "+messageHeaders);
 		System.out.println(35+" "+stompHeaderAccessor);
+		System.out.println(chatMessage.getContent());
 		if(!GroupChatUsers.contains(chatMessage.getSender())){
 			return;
 		}
-		GroupChatUsers.forEach(user ->simpMessagingTemplate.convertAndSend("/topic/public/"+user,chatMessage));
+//		GroupChatUsers.forEach(user ->simpMessagingTemplate.convertAndSend("/topic/public/"+user,chatMessage));
+		simpMessagingTemplate.convertAndSend("/topic/public/"+chatMessage.getGroupChats(),chatMessage);
+//
 	}
 
 	@MessageMapping("/addUser")

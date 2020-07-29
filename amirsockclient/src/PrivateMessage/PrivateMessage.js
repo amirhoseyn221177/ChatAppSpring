@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from "react";
 import Stomp from "stompjs";
 import Sockjs from "sockjs-client";
+import { withRouter } from "react-router-dom";
 
 var stompClient = null;
 var PrivateMessage = (props) => {
@@ -13,7 +14,7 @@ var PrivateMessage = (props) => {
       console.log(user)
     var sockjs = new Sockjs("/ws");
     stompClient = Stomp.over(sockjs);
-    stompClient.connect({ login: "sexpolo" }, onConnected);
+    stompClient.connect({}, onConnected);
   };
 
   var onConnected = () => {
@@ -27,6 +28,7 @@ var PrivateMessage = (props) => {
   
 
   var onMessageReceived = (payload) => {
+    console.log(30+ " "+ payload)
     var message = JSON.parse(payload.body);
     console.log("username="+user)
     console.log(message)
@@ -88,4 +90,4 @@ var PrivateMessage = (props) => {
   );
 };
 
-export default PrivateMessage;
+export default withRouter (PrivateMessage);

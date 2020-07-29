@@ -19,5 +19,6 @@ public class GroupChat {
     private String Id;
     private String name;
     private List<ChatUser> members;
+    private List<ChatUser> admins;
 
 }

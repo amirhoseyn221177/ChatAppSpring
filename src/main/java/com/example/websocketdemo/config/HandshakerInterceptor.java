@@ -16,9 +16,12 @@ public class HandshakerInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
         if(serverHttpRequest instanceof ServletServerHttpRequest){
             ServletServerHttpRequest servletServerHttpRequest=(ServletServerHttpRequest) serverHttpRequest;
+//            System.out.println(19+" "+servletServerHttpRequest.getServletRequest());
+//            System.out.println(20+" "+servletServerHttpRequest.getBody());
             HttpSession session =servletServerHttpRequest.getServletRequest().getSession(true);
             if(session!=null){
                 map.put("httpSession ",session.getId());
+//                System.out.println(23+" "+map);
             }
         }
         return true;

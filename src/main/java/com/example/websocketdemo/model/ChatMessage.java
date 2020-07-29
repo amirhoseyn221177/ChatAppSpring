@@ -22,7 +22,7 @@ public class ChatMessage {
     private String content;
     private String sender;
     private String receiver;
-    private ArrayList<String> GroupChats;
+    private String groupChats;
 	private LocalDateTime dateTime=LocalDateTime.now();
     
     public enum MessageType {

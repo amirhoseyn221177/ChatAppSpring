@@ -8,6 +8,7 @@ import com.example.websocketdemo.model.ChatUser;
 import com.example.websocketdemo.model.GroupChat;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,16 @@ public class ChatServices {
         System.out.println("chat has been deleted");
     }
 
-    public void createGroupChat(GroupChat groupChat ){
+    public void createGroupChat(String username,String groupName ){
+        GroupChat groupChat=new GroupChat();
+        List<ChatUser> members=new ArrayList<>();
+        ChatUser chatUser=userRepo.findByUsername(username);
+        List<ChatUser>admins=new ArrayList<>();
+        members.add(chatUser);
+        admins.add(chatUser);
+        groupChat.setName(groupName);
+        groupChat.setMembers(members);
+        groupChat.setAdmins(admins);
         groupChatRepo.save(groupChat);
         System.out.println("Group chat has been created");
     }
@@ -52,6 +62,23 @@ public class ChatServices {
                groupChatRepo.save(groupChat2);
            });
        }
+    }
+
+    public void deleteGroupChat(String groupId, ChatUser chatUser) {
+        Optional<GroupChat> groupChat=groupChatRepo.findById(groupId);
+        if(groupChat.isPresent()){
+            List<ChatUser> admins=groupChat.get().getAdmins();
+            if (admins.contains(chatUser)) {
+                List<ChatUser> members=groupChat.get().getMembers();
+                members.forEach(m->{
+                    List<GroupChat> groupChats=m.getGroupChats();
+                    groupChats.removeIf(groupChat1 -> groupChat1.getId().equals(groupId));
+                });
+                groupChatRepo.deleteById(groupId);
+                System.out.println("groupChat deleted");
+            }
+        }
+
     }
 
 
