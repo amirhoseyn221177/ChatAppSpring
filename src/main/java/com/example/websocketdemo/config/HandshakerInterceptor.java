@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 @Component
@@ -21,7 +22,6 @@ public class HandshakerInterceptor implements HandshakeInterceptor {
             HttpSession session =servletServerHttpRequest.getServletRequest().getSession(true);
             if(session!=null){
                 map.put("httpSession ",session.getId());
-//                System.out.println(23+" "+map);
             }
         }
         return true;

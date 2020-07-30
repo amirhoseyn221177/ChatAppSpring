@@ -10,21 +10,22 @@ const PublicMessage = (props) => {
   const [broadCastMessage, setBroadCastMessage] = useState([]);
   const [grouChatName,setGroupChatName]=useState("")
   const [value,setValue]=useState("")
-
+  const [file,setFile]=useState(null)
 
 
   var connect = (username) => {
     if (username) {
      var sockjs = new Sockjs("/ws");
       stompClient = Stomp.over(sockjs);
-     stompClient.connect({}, onConnected, onError);
+     stompClient.connect({login:"salam ghanari"}, onConnected, onError);
       console.log(20)
     }
   };
 
 
-  var onConnected = () => {
+  var onConnected = (frame) => {
       console.log(25)
+      console.log(frame.headers)
     // setChannelConnected(true);
     console.log(grouChatName)
     stompClient.subscribe(`/topic/public/${grouChatName}`,onMessageReceived)
@@ -41,11 +42,11 @@ const PublicMessage = (props) => {
       console.log(value)
       let chatMassege={
           sender:user,
-          content:value,
+          content:file,
           type:"CHAT",
           groupChats:grouChatName
       }
-      stompClient.send("/app/sendMessage",{},JSON.stringify(chatMassege))
+      stompClient.send("/app/sendMessage",{type:"image"},JSON.stringify(chatMassege))
   }
 
 
@@ -56,6 +57,18 @@ const PublicMessage = (props) => {
       console.log(message)
       setBroadCastMessage(prev=>[...prev,message.content])
 
+
+  }
+
+  var gettingFiles=(e)=>{
+    //   console.log(64)
+      let content= e.target.files
+      var reader=new FileReader()
+      reader.onload=()=>{
+          setFile(reader.result)
+          console.log(typeof(reader.result))
+      }
+        reader.readAsDataURL(content[0])
 
   }
 
@@ -71,10 +84,14 @@ const PublicMessage = (props) => {
           <button type="button" onClick={sendMessage}>Send</button>
           <button type="button" onClick={connect}>connect</button>
       </form>
+      <form>
+          <input type="file" name="file" onChange={e=>gettingFiles(e)}/>
+      </form>
       <div>
       {
-              broadCastMessage.map(x => <p>{x}</p>)
+              broadCastMessage.map(x => <p key={Math.random()*120000}>{x}</p>)
           }
+          <img src={broadCastMessage[0]} alt=""/>
       </div>
       </>
      
@@ -82,3 +99,7 @@ const PublicMessage = (props) => {
 };
 
 export default withRouter(PublicMessage);
+
+
+
+

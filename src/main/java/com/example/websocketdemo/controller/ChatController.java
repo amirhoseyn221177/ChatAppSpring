@@ -50,6 +50,7 @@ public class ChatController {
 			return;
 		}
 //		GroupChatUsers.forEach(user ->simpMessagingTemplate.convertAndSend("/topic/public/"+user,chatMessage));
+		System.out.println(chatMessage.getContent());
 		simpMessagingTemplate.convertAndSend("/topic/public/"+chatMessage.getGroupChats(),chatMessage);
 //
 	}
@@ -59,6 +60,7 @@ public class ChatController {
 	public ChatMessage addUser(@Payload ChatMessage chatMessage,
 			SimpMessageHeaderAccessor headerAccessor) {
 		// Add user in web socket session
+		System.out.println(62);
 		System.out.println(headerAccessor);
 		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", chatMessage.getSender());
 		return chatMessage;
