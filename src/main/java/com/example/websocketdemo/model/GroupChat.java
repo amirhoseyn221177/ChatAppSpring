@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -20,5 +21,7 @@ public class GroupChat {
     private String name;
     private List<ChatUser> members;
     private List<ChatUser> admins;
+    private List<String> texts = new ArrayList<>();
+    private List<byte []> medias = new ArrayList<>();
 
 }

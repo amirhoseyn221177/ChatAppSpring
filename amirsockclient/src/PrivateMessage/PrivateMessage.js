@@ -30,20 +30,18 @@ var PrivateMessage = (props) => {
   var onMessageReceived = (payload) => {
     console.log(30+ " "+ payload)
     var message = JSON.parse(payload.body);
-    console.log("username="+user)
-    console.log(message)
+    console.log(payload)
     if(message.receiver===user&&message.sender===otherUser){
       setBroadCastMessage((prev) => [...prev, message.content]);
     }
-    // setBroadCastMessage((prev) => [...prev, message.content]);
+    // setBroadCastMessage((prev) => [...prev, message.textContent]);
   };
 
   var sendMessage = () => {
     var chatMessage = {
-      content: value,
+      textContent: value,
       sender: user,
-      receiver: [otherUser],
-      type: "TYPING",
+      receiver: otherUser,
     };
     console.log(user)
     console.log(otherUser)
@@ -52,7 +50,7 @@ var PrivateMessage = (props) => {
       {},
       JSON.stringify(chatMessage)
     );
-    setBroadCastMessage((prev) => [...prev, chatMessage.content]);
+    // setBroadCastMessage((prev) => [...prev, chatMessage.content]);
 
   };
 

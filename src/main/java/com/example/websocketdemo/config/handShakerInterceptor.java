@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 @Component
-public class HandshakerInterceptor implements HandshakeInterceptor {
+public class handShakerInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
         if(serverHttpRequest instanceof ServletServerHttpRequest){
@@ -22,6 +22,7 @@ public class HandshakerInterceptor implements HandshakeInterceptor {
             HttpSession session =servletServerHttpRequest.getServletRequest().getSession(true);
             if(session!=null){
                 map.put("httpSession ",session.getId());
+
             }
         }
         return true;

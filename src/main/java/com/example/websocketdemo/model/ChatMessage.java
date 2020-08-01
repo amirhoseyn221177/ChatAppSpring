@@ -7,8 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.stream.Stream;
+
 
 
 @Document
@@ -18,84 +17,19 @@ import java.util.stream.Stream;
 public class ChatMessage {
     @Id
     private String Id;
-    private MessageType type;
-    private String content;
+    private String textContent;
+    private byte [] mediaContent;
+    private ContentType contentType;
     private String sender;
+    private String groupChat;
     private String receiver;
-    private String groupChats;
 	private LocalDateTime dateTime=LocalDateTime.now();
     
-    public enum MessageType {
-        CHAT,
-        JOIN,
-        LEAVE,
-        TYPING
+    public enum ContentType {
+        TEXT,
+        VIDEO,
+        IMAGE,
+        LINK
     }
 
-//    public String getId() {
-//        return Id;
-//    }
-//
-//    public void setId(String id) {
-//        Id = id;
-//    }
-//
-//    public MessageType getType() {
-//        return type;
-//    }
-//
-//    public void setType(MessageType type) {
-//        this.type = type;
-//    }
-//
-//    public String getContent() {
-//        return content;
-//    }
-//
-//    public void setContent(String content) {
-//        this.content = content;
-//    }
-//
-//    public String getSender() {
-//        return sender;
-//    }
-//
-//    public void setSender(String sender) {
-//        this.sender = sender;
-//    }
-//
-//    public String getReceiver() {
-//		return receiver;
-//	}
-//
-//	public void setReceiver(String receiver) {
-//		this.receiver = receiver;
-//	}
-//
-//    public LocalDateTime getDateTime() {
-//		return dateTime;
-//	}
-//
-//	public void setDateTime(LocalDateTime dateTime) {
-//		this.dateTime = dateTime;
-//	}
-//
-//    public ArrayList<String> getGroupChats() {
-//        return GroupChats;
-//    }
-//
-//    public void setGroupChats(ArrayList<String> groupChats) {
-//        GroupChats = groupChats;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "ChatMessage{" +
-//                "type=" + type +
-//                ", content='" + content + '\'' +
-//                ", sender='" + sender + '\'' +
-//                ", receiver='" + receiver + '\'' +
-//                ", dateTime=" + dateTime +
-//                '}';
-//    }
 }

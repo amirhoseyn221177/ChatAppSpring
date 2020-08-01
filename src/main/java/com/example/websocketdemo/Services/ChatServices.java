@@ -6,6 +6,7 @@ import com.example.websocketdemo.Repository.UserRepo;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatUser;
 import com.example.websocketdemo.model.GroupChat;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,11 +18,12 @@ public class ChatServices {
     private final ChatRepo chatRepo;
     private final GroupChatRepo groupChatRepo;
     private final UserRepo userRepo;
-
-    public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo) {
+    private final SimpMessagingTemplate simpMessagingTemplate;
+    public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo, SimpMessagingTemplate simpMessagingTemplate) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     public void savingChats(ChatMessage chatMessage){
@@ -80,6 +82,24 @@ public class ChatServices {
         }
 
     }
+
+    public void broadCastMessageToGroupChat(ChatMessage chatMessage,String groupName){
+        Optional<GroupChat> groupChat = groupChatRepo.findByName(groupName);
+        if(groupChat.isPresent()){
+            if(chatMessage.getContentType().equals(ChatMessage.ContentType.TEXT)||
+                 chatMessage.getContentType().equals(ChatMessage.ContentType.LINK)){
+             List<String> texts= groupChat.get().getTexts();
+             texts.add(chatMessage.getTextContent());
+             groupChat.get().setTexts(texts);
+            } else {
+             List <byte []> medias = groupChat.get().getMedias();
+             medias.add(chatMessage.getMediaContent());
+             groupChat.get().setMedias(medias);
+            }
+        }
+        simpMessagingTemplate.convertAndSend("/topic/public/"+groupName,chatMessage);
+    }
+
 
 
 }

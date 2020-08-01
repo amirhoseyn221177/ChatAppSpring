@@ -1,19 +1,19 @@
 package com.example.websocketdemo.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.web.socket.config.annotation.*;
-import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
 
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    private final HandshakerInterceptor handshakerInterceptor;
-    private final InboundMessageChannelInterceptor inboundMessageChannelInterceptor;
-    public WebSocketConfig(HandshakerInterceptor handshakerInterceptor, InboundMessageChannelInterceptor inboundMessageChannelInterceptor) {
+    private final handShakerInterceptor handshakerInterceptor;
+    private final ChannelInterceptor inboundMessageChannelInterceptor;
+
+    public WebSocketConfig(handShakerInterceptor handshakerInterceptor, ChannelInterceptor inboundMessageChannelInterceptor) {
         this.handshakerInterceptor = handshakerInterceptor;
         this.inboundMessageChannelInterceptor = inboundMessageChannelInterceptor;
     }
@@ -35,6 +35,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(inboundMessageChannelInterceptor);
     }
+
+
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {

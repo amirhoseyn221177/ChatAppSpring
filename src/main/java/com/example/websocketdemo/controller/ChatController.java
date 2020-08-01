@@ -1,7 +1,8 @@
 package com.example.websocketdemo.controller;
 
+import com.example.websocketdemo.Services.ChatServices;
 import com.example.websocketdemo.model.ChatMessage;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -11,17 +12,16 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
+
 
 @Controller
 public class ChatController {
 
 	private final SimpMessagingTemplate simpMessagingTemplate;
+	private final ChatServices chatServices;
 	private static final String GroupChat="BAN";
 
 	//it is a temporary way to make sure to only send the message to the people in the group chat
@@ -34,8 +34,9 @@ public class ChatController {
 	};
 
 
-	public ChatController(SimpMessagingTemplate simpMessagingTemplate) {
+	public ChatController(SimpMessagingTemplate simpMessagingTemplate, ChatServices chatServices) {
 		this.simpMessagingTemplate = simpMessagingTemplate;
+		this.chatServices = chatServices;
 	}
 
 	/*-------------------- Group (Public) chat--------------------*/
@@ -43,43 +44,48 @@ public class ChatController {
 	@SendTo("/topic/public")
 	public void sendMessage(@Payload ChatMessage chatMessage, MessageHeaders messageHeaders,
 							StompHeaderAccessor stompHeaderAccessor ) {
-		System.out.println(34+" "+messageHeaders);
-		System.out.println(35+" "+stompHeaderAccessor);
-		System.out.println(chatMessage.getContent());
+
 		if(!GroupChatUsers.contains(chatMessage.getSender())){
 			return;
 		}
-//		GroupChatUsers.forEach(user ->simpMessagingTemplate.convertAndSend("/topic/public/"+user,chatMessage));
-		System.out.println(chatMessage.getContent());
-		simpMessagingTemplate.convertAndSend("/topic/public/"+chatMessage.getGroupChats(),chatMessage);
-//
+		
+		//getting binary data from base64 to decrease the size up to 33%
+		//String raw=chatMessage.getTextContent().substring(24); because of the default prefix from filereader in js
+
+		//byte [] binary = Base64.decodeBase64(raw);
+
+		//converting it back to base to be able to send the file to through websocket
+		//String data= Base64.encodeBase64String(binary);
+
+//		simpMessagingTemplate.convertAndSend("/topic/public/"+chatMessage.getGroupChat(),chatMessage);
+		chatServices.broadCastMessageToGroupChat(chatMessage,chatMessage.getGroupChat());
+
 	}
 
 	@MessageMapping("/addUser")
 	@SendTo("/topic/pubic")
 	public ChatMessage addUser(@Payload ChatMessage chatMessage,
-			SimpMessageHeaderAccessor headerAccessor) {
+			SimpMessageHeaderAccessor headerAccessor,StompHeaderAccessor stompHeaderAccessor) {
+		System.out.println(stompHeaderAccessor);
 		// Add user in web socket session
-		System.out.println(62);
-		System.out.println(headerAccessor);
 		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", chatMessage.getSender());
+		headerAccessor.getSessionAttributes().put("groupname",chatMessage.getGroupChat());
 		return chatMessage;
 	}
 
 
 	/*--------------------Private chat--------------------*/
 
-	@MessageMapping("/sendPrivateMessage/{username}/{otheruser}")
+	@MessageMapping("/sendPrivateMessage/{username}/{otherUser}")
 //	@SendTo("/queue/reply")
-	public void sendPrivateMessage(@Payload ChatMessage chatMessage, @DestinationVariable String username,@DestinationVariable String otheruser
-	,MessageHeaders messageHeaders,SimpMessageHeaderAccessor simpMessageHeaderAccessor,StompHeaderAccessor stompHeaderAccessor) {
-		System.out.println(53+ " "+messageHeaders);
-		System.out.println(54+" "+simpMessageHeaderAccessor);
-		System.out.println(55+ " "+stompHeaderAccessor);
+	public void sendPrivateMessage(@Payload ChatMessage chatMessage, @DestinationVariable String username,@DestinationVariable String otherUser,
+								   StompHeaderAccessor stompHeaderAccessor) {
+		String user= (String) Objects.requireNonNull(stompHeaderAccessor.getSessionAttributes()).get("private-username");
+		String otherUser2= (String) stompHeaderAccessor.getSessionAttributes().get("private-receiver");
+		System.out.println(stompHeaderAccessor);
+		simpMessagingTemplate.convertAndSend("/queue/"+user,chatMessage);
+	 	simpMessagingTemplate.convertAndSend("/queue/"+otherUser2,chatMessage);
 
-		simpMessagingTemplate.convertAndSend("/queue/"+username,chatMessage);
-	 	simpMessagingTemplate.convertAndSend("/queue/"+otheruser,chatMessage);
-//		simpMessagingTemplate.convertAndSendToUser(chatMessage.getSender().trim(),"queue/reply",chatMessage);
 
 	}
 
@@ -88,7 +94,9 @@ public class ChatController {
 	public ChatMessage addPrivateUser(@Payload ChatMessage chatMessage,
 			SimpMessageHeaderAccessor headerAccessor) {
 		// Add user in web socket session
+		System.out.println(chatMessage);
 		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("private-username", chatMessage.getSender());
+		headerAccessor.getSessionAttributes().put("private-receiver",chatMessage.getReceiver());
 		return chatMessage;
 	}
 
