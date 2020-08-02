@@ -19,17 +19,12 @@ public class ChatMessage {
     private String Id;
     private String textContent;
     private byte [] mediaContent;
-    private ContentType contentType;
+    private String contentType;
     private String sender;
     private String groupChat;
     private String receiver;
 	private LocalDateTime dateTime=LocalDateTime.now();
     
-    public enum ContentType {
-        TEXT,
-        VIDEO,
-        IMAGE,
-        LINK
-    }
+
 
 }

@@ -12,7 +12,6 @@ public class InboundMessageChannelInterceptor implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
         MessageHeaders headers=message.getHeaders();
-//        System.out.println(message);
         return message;
     }
 

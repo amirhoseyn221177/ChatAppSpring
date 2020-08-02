@@ -23,8 +23,8 @@ public class ChatRestController {
 
     @PostMapping("/create/{groupName}")
     public ResponseEntity<?>createGroupChat(@RequestBody ChatUser chatUser, @PathVariable String groupName){
-        chatServices.createGroupChat(chatUser.getUsername(), groupName);
-        return new ResponseEntity<>("has been created", HttpStatus.CREATED);
+       GroupChat groupChat= chatServices.createGroupChat(chatUser.getUsername(), groupName);
+        return new ResponseEntity<>(groupChat, HttpStatus.CREATED);
     }
 
     @PostMapping("/addtogroup/{groupId}")
@@ -45,5 +45,25 @@ public class ChatRestController {
     public ResponseEntity<?> createUser(@RequestBody ChatUser chatUser){
         chatServices.createUser(chatUser);
         return  new ResponseEntity<>(chatUser,HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getall")
+    public ResponseEntity<?> gettingAllUsers(){
+        return new ResponseEntity<>(chatServices.getAll(),HttpStatus.OK);
+    }
+
+    @GetMapping("/getallgroup")
+    public ResponseEntity<?> gettingAllGroup(){
+        return new ResponseEntity<>(chatServices.getAllGroups(),HttpStatus.OK);
+    }
+
+    @GetMapping("/getgroup/{groupId}")
+    public ResponseEntity<?> getGroup(@PathVariable String groupId){
+       return new ResponseEntity<>(chatServices.getGroup(groupId),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteuser/{userId}")
+    public void deletingUser(@PathVariable String userId){
+        chatServices.deleteUser(userId);
     }
 }

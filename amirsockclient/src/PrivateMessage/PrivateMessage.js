@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
 import Stomp from "stompjs";
-import Sockjs from "sockjs-client";
+
 import { withRouter } from "react-router-dom";
 
 var stompClient = null;
@@ -11,30 +11,39 @@ var PrivateMessage = (props) => {
   const [value, setValue] = useState("");
 
   var connect = () => {
-      console.log(user)
-    var sockjs = new Sockjs("/ws");
-    stompClient = Stomp.over(sockjs);
+    console.log(user);
+    stompClient = Stomp.client("ws://localhost:8080/ws");
     stompClient.connect({}, onConnected);
+
+    //I controle these from the backend
+    // stompClient.heartbeat.outgoing=20000
+    // stompClient.heartbeat.incoming=0
+  };
+
+  var diconnecting = () => {
+    stompClient.disconnect(() => {
+      stompClient.unsubscribe(`/queue/${user}/${otherUser}`);
+    });
   };
 
   var onConnected = () => {
-    stompClient.subscribe(`/queue/${user}`, onMessageReceived);
+    var url = `/queue/`;
+    if (user < otherUser) {
+      url += user + `/` + otherUser;
+    } else {
+      url += otherUser + `/` + user;
+    }
+    stompClient.subscribe(url, onMessageReceived);
     stompClient.send(
       "/app/addPrivateUser",
-      {},
-      JSON.stringify({ sender: user,receiver:otherUser })
+      {hello:"just connected"},
+      JSON.stringify({ sender: user, receiver: otherUser })
     );
   };
-  
 
   var onMessageReceived = (payload) => {
-    console.log(30+ " "+ payload)
     var message = JSON.parse(payload.body);
-    console.log(payload)
-    if(message.receiver===user&&message.sender===otherUser){
-      setBroadCastMessage((prev) => [...prev, message.content]);
-    }
-    // setBroadCastMessage((prev) => [...prev, message.textContent]);
+    setBroadCastMessage((prev) => [...prev, message.textContent]);
   };
 
   var sendMessage = () => {
@@ -43,15 +52,13 @@ var PrivateMessage = (props) => {
       sender: user,
       receiver: otherUser,
     };
-    console.log(user)
-    console.log(otherUser)
-    stompClient.send(
-      `/user/sendPrivateMessage/${user}/${otherUser}`,
-      {},
-      JSON.stringify(chatMessage)
-    );
-    // setBroadCastMessage((prev) => [...prev, chatMessage.content]);
-
+    var url = `/user/sendPrivateMessage/`;
+    if (user < otherUser) {
+      url += user + `/` + otherUser;
+    } else {
+      url += otherUser + `/` + user;
+    }
+    stompClient.send(url, { wow: "sending" }, JSON.stringify(chatMessage));
   };
 
   return (
@@ -81,6 +88,7 @@ var PrivateMessage = (props) => {
           <button type="button" onClick={connect}>
             connect
           </button>
+          <button onClick={diconnecting}>disconnect</button>
         </form>
         <div>{broadCastMessage}</div>
       </div>
@@ -88,4 +96,4 @@ var PrivateMessage = (props) => {
   );
 };
 
-export default withRouter (PrivateMessage);
+export default withRouter(PrivateMessage);

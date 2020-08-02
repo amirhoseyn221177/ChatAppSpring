@@ -36,7 +36,7 @@ public class ChatServices {
         System.out.println("chat has been deleted");
     }
 
-    public void createGroupChat(String username,String groupName ){
+    public GroupChat createGroupChat(String username,String groupName ){
         GroupChat groupChat=new GroupChat();
         List<ChatUser> members=new ArrayList<>();
         ChatUser chatUser=userRepo.findByUsername(username);
@@ -48,10 +48,15 @@ public class ChatServices {
         groupChat.setAdmins(admins);
         groupChatRepo.save(groupChat);
         System.out.println("Group chat has been created");
+        return groupChat;
     }
 
     public void createUser(ChatUser user){
         userRepo.save(user);
+    }
+
+    public void deleteUser(String id){
+        userRepo.deleteById(id);
     }
 
     public void addToGroupChat( String groupId,ChatUser user){
@@ -86,8 +91,8 @@ public class ChatServices {
     public void broadCastMessageToGroupChat(ChatMessage chatMessage,String groupName){
         Optional<GroupChat> groupChat = groupChatRepo.findByName(groupName);
         if(groupChat.isPresent()){
-            if(chatMessage.getContentType().equals(ChatMessage.ContentType.TEXT)||
-                 chatMessage.getContentType().equals(ChatMessage.ContentType.LINK)){
+            if(chatMessage.getContentType().equals("text")||
+                 chatMessage.getContentType().equals("link")){
              List<String> texts= groupChat.get().getTexts();
              texts.add(chatMessage.getTextContent());
              groupChat.get().setTexts(texts);
@@ -100,6 +105,16 @@ public class ChatServices {
         simpMessagingTemplate.convertAndSend("/topic/public/"+groupName,chatMessage);
     }
 
+    public List<ChatUser> getAll(){
+        return userRepo.findAll();
+    }
 
+    public List<GroupChat> getAllGroups(){
+        return groupChatRepo.findAll();
+    }
 
+    public GroupChat getGroup(String groupId){
+        Optional<GroupChat> groupChat = groupChatRepo.findById(groupId);
+        return groupChat.orElse(null);
+    }
 }

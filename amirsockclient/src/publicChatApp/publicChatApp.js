@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from "react";
 import Stomp from "stompjs";
-import Sockjs from "sockjs-client";
 import { withRouter } from "react-router-dom";
 var stompClient = null;
 
@@ -10,25 +9,26 @@ const PublicMessage = (props) => {
   const [grouChatName, setGroupChatName] = useState("");
   const [value, setValue] = useState("");
   const [file, setFile] = useState(null);
+  const [contentType, setContentType]=useState("text")
 
   var connect = (username) => {
     if (username) {
-      var sockjs = new Sockjs("/ws");
-      stompClient = Stomp.over(sockjs);
-      stompClient.connect({ groupName:grouChatName, username:user }, onConnected, onError);
-      console.log(20);
+      stompClient = Stomp.client("ws://localhost:8080/ws");
+      stompClient.connect(
+        { groupName: grouChatName, username: user },
+        onConnected,
+        onError
+      );
     }
   };
 
-  var onConnected = (frame) => {
-    console.log(25);
-    console.log(frame.headers);
-    // setChannelConnected(true);
-    console.log(grouChatName);
-    stompClient.subscribe(`/topic/public/${grouChatName}`, onMessageReceived);
+  var onConnected = () => {
+    stompClient.subscribe(`/topic/public/${grouChatName}`, onMessageReceived, {
+      user: user,
+    });
     stompClient.send(
       "/app/addUser",
-      {login:"im happy like a nigger"},
+      { user: user },
       JSON.stringify({ sender: user, groupChat: grouChatName })
     );
   };
@@ -37,13 +37,12 @@ const PublicMessage = (props) => {
     console.error(e);
   };
 
-
   var sendMessage = () => {
-    console.log(value);
     let chatMassege = {
       sender: user,
       textContent: value,
       groupChat: grouChatName,
+      contentType :contentType
 
     };
     stompClient.send(
@@ -51,29 +50,39 @@ const PublicMessage = (props) => {
       { type: "image" },
       JSON.stringify(chatMassege)
     );
-    //   }
+  };
+
+  var diconnecting = () => {
+    stompClient.disconnect(() => {
+      stompClient.unsubscribe(`/topic/public/${grouChatName}`);
+    });
   };
 
   var onMessageReceived = (payload) => {
-    console.log(51);
-    console.log(payload);
     var message = JSON.parse(payload.body);
-    console.log(message);
     setBroadCastMessage((prev) => [...prev, message.textContent]);
   };
 
   var gettingFiles = (e) => {
+    setContentType("binary")
     let content = e.target.files;
     var reader = new FileReader();
     reader.onload = () => {
-      var data=reader.result
-      console.log(typeof(data))
+      var data = reader.result;
       setFile(data)
+      //Converting base64 to byte array
+      // var parts=data.split(";base64,")
+      // parts[0].replace("data:","")
+      // var data_64=parts[1]
+      // var binary_String =window.atob(data_64)
+      // var len =binary_String.length
+      // var bytes=new Uint8Array(len)
+      // for(let i=0 ; i<len;i++){
+      //   bytes[i]=binary_String.charCodeAt(i)
     };
     reader.readAsDataURL(content[0]);
+
   };
-
-
   return (
     <Fragment>
       <div>
@@ -102,15 +111,17 @@ const PublicMessage = (props) => {
         <button type="button" onClick={connect}>
           connect
         </button>
+        <button type="button" onClick={diconnecting}>
+          disconnect
+        </button>
       </form>
-      {/* <form>
+      <form>
         <input type="file" name="file" onChange={(e) => gettingFiles(e)} />
-      </form> */}
+      </form>
       <div>
         {broadCastMessage.map((x) => (
           <p key={Math.random() * 120000}>{x}</p>
         ))}
-  
       </div>
     </Fragment>
   );

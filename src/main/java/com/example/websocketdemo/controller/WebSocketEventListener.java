@@ -5,15 +5,15 @@ import com.example.websocketdemo.model.ChatMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
+
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.web.socket.messaging.SessionSubscribeEvent;
+import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import java.util.Objects;
 
@@ -26,6 +26,7 @@ public class WebSocketEventListener {
     private final SimpMessageSendingOperations messagingTemplate;
     private final ChatServices chatServices;
 
+
     public WebSocketEventListener(SimpMessageSendingOperations messagingTemplate, ChatServices chatServices) {
         this.messagingTemplate = messagingTemplate;
         this.chatServices = chatServices;
@@ -34,17 +35,31 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         logger.info("Received a new web socket connection");
+
     }
 
 
     @EventListener
+    public void handleWebsocketLeaveGroup(SessionUnsubscribeEvent event){
+        StompHeaderAccessor headerAccessor=StompHeaderAccessor.wrap(event.getMessage());
+        String username =(String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
+        System.out.println(username);
+    }
+
+    @EventListener
+    public void handleWebsocketSubscribed(SessionSubscribeEvent event){
+        StompHeaderAccessor headerAccessor =StompHeaderAccessor.wrap(event.getMessage());
+        String username =  headerAccessor.getFirstNativeHeader("user");
+        System.out.println(username);
+
+    }
+    @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-
-        String username = (String) headerAccessor.getSessionAttributes().get("username");
+        String username = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
         String privateUsername = (String) headerAccessor.getSessionAttributes().get("private-username");
-        String groupname = (String) headerAccessor.getSessionAttributes().get("groupname");
-        System.out.println(username);
+        String groupname =  headerAccessor.getFirstNativeHeader("groupname");
+        System.out.println("we are in handle disconnect");
 
         if(username != null) {
             logger.info("User Disconnected : " + username);
@@ -52,8 +67,8 @@ public class WebSocketEventListener {
 
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setSender(username);
-            chatMessage.setContentType(ChatMessage.ContentType.TEXT);
-            chatMessage.setTextContent(username+" "+"has left");
+            chatMessage.setContentType("text");
+            chatMessage.setTextContent(username+" "+"has left the chat");
 
             chatServices.broadCastMessageToGroupChat(chatMessage,groupname);
         }
@@ -63,9 +78,9 @@ public class WebSocketEventListener {
 
             ChatMessage  chatMessage= new ChatMessage();
             chatMessage.setSender(chatMessage.getSender());
-            chatMessage.setContentType(ChatMessage.ContentType.TEXT);
+            chatMessage.setContentType("text");
             chatMessage.setReceiver((String)headerAccessor.getSessionAttributes().get("private-receiver"));
-            chatMessage.setTextContent(chatMessage.getSender()+" "+"has left the chat");
+            chatMessage.setTextContent(chatMessage.getSender()+" "+"has left");
 
             messagingTemplate.convertAndSend("/queue/reply"+chatMessage.getReceiver(),chatMessage);
         }

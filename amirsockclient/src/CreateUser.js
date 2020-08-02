@@ -12,6 +12,9 @@ const CreateUser = (props) => {
       name: name,
       username: username,
       password: password,
+      groupChats:null,
+      friends:null,
+      
     };
     const resp = await Axios.post("/restchat/createuser", content);
     console.log(resp.data);

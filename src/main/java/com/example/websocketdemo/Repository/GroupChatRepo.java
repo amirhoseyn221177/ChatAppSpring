@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface GroupChatRepo extends MongoRepository<GroupChat,String> {
     void deleteById(String id);
     Optional<GroupChat> findByName(String name);
-
 }
