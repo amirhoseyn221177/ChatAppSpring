@@ -3,6 +3,7 @@ package com.example.websocketdemo.controller;
 import com.example.websocketdemo.Services.ChatServices;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.*;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -73,14 +74,12 @@ public class ChatController {
 
 	/*--------------------Private chat--------------------*/
 
-	@MessageMapping("/sendPrivateMessage/{username}/{otherUser}")
-	@SendTo("/queue")
-	public void sendPrivateMessage(@Payload ChatMessage chatMessage, @DestinationVariable String username,@DestinationVariable String otherUser,
+	@MessageMapping("/sendPrivateMessage/{username}")
+//	@SendTo("/queue")
+	public void sendPrivateMessage(@Payload ChatMessage chatMessage, @DestinationVariable String username,
 								   StompHeaderAccessor stompHeaderAccessor) {
-
-
-
-		simpMessagingTemplate.convertAndSend("/queue/"+username+"/"+otherUser,chatMessage);
+		chatMessage
+		simpMessagingTemplate.convertAndSend("/queue/"+username,chatMessage);
 
 
 	}
@@ -92,6 +91,7 @@ public class ChatController {
 		// Add user in web socket session
 		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("private-username", chatMessage.getSender());
 		headerAccessor.getSessionAttributes().put("private-receiver",chatMessage.getReceiver());
+		chatServices.createQueuesAndExchangeForPrivateChat(chatMessage.getSender() ,chatMessage.getReceiver());
 		return chatMessage;
 	}
 

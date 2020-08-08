@@ -6,6 +6,7 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler;
 import org.springframework.web.socket.config.annotation.*;
+import org.springframework.web.socket.server.HandshakeHandler;
 
 
 @Configuration
@@ -13,15 +14,18 @@ import org.springframework.web.socket.config.annotation.*;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private final handShakerInterceptor handshakerInterceptor;
     private final ChannelInterceptor inboundMessageChannelInterceptor;
+    private final HandshakeHandler DoingHandShake;
 
-    public WebSocketConfig(handShakerInterceptor handshakerInterceptor, ChannelInterceptor inboundMessageChannelInterceptor) {
+    public WebSocketConfig(handShakerInterceptor handshakerInterceptor, ChannelInterceptor inboundMessageChannelInterceptor, HandshakeHandler doingHandShake) {
         this.handshakerInterceptor = handshakerInterceptor;
         this.inboundMessageChannelInterceptor = inboundMessageChannelInterceptor;
+        DoingHandShake = doingHandShake;
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins("*").addInterceptors(handshakerInterceptor);
+        registry.addEndpoint("/ws").setAllowedOrigins("*")
+                .setHandshakeHandler(DoingHandShake).addInterceptors(handshakerInterceptor);
 
     }
 
@@ -41,23 +45,21 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app","/user");
-        registry.enableSimpleBroker("/queue/", "/topic/")
-                .setTaskScheduler(new DefaultManagedTaskScheduler())
-                .setHeartbeatValue(new long[]{10000,10000});  //first one is how often server will write second how often client will write
-        // Enables a simple in-memory broker
-
-
 
         //   Use this for enabling a Full featured broker like RabbitMQ or ActiveMQ
 
-        /*
-        registry.enableStompBrokerRelay("/topic")
+        registry.enableStompBrokerRelay("/topic","/queue")
                 .setRelayHost("localhost")
                 .setRelayPort(61613)
                 .setClientLogin("guest")
                 .setClientPasscode("guest");
-        */
+
+//        registry.setApplicationDestinationPrefixes("/app","/user");
+//        registry.enableSimpleBroker("/queue/", "/topic/")
+//                .setTaskScheduler(new DefaultManagedTaskScheduler())
+//                .setHeartbeatValue(new long[]{10000,10000});  //first one is how often server will write second how often client will write
+        // Enables a simple in-memory broker
+
     }
 
 

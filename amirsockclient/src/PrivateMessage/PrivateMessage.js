@@ -22,18 +22,13 @@ var PrivateMessage = (props) => {
 
   var diconnecting = () => {
     stompClient.disconnect(() => {
-      stompClient.unsubscribe(`/queue/${user}/${otherUser}`);
+      stompClient.unsubscribe(`/queue/${user}`);
     });
   };
 
   var onConnected = () => {
-    var url = `/queue/`;
-    if (user < otherUser) {
-      url += user + `/` + otherUser;
-    } else {
-      url += otherUser + `/` + user;
-    }
-    stompClient.subscribe(url, onMessageReceived);
+   
+    stompClient.subscribe(`/queue/${user}`, onMessageReceived);
     stompClient.send(
       "/app/addPrivateUser",
       {hello:"just connected"},
@@ -52,12 +47,7 @@ var PrivateMessage = (props) => {
       sender: user,
       receiver: otherUser,
     };
-    var url = `/user/sendPrivateMessage/`;
-    if (user < otherUser) {
-      url += user + `/` + otherUser;
-    } else {
-      url += otherUser + `/` + user;
-    }
+    var url = `/user/sendPrivateMessage/${user}`;
     stompClient.send(url, { wow: "sending" }, JSON.stringify(chatMessage));
   };
 
