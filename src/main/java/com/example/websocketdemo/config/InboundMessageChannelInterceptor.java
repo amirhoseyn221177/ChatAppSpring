@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class InboundMessageChannelInterceptor implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
-        MessageHeaders headers=message.getHeaders();
+//        MessageHeaders headers=message.getHeaders();
         return message;
     }
 
@@ -30,7 +30,7 @@ public class InboundMessageChannelInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> postReceive(Message<?> message, MessageChannel messageChannel) {
-        System.out.println(35);
+//        System.out.println(35);
         return message;
     }
 

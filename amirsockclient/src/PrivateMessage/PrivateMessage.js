@@ -22,15 +22,15 @@ var PrivateMessage = (props) => {
 
   var diconnecting = () => {
     stompClient.disconnect(() => {
-      stompClient.unsubscribe(`/queue/${user}`);
+      stompClient.unsubscribe(`/queue`);
     });
   };
 
   var onConnected = () => {
    
-    stompClient.subscribe(`/queue/${user}`, onMessageReceived);
+    stompClient.subscribe(`/queue/device.${user}`, onMessageReceived);
     stompClient.send(
-      "/app/addPrivateUser",
+      `/app/addPrivateUser/${user}`,
       {hello:"just connected"},
       JSON.stringify({ sender: user, receiver: otherUser })
     );
@@ -38,6 +38,7 @@ var PrivateMessage = (props) => {
 
   var onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
+    console.log(message)
     setBroadCastMessage((prev) => [...prev, message.textContent]);
   };
 

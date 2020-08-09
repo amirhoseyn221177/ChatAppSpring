@@ -24,8 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins("*")
-                .setHandshakeHandler(DoingHandShake).addInterceptors(handshakerInterceptor);
+        registry.addEndpoint("/ws").setAllowedOrigins("*").addInterceptors(handshakerInterceptor);
 
     }
 
@@ -48,7 +47,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         //   Use this for enabling a Full featured broker like RabbitMQ or ActiveMQ
 
-        registry.enableStompBrokerRelay("/topic","/queue")
+        registry.setApplicationDestinationPrefixes("/app","/user")
+                .enableStompBrokerRelay("/topic/**","/fanout/**","/direct/**","/queue/device")
                 .setRelayHost("localhost")
                 .setRelayPort(61613)
                 .setClientLogin("guest")

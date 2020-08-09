@@ -6,6 +6,9 @@ import com.example.websocketdemo.Repository.UserRepo;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatUser;
 import com.example.websocketdemo.model.GroupChat;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,7 +16,12 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class ChatServices {
@@ -40,6 +48,7 @@ public class ChatServices {
     public void deletingChat(ChatMessage chatMessage){
         chatRepo.deleteById(chatMessage.getId());
         System.out.println("chat has been deleted");
+
     }
 
     public GroupChat createGroupChat(String username,String groupName ){
@@ -124,7 +133,7 @@ public class ChatServices {
         return groupChat.orElse(null);
     }
 
-    public void createQueuesAndExchangeForPrivateChat(String sender, String receiver ){
+    public void createQueuesAndExchangeForPrivateChat(String sender, String receiver )  {
         // Alternate exchange is when a message doesnt have a proper key and there fore exchanges
         // like topic and direct cant publish it there fore we use an alternate
         // exchange which is fanout to be a publisher of those messages
@@ -133,17 +142,17 @@ public class ChatServices {
         String exchangeName;
         exchangeName = compareNamesAlphabetically(sender, receiver);
 
-        FanoutExchange exchange=new FanoutExchange(exchangeName,true,false,null);
-        FanoutExchange deadLetter= new FanoutExchange("dead-letter-"+exchangeName,true,false,null);
+        FanoutExchange exchange=new FanoutExchange(exchangeName,false,false,null);
+        FanoutExchange deadLetter= new FanoutExchange("dead-letter-"+exchangeName,false,false,null);
 
         Map<String,Object> args= new HashMap<>();
         args.put("x-dead-letter-exchange","dead-letter-"+exchangeName);
 
-        Queue ferestande =new Queue(sender,true,false,false,args);
-        Queue girande = new Queue(receiver,true,false,false,args);
+        Queue ferestande =new Queue(sender,false,false,false,args);
+        Queue girande = new Queue(receiver,false,false,false,args);
 
         // Queue for dead letter exchange
-        Queue deadQueue = new Queue("deadQueue" + "-" + exchangeName, true, false, false, null);
+        Queue deadQueue = new Queue("deadQueue" + "-" + exchangeName, false, false, false, null);
 
         Binding first = BindingBuilder.bind(ferestande).to(exchange);
         Binding second = BindingBuilder.bind(girande).to(exchange);
@@ -152,6 +161,7 @@ public class ChatServices {
         List<Object> all = Arrays.asList(exchange, deadLetter, ferestande, girande, deadQueue, first, second, third);
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
         simpleMessageListenerContainer.addQueueNames("sex");
+        System.out.print("156");
         all.forEach(i -> {
             if (i.getClass().toString().endsWith("Queue")) {
                 amqpAdmin.declareQueue((Queue) i);
@@ -161,6 +171,13 @@ public class ChatServices {
                 amqpAdmin.declareBinding((Binding) i);
             }
         });
+
+//        ConnectionFactory factory = new ConnectionFactory();
+//        factory.setUri("ampq://guest:guest@localhost:61613/virtualHost");
+//        Connection conn= factory.newConnection();
+//        Channel channel= conn.createChannel();
+        //this way i can  close a channel and do some things other than adminmq
+
     }
 
     public ChatMessage gettingMessagesFromQueues(String name){

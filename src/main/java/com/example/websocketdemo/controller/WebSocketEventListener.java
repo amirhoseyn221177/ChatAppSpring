@@ -41,16 +41,16 @@ public class WebSocketEventListener {
 
     @EventListener
     public void handleWebsocketLeaveGroup(SessionUnsubscribeEvent event){
-        StompHeaderAccessor headerAccessor=StompHeaderAccessor.wrap(event.getMessage());
-        String username =(String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
-        System.out.println(username);
+//        StompHeaderAccessor headerAccessor=StompHeaderAccessor.wrap(event.getMessage());
+//        String username =(String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
+//        System.out.println(username);
     }
 
     @EventListener
     public void handleWebsocketSubscribed(SessionSubscribeEvent event){
-        StompHeaderAccessor headerAccessor =StompHeaderAccessor.wrap(event.getMessage());
-        String username =  headerAccessor.getFirstNativeHeader("user");
-        System.out.println(username);
+//        StompHeaderAccessor headerAccessor =StompHeaderAccessor.wrap(event.getMessage());
+//        String username =  headerAccessor.getFirstNativeHeader("user");
+//        System.out.println(username);
 
     }
     @EventListener

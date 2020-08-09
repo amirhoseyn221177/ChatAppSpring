@@ -27,4 +27,59 @@ public class GroupChat {
     private List<byte []> medias = new ArrayList<>();
     private List<ChatUser> activeUsers = new ArrayList<>();
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<ChatUser> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<ChatUser> members) {
+        this.members = members;
+    }
+
+    public List<ChatUser> getAdmins() {
+        return admins;
+    }
+
+    public void setAdmins(List<ChatUser> admins) {
+        this.admins = admins;
+    }
+
+    public List<String> getTexts() {
+        return texts;
+    }
+
+    public void setTexts(List<String> texts) {
+        this.texts = texts;
+    }
+
+    public List<byte[]> getMedias() {
+        return medias;
+    }
+
+    public void setMedias(List<byte[]> medias) {
+        this.medias = medias;
+    }
+
+    public List<ChatUser> getActiveUsers() {
+        return activeUsers;
+    }
+
+    public void setActiveUsers(List<ChatUser> activeUsers) {
+        this.activeUsers = activeUsers;
+    }
 }

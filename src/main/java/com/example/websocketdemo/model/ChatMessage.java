@@ -24,7 +24,68 @@ public class ChatMessage {
     private String groupChat;
     private String receiver;
 	private LocalDateTime dateTime=LocalDateTime.now();
-    
 
+    public String getId() {
+        return Id;
+    }
 
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
+
+    public byte[] getMediaContent() {
+        return mediaContent;
+    }
+
+    public void setMediaContent(byte[] mediaContent) {
+        this.mediaContent = mediaContent;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getGroupChat() {
+        return groupChat;
+    }
+
+    public void setGroupChat(String groupChat) {
+        this.groupChat = groupChat;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
 }
