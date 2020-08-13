@@ -6,22 +6,14 @@ import com.example.websocketdemo.Repository.UserRepo;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatUser;
 import com.example.websocketdemo.model.GroupChat;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.concurrent.TimeoutException;
 
 @Service
 public class ChatServices {
@@ -31,13 +23,16 @@ public class ChatServices {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final AmqpAdmin amqpAdmin;
     private final RabbitTemplate rabbitTemplate;
-    public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo, SimpMessagingTemplate simpMessagingTemplate, AmqpAdmin amqpAdmin, RabbitTemplate rabbitTemplate) {
+    private final RabbitManagementTemplate rabbitManagementTemplate;
+
+    public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo, SimpMessagingTemplate simpMessagingTemplate, AmqpAdmin amqpAdmin, RabbitTemplate rabbitTemplate, RabbitManagementTemplate rabbitManagementTemplate) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.amqpAdmin = amqpAdmin;
         this.rabbitTemplate = rabbitTemplate;
+        this.rabbitManagementTemplate = rabbitManagementTemplate;
     }
 
     public void savingChats(ChatMessage chatMessage){
@@ -138,39 +133,47 @@ public class ChatServices {
         // like topic and direct cant publish it there fore we use an alternate
         // exchange which is fanout to be a publisher of those messages
 
+        if(null!=amqpAdmin.getQueueProperties("user."+receiver)){
+            return;
+        }
+        System.out.println(139);
 
         String exchangeName;
         exchangeName = compareNamesAlphabetically(sender, receiver);
+        FanoutExchange exchange=new FanoutExchange(exchangeName,true,true,null);
 
-        FanoutExchange exchange=new FanoutExchange(exchangeName,false,false,null);
-        FanoutExchange deadLetter= new FanoutExchange("dead-letter-"+exchangeName,false,false,null);
+        FanoutExchange deadLetter= new FanoutExchange("dead-letter-"+exchangeName,false,true,null);
 
         Map<String,Object> args= new HashMap<>();
         args.put("x-dead-letter-exchange","dead-letter-"+exchangeName);
+        args.put("x-message-ttl",3600000);
 
-        Queue ferestande =new Queue(sender,false,false,false,args);
-        Queue girande = new Queue(receiver,false,false,false,args);
+        Queue girande = new Queue("user."+receiver,true,false,true,args);
+        Queue sending = new Queue("user."+sender,true,false,true,args);
+
 
         // Queue for dead letter exchange
-        Queue deadQueue = new Queue("deadQueue" + "-" + exchangeName, false, false, false, null);
+        Queue deadQueue = new Queue("deadQueue" + "_" + exchangeName, true, false, true, null);
 
-        Binding first = BindingBuilder.bind(ferestande).to(exchange);
+
+        Binding first =BindingBuilder.bind(sending).to(exchange);
         Binding second = BindingBuilder.bind(girande).to(exchange);
         Binding third = BindingBuilder.bind(deadQueue).to(deadLetter);
 
-        List<Object> all = Arrays.asList(exchange, deadLetter, ferestande, girande, deadQueue, first, second, third);
-        SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
-        simpleMessageListenerContainer.addQueueNames("sex");
-        System.out.print("156");
+        List<Object> all = Arrays.asList(exchange,deadLetter,sending,girande,deadQueue,deadQueue,first,second,third);
+
         all.forEach(i -> {
             if (i.getClass().toString().endsWith("Queue")) {
                 amqpAdmin.declareQueue((Queue) i);
             } else if (i.getClass().toString().endsWith("Exchange")) {
                 amqpAdmin.declareExchange((Exchange) i);
+
             } else if (i.getClass().toString().endsWith("Binding")) {
                 amqpAdmin.declareBinding((Binding) i);
             }
         });
+        System.out.println( amqpAdmin.getQueueProperties("user."+sender));
+
 
 //        ConnectionFactory factory = new ConnectionFactory();
 //        factory.setUri("ampq://guest:guest@localhost:61613/virtualHost");

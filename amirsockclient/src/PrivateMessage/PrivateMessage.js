@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from "react";
 import Stomp from "stompjs";
-
 import { withRouter } from "react-router-dom";
 
 var stompClient = null;
@@ -11,7 +10,6 @@ var PrivateMessage = (props) => {
   const [value, setValue] = useState("");
 
   var connect = () => {
-    console.log(user);
     stompClient = Stomp.client("ws://localhost:8080/ws");
     stompClient.connect({}, onConnected);
 
@@ -22,16 +20,35 @@ var PrivateMessage = (props) => {
 
   var diconnecting = () => {
     stompClient.disconnect(() => {
-      stompClient.unsubscribe(`/queue`);
+      stompClient.unsubscribe(`/queue/user.${user}`);
     });
   };
 
+  var compareNamesAlphabetically = (name, name1) => {
+    let fullName;
+    if (name > name1) {
+      fullName = name + "_" + name1;
+    } else {
+      fullName = name1 + "_" + name;
+    }
+    return fullName;
+  }
+
   var onConnected = () => {
-   
-    stompClient.subscribe(`/queue/device.${user}`, onMessageReceived);
+    console.log(38)
+    let exchangeName = compareNamesAlphabetically(user, otherUser)
+    let args = {
+      "x-dead-letter-exchange": "dead-letter-" + exchangeName
+
+    }
+    stompClient.subscribe(`/queue/user.${user}`, onMessageReceived, {
+      "durable": true, "exclusive": false, "auto-delete": true, "x-dead-letter-exchange": "dead-letter-" + exchangeName,
+      "x-message-ttl":3600000,
+      sex:"ab polo"
+    });
     stompClient.send(
       `/app/addPrivateUser/${user}`,
-      {hello:"just connected"},
+      { hello: "just connected" },
       JSON.stringify({ sender: user, receiver: otherUser })
     );
   };
@@ -79,7 +96,7 @@ var PrivateMessage = (props) => {
           <button type="button" onClick={connect}>
             connect
           </button>
-          <button onClick={diconnecting}>disconnect</button>
+          <button type="button" onClick={diconnecting}>disconnect</button>
         </form>
         <div>{broadCastMessage}</div>
       </div>

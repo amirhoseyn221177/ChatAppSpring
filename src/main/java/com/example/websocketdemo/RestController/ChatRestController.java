@@ -2,6 +2,7 @@ package com.example.websocketdemo.RestController;
 
 import com.example.websocketdemo.Repository.GroupChatRepo;
 import com.example.websocketdemo.Services.ChatServices;
+import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatUser;
 import com.example.websocketdemo.model.GroupChat;
 import com.google.gson.Gson;
@@ -66,4 +67,5 @@ public class ChatRestController {
     public void deletingUser(@PathVariable String userId){
         chatServices.deleteUser(userId);
     }
+
 }

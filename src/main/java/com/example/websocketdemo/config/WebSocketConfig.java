@@ -48,7 +48,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         //   Use this for enabling a Full featured broker like RabbitMQ or ActiveMQ
 
         registry.setApplicationDestinationPrefixes("/app","/user")
-                .enableStompBrokerRelay("/topic/**","/fanout/**","/direct/**","/queue/device")
+                .enableStompBrokerRelay("/topic/**","/fanout/**","/direct/**","/queue/user")
                 .setRelayHost("localhost")
                 .setRelayPort(61613)
                 .setClientLogin("guest")
