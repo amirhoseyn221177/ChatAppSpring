@@ -36,19 +36,13 @@ var PrivateMessage = (props) => {
 
   var onConnected = () => {
     console.log(38)
-    let exchangeName = compareNamesAlphabetically(user, otherUser)
-    let args = {
-      "x-dead-letter-exchange": "dead-letter-" + exchangeName
-
-    }
     stompClient.subscribe(`/queue/user.${user}`, onMessageReceived, {
-      "durable": true, "exclusive": false, "auto-delete": true, "x-dead-letter-exchange": "dead-letter-" + exchangeName,
+      "durable": false, "exclusive": false, "auto-delete": true, "x-dead-letter-exchange": "dead-letter-" + user,
       "x-message-ttl":3600000,
-      sex:"ab polo"
     });
     stompClient.send(
       `/app/addPrivateUser/${user}`,
-      { hello: "just connected" },
+      { exchangeName:compareNamesAlphabetically(user,otherUser) },
       JSON.stringify({ sender: user, receiver: otherUser })
     );
   };

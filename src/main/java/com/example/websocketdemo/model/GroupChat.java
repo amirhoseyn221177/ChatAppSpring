@@ -21,11 +21,11 @@ public class GroupChat {
     @Id
     private String id;
     private String name;
-    private List<ChatUser> members;
-    private List<ChatUser> admins;
+    private List<String> members = new ArrayList<>();
+    private List<String> admins = new ArrayList<>();
     private List<String> texts = new ArrayList<>();
     private List<byte []> medias = new ArrayList<>();
-    private List<ChatUser> activeUsers = new ArrayList<>();
+    private List<String> activeUsers = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -43,20 +43,28 @@ public class GroupChat {
         this.name = name;
     }
 
-    public List<ChatUser> getMembers() {
+    public List<String> getMembers() {
         return members;
     }
 
-    public void setMembers(List<ChatUser> members) {
+    public void setMembers(List<String> members) {
         this.members = members;
     }
 
-    public List<ChatUser> getAdmins() {
+    public List<String> getAdmins() {
         return admins;
     }
 
-    public void setAdmins(List<ChatUser> admins) {
+    public void setAdmins(List<String> admins) {
         this.admins = admins;
+    }
+
+    public List<String> getActiveUsers() {
+        return activeUsers;
+    }
+
+    public void setActiveUsers(List<String> activeUsers) {
+        this.activeUsers = activeUsers;
     }
 
     public List<String> getTexts() {
@@ -75,11 +83,5 @@ public class GroupChat {
         this.medias = medias;
     }
 
-    public List<ChatUser> getActiveUsers() {
-        return activeUsers;
-    }
 
-    public void setActiveUsers(List<ChatUser> activeUsers) {
-        this.activeUsers = activeUsers;
-    }
 }

@@ -2,58 +2,39 @@ package com.example.websocketdemo.controller;
 
 import com.example.websocketdemo.Services.ChatServices;
 import com.example.websocketdemo.model.ChatMessage;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
 
 @Controller
 public class ChatController {
 
-	private final SimpMessagingTemplate simpMessagingTemplate;
+	private static final String GroupChat = "BAN";
 	private final ChatServices chatServices;
-	private static final String GroupChat="BAN";
-	private  final  RabbitTemplate rabbitTemplate;
-	private final RabbitManagementTemplate rabbitManagementTemplate;
-
-	//it is a temporary way to make sure to only send the message to the people in the group chat
-	private static final ArrayList<String> GroupChatUsers=new ArrayList<String>(){
-		{
-			add("amir");
-			add("sepehr");
-			add("mmd");
-		}
-	};
+	private final RabbitTemplate rabbitTemplate;
 
 
-	public ChatController(SimpMessagingTemplate simpMessagingTemplate, ChatServices chatServices, RabbitTemplate rabbitTemplate, RabbitManagementTemplate rabbitManagementTemplate) {
-		this.simpMessagingTemplate = simpMessagingTemplate;
+	public ChatController(ChatServices chatServices, RabbitTemplate rabbitTemplate) {
+
 		this.chatServices = chatServices;
 		this.rabbitTemplate = rabbitTemplate;
-		this.rabbitManagementTemplate = rabbitManagementTemplate;
+
 	}
 
 	/*-------------------- Group (Public) chat--------------------*/
 	@MessageMapping("/sendMessage")
-	@SendTo("/topic/public")
 	public void sendMessage(@Payload ChatMessage chatMessage, MessageHeaders messageHeaders,
-							StompHeaderAccessor stompHeaderAccessor ) {
+							StompHeaderAccessor stompHeaderAccessor) {
 
-		if(!GroupChatUsers.contains(chatMessage.getSender())){
-			return;
-		}
+
 //		GroupChat intended_groupChat = chatServices.getGroupByName(chatMessage.getGroupChat());
 //		System.out.println(stompHeaderAccessor);
 		//getting binary data from base64 to decrease the size up to 33%
@@ -63,19 +44,18 @@ public class ChatController {
 
 		//converting it back to base to be able to send the file to through websocket
 		//String data= Base64.encodeBase64String(binary);
-
-		chatServices.broadCastMessageToGroupChat(chatMessage,chatMessage.getGroupChat());
+		chatServices.broadCastMessageToGroupChat(chatMessage, chatMessage.getGroupChat());
 
 	}
 
 	@MessageMapping("/addUser")
-	@SendTo("/topic/pubic")
 	public ChatMessage addUser(@Payload ChatMessage chatMessage,
-			SimpMessageHeaderAccessor headerAccessor,StompHeaderAccessor stompHeaderAccessor) {
-		System.out.println(stompHeaderAccessor);
+							   SimpMessageHeaderAccessor headerAccessor, StompHeaderAccessor stompHeaderAccessor) {
 		// Add user in web socket session
+		System.out.println(55);
+		chatServices.createQueuesAndExchangeForGroupChat(chatMessage.getGroupChat());
 		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", chatMessage.getSender());
-		headerAccessor.getSessionAttributes().put("groupname",chatMessage.getGroupChat());
+		headerAccessor.getSessionAttributes().put("groupName", chatMessage.getGroupChat());
 		return chatMessage;
 	}
 
@@ -83,33 +63,23 @@ public class ChatController {
 	/*--------------------Private chat--------------------*/
 
 	@MessageMapping("/sendPrivateMessage/{username}")
-//	@SendTo("/queue")
-	public void sendPrivateMessage(@Payload ChatMessage chatMessage, @DestinationVariable String username,
-								   StompHeaderAccessor stompHeaderAccessor) {
-
-//		chatServices.createQueuesAndExchangeForPrivateChat(chatMessage.getSender(),chatMessage.getReceiver());
-		System.out.println(chatMessage.getSender());
-//		simpMessagingTemplate.convertAndSend("/queue/user."+chatMessage.getSender(),chatMessage);
-		rabbitTemplate.convertAndSend("mmd_amir","",chatMessage);
-
-
-
-
+	public void sendPrivateMessage(@Payload ChatMessage chatMessage,
+								   SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+		List<?> name = (List<?>) Objects.requireNonNull(simpMessageHeaderAccessor.getSessionAttributes()).get("exchangeName");
+		rabbitTemplate.convertAndSend((String) name.get(0), "", chatMessage);
 	}
 
 	@MessageMapping("/addPrivateUser/{name}")
 	public ChatMessage addPrivateUser(@Payload ChatMessage chatMessage,
-										 SimpMessageHeaderAccessor headerAccessor) {
+									  SimpMessageHeaderAccessor headerAccessor) {
 		// Add user in web socket session
-		System.out.println(headerAccessor);
 		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("private-username", chatMessage.getSender());
-		headerAccessor.getSessionAttributes().put("private-receiver",chatMessage.getReceiver());
-		chatServices.createQueuesAndExchangeForPrivateChat(chatMessage.getSender() ,chatMessage.getReceiver());
+		headerAccessor.getSessionAttributes().put("private-receiver", chatMessage.getReceiver());
+		headerAccessor.getSessionAttributes().put("exchangeName", headerAccessor.getNativeHeader("exchangeName"));
+
+		chatServices.createQueuesAndExchangeForPrivateChat(chatMessage.getSender(), chatMessage.getReceiver());
 		return chatMessage;
 	}
-
-
-
 
 
 }

@@ -4,7 +4,9 @@ import com.example.websocketdemo.model.ChatUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepo extends MongoRepository<ChatUser,String> {
-    ChatUser findByUsername(String username);
+    Optional<ChatUser> findByUsername(String username);
 }

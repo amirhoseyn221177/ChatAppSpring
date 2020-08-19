@@ -1,5 +1,7 @@
 package com.example.websocketdemo.config;
 
+
+import com.rabbitmq.client.Connection;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -7,9 +9,15 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.TimeoutException;
+
 
 @Configuration
 public class RabbitMqConfig {
@@ -42,6 +50,19 @@ public class RabbitMqConfig {
     public RabbitManagementTemplate rabbitManagementTemplate(){
         return new RabbitManagementTemplate();
     }
+
+//    @Bean
+//    public Connection connection(){
+//       com.rabbitmq.client.ConnectionFactory factory = new com.rabbitmq.client.ConnectionFactory();
+//
+//        try {
+//            factory.setUri("amqp://guest:guest@localhost:5672/virtualHost");
+//            return factory.newConnection();
+//        } catch (URISyntaxException | NoSuchAlgorithmException | KeyManagementException | IOException | TimeoutException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 }
 
 

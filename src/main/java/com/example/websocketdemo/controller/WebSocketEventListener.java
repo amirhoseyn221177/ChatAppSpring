@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
@@ -76,13 +77,6 @@ public class WebSocketEventListener {
         if(privateUsername != null) {
             logger.info("User Disconnected : " + privateUsername);
 
-            ChatMessage  chatMessage= new ChatMessage();
-            chatMessage.setSender(chatMessage.getSender());
-            chatMessage.setContentType("text");
-            chatMessage.setReceiver((String)headerAccessor.getSessionAttributes().get("private-receiver"));
-            chatMessage.setTextContent(chatMessage.getSender()+" "+"has left");
-
-            messagingTemplate.convertAndSend("/queue/reply"+chatMessage.getReceiver(),chatMessage);
         }
     }
 

@@ -12,12 +12,14 @@ const CreateUser = (props) => {
       name: name,
       username: username,
       password: password,
-      groupChats:null,
-      friends:null,
-      
     };
-    const resp = await Axios.post("/restchat/createuser", content);
-    console.log(resp.data);
+    try{
+      const resp = await Axios.post("/restchat/createuser", content);
+      console.log(resp.data);
+    }catch(e){
+      console.error(e.message)
+    }
+ 
   };
 
   return (

@@ -9,7 +9,7 @@ const PublicMessage = (props) => {
   const [grouChatName, setGroupChatName] = useState("");
   const [value, setValue] = useState("");
   const [file, setFile] = useState(null);
-  const [contentType, setContentType]=useState("text")
+  const [contentType, setContentType] = useState("text")
 
   var connect = (username) => {
     if (username) {
@@ -23,8 +23,9 @@ const PublicMessage = (props) => {
   };
 
   var onConnected = () => {
-    stompClient.subscribe(`/topic/public/${grouChatName}`, onMessageReceived, {
-      user: user,
+    stompClient.subscribe(`/queue/user.${user}`, onMessageReceived, {
+      "durable": false, "exclusive": false, "auto-delete": true, "x-dead-letter-exchange": "dead-letter-" + user,
+      "x-message-ttl": 3600000,
     });
     stompClient.send(
       "/app/addUser",
@@ -42,12 +43,12 @@ const PublicMessage = (props) => {
       sender: user,
       textContent: value,
       groupChat: grouChatName,
-      contentType :contentType
-
+      contentType: contentType,
+      mediaContent:file
     };
     stompClient.send(
       "/app/sendMessage",
-      { type: "image" },
+      {},
       JSON.stringify(chatMassege)
     );
   };
