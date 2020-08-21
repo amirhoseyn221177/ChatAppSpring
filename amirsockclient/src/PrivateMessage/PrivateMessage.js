@@ -14,8 +14,8 @@ var PrivateMessage = (props) => {
     stompClient.connect({}, onConnected);
 
     //I controle these from the backend
-    // stompClient.heartbeat.outgoing=20000
-    // stompClient.heartbeat.incoming=0
+    stompClient.heartbeat.outgoing=20000
+    stompClient.heartbeat.incoming=1
   };
 
   var diconnecting = () => {
@@ -38,7 +38,7 @@ var PrivateMessage = (props) => {
     console.log(38)
     stompClient.subscribe(`/queue/user.${user}`, onMessageReceived, {
       "durable": false, "exclusive": false, "auto-delete": true, "x-dead-letter-exchange": "dead-letter-" + user,
-      "x-message-ttl":3600000,
+      "x-message-ttl":360000000,
     });
     stompClient.send(
       `/app/addPrivateUser/${user}`,
@@ -50,6 +50,9 @@ var PrivateMessage = (props) => {
   var onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
     console.log(message)
+    if(message.contentType==="error"){
+      diconnecting()
+    }
     setBroadCastMessage((prev) => [...prev, message.textContent]);
   };
 

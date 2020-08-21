@@ -56,28 +56,28 @@ public class WebSocketEventListener {
     }
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        String username = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
-        String privateUsername = (String) headerAccessor.getSessionAttributes().get("private-username");
-        String groupname =  headerAccessor.getFirstNativeHeader("groupname");
-        System.out.println("we are in handle disconnect");
-
-        if(username != null) {
-            logger.info("User Disconnected : " + username);
-
-
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setSender(username);
-            chatMessage.setContentType("text");
-            chatMessage.setTextContent(username+" "+"has left the chat");
-
-            chatServices.broadCastMessageToGroupChat(chatMessage,groupname);
-        }
-        
-        if(privateUsername != null) {
-            logger.info("User Disconnected : " + privateUsername);
-
-        }
+//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+//        String username = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
+//        String privateUsername = (String) headerAccessor.getSessionAttributes().get("private-username");
+//        String groupname =  headerAccessor.getFirstNativeHeader("groupname");
+//        System.out.println("we are in handle disconnect");
+//
+//        if(username != null) {
+//            logger.info("User Disconnected : " + username);
+//
+//
+//            ChatMessage chatMessage = new ChatMessage();
+//            chatMessage.setSender(username);
+//            chatMessage.setContentType("text");
+//            chatMessage.setTextContent(username+" "+"has left the chat");
+//
+////            chatServices.broadCastMessageToGroupChat(chatMessage,groupname);
+//        }
+//
+//        if(privateUsername != null) {
+//            logger.info("User Disconnected : " + privateUsername);
+//
+//        }
     }
 
   

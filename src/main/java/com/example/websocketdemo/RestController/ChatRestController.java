@@ -36,9 +36,9 @@ public class ChatRestController {
         return new ResponseEntity<>(groupChat,HttpStatus.OK);
     }
 
-    @DeleteMapping("/deletegroupchat/{groupId}")
-    public ResponseEntity<?> deletingGroupChats(@RequestBody ChatUser chatUser,@PathVariable String groupId){
-        chatServices.deleteGroupChat(groupId,chatUser);
+    @DeleteMapping("/deletegroupchat/{groupId}/{username}")
+    public ResponseEntity<?> deletingGroupChats(@PathVariable String username,@PathVariable String groupId){
+        chatServices.deleteGroupChat(groupId,username);
         String jsonResponse=new Gson().toJson("groupChat has been deleted");
         System.out.println(jsonResponse);
         return new ResponseEntity<>(jsonResponse,HttpStatus.ACCEPTED);
@@ -74,5 +74,6 @@ public class ChatRestController {
     public void deletingUser(@PathVariable String userId){
         chatServices.deleteUser(userId);
     }
+
 
 }

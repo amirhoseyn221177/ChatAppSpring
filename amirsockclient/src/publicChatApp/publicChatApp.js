@@ -25,7 +25,7 @@ const PublicMessage = (props) => {
   var onConnected = () => {
     stompClient.subscribe(`/queue/user.${user}`, onMessageReceived, {
       "durable": false, "exclusive": false, "auto-delete": true, "x-dead-letter-exchange": "dead-letter-" + user,
-      "x-message-ttl": 3600000,
+      "x-message-ttl": 360000000,
     });
     stompClient.send(
       "/app/addUser",

@@ -27,4 +27,10 @@ public class CustomException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(userNotFoundResponse,HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleNoExchange(FanOutNotFoundException ex,WebRequest webRequest){
+        FanOutNotFoundResponse fanOutNotFoundResponse= new FanOutNotFoundResponse(ex.getMessage());
+        return new ResponseEntity<>(fanOutNotFoundResponse,HttpStatus.BAD_REQUEST);
+    }
+
 }

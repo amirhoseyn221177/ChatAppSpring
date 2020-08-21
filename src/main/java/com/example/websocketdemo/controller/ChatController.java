@@ -1,16 +1,32 @@
 package com.example.websocketdemo.controller;
 
+import com.example.websocketdemo.Exceptions.FanOutNotFoundException;
 import com.example.websocketdemo.Services.ChatServices;
 import com.example.websocketdemo.model.ChatMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.WebSocketExtension;
+import org.springframework.web.socket.WebSocketMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
+import org.springframework.web.socket.handler.WebSocketSessionDecorator;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -53,7 +69,7 @@ public class ChatController {
 							   SimpMessageHeaderAccessor headerAccessor, StompHeaderAccessor stompHeaderAccessor) {
 		// Add user in web socket session
 		System.out.println(55);
-		chatServices.createQueuesAndExchangeForGroupChat(chatMessage.getGroupChat());
+		chatServices.createQueuesAndExchangeForGroupChat(chatMessage.getGroupChat(),chatMessage.getSender());
 		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", chatMessage.getSender());
 		headerAccessor.getSessionAttributes().put("groupName", chatMessage.getGroupChat());
 		return chatMessage;
@@ -64,10 +80,23 @@ public class ChatController {
 
 	@MessageMapping("/sendPrivateMessage/{username}")
 	public void sendPrivateMessage(@Payload ChatMessage chatMessage,
-								   SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
-		List<?> name = (List<?>) Objects.requireNonNull(simpMessageHeaderAccessor.getSessionAttributes()).get("exchangeName");
-		rabbitTemplate.convertAndSend((String) name.get(0), "", chatMessage);
+								   SimpMessageHeaderAccessor simpMessageHeaderAccessor)  {
+		try{
+			System.out.println(chatMessage.getSender());
+			List<?> name = (List<?>) Objects.requireNonNull(simpMessageHeaderAccessor.getSessionAttributes()).get("exchangeName");
+			if(chatServices.CheckAvailability((String)name.get(0))){
+				System.out.println(76);
+				chatServices.sendErrorMessageToUser("user."+chatMessage.getSender());
+				throw new FanOutNotFoundException("Error has occurred");
+			}
+			rabbitTemplate.convertAndSend((String) name.get(0), "", chatMessage);
+		}catch (Exception e){
+			System.out.println(e.getMessage());
+		}
+
 	}
+
+
 
 	@MessageMapping("/addPrivateUser/{name}")
 	public ChatMessage addPrivateUser(@Payload ChatMessage chatMessage,

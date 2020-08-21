@@ -30,7 +30,7 @@ public class InboundMessageChannelInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> postReceive(Message<?> message, MessageChannel messageChannel) {
-//        System.out.println(35);
+        System.out.println(35);
         return message;
     }
 

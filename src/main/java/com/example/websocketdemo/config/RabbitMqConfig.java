@@ -51,6 +51,7 @@ public class RabbitMqConfig {
         return new RabbitManagementTemplate();
     }
 
+
 //    @Bean
 //    public Connection connection(){
 //       com.rabbitmq.client.ConnectionFactory factory = new com.rabbitmq.client.ConnectionFactory();

@@ -1,7 +1,6 @@
 package com.example.websocketdemo.Services;
 
 import com.example.websocketdemo.Exceptions.GroupNotFoundException;
-import com.example.websocketdemo.Exceptions.UserNotFoundResponse;
 import com.example.websocketdemo.Exceptions.userNotFoundException;
 import com.example.websocketdemo.Repository.ChatRepo;
 import com.example.websocketdemo.Repository.GroupChatRepo;
@@ -13,6 +12,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,20 +26,22 @@ public class ChatServices {
     private final AmqpAdmin amqpAdmin;
     private final RabbitManagementTemplate rabbitManagementTemplate;
     private final RabbitTemplate rabbitTemplate;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
-                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate) {
+                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
         this.amqpAdmin = amqpAdmin;
         this.rabbitManagementTemplate = rabbitManagementTemplate;
         this.rabbitTemplate = rabbitTemplate;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
 
-    public ChatUser getUser(String username){
-        if(userRepo.findByUsername(username).isPresent()){
+    public ChatUser getUser(String username) {
+        if (userRepo.findByUsername(username).isPresent()) {
             return userRepo.findByUsername(username).get();
         }
         return null;
@@ -68,61 +70,62 @@ public class ChatServices {
     public GroupChat addToGroupChat(String groupId, String username) {
         Optional<GroupChat> groupChat = groupChatRepo.findById(groupId);
         System.out.println(74);
-            if(groupChat.isPresent()) {
-                System.out.println(groupChat.get());
-                List<String> allUsers = groupChat.get().getMembers();
-                Optional<ChatUser> user1 = userRepo.findByUsername(username);
-                System.out.println(user1);
-                if (!user1.isPresent()) throw new userNotFoundException("there is no such a user");
-                allUsers.add(user1.map(ChatUser::getId).orElse(null));
-                groupChat.get().setMembers(allUsers);
-                String id = groupChatRepo.save(groupChat.get()).getId();
-                user1.ifPresent(user2 -> user2.getGroupChats().add(id));
-                user1.ifPresent(userRepo::save);
-                AtomicReference<GroupChat> returnGroup = new AtomicReference<>(new GroupChat());
-                groupChatRepo.findById(id).ifPresent(returnGroup::set);
-                return returnGroup.get();
-            }else {
-                throw new GroupNotFoundException("there is no such a group");
+        if (groupChat.isPresent()) {
+            System.out.println(groupChat.get());
+            List<String> allUsers = groupChat.get().getMembers();
+            Optional<ChatUser> user1 = userRepo.findByUsername(username);
+            System.out.println(user1);
+            if (user1.isEmpty()) throw new userNotFoundException("there is no such a user");
+            allUsers.add(user1.map(ChatUser::getId).orElse(null));
+            groupChat.get().setMembers(allUsers);
+            String id = groupChatRepo.save(groupChat.get()).getId();
+            user1.ifPresent(user2 -> user2.getGroupChats().add(id));
+            user1.ifPresent(userRepo::save);
+            AtomicReference<GroupChat> returnGroup = new AtomicReference<>(new GroupChat());
+            groupChatRepo.findById(id).ifPresent(returnGroup::set);
+            return returnGroup.get();
+        } else {
+            throw new GroupNotFoundException("there is no such a group");
 
-            }
+        }
 
 
     }
 
-    public void deleteGroupChat(String groupId, ChatUser chatUser) {
+    public void deleteGroupChat(String groupId, String username) {
         Optional<GroupChat> groupChat = groupChatRepo.findById(groupId);
         if (groupChat.isPresent()) {
             List<String> admins = groupChat.get().getAdmins();
-            Optional<ChatUser> sender =userRepo.findByUsername(chatUser.getUsername());
+            Optional<ChatUser> sender = userRepo.findByUsername(username);
             if (sender.isPresent()) {
-                if(admins.contains(sender.get().getId())){
-                    List<String > members = groupChat.get().getMembers();
+                if (admins.contains(sender.get().getId())) {
+                    List<String> members = groupChat.get().getMembers();
                     members.forEach(m -> {
                         Optional<ChatUser> member = userRepo.findById(m);
-                        member.ifPresent(mem ->{
-                            List<String> groupIDS=mem.getGroupChats();
-                            groupIDS.removeIf(id->id.equals(groupId));
+                        member.ifPresent(mem -> {
+                            List<String> groupIDS = mem.getGroupChats();
+                            groupIDS.removeIf(id -> id.equals(groupId));
                         });
                     });
                     groupChatRepo.deleteById(groupId);
                     System.out.println("groupChat deleted");
-                }else {
-                    throw new userNotFoundException("there is no such a user");
+                } else {
+                    throw new userNotFoundException("this user doesn't have the authority");
                 }
-            }else {
-                throw new userNotFoundException("this user doesn't have the authority");
+            } else {
+                throw new userNotFoundException("there is no such a user");
             }
-        }else {
+        } else {
             throw new GroupNotFoundException("there is no such a group chat");
         }
 
     }
 
     public void broadCastMessageToGroupChat(ChatMessage chatMessage, String groupId) {
+        System.out.println(125);
         Optional<GroupChat> groupChat = groupChatRepo.findById(groupId);
-        String name = "";
-        if (groupChat.isPresent()) {
+        AtomicReference<String> name = new AtomicReference<>("");
+        groupChat.ifPresent(groupChat1 -> {
             System.out.println("groupChat exists");
             Optional<ChatUser> chatUser = userRepo.findByUsername(chatMessage.getSender());
             if (chatUser.isPresent()) {
@@ -131,7 +134,7 @@ public class ChatServices {
                 System.out.println(groupId);
                 if (chatUser.get().getGroupChats().contains(groupId)) {
                     System.out.println("user in groupChat");
-                    name = groupChat.get().getName();
+                    name.set(groupChat1.getName());
                     System.out.println(chatMessage);
                     if (chatMessage.getContentType().equals("text") ||
                             chatMessage.getContentType().equals("link")) {
@@ -148,7 +151,7 @@ public class ChatServices {
                 }
             }
 
-        }
+        });
     }
 
     public List<ChatUser> getAll() {
@@ -169,6 +172,7 @@ public class ChatServices {
         // like topic and direct cant publish it there fore we use an alternate
         // exchange which is fanout to be a publisher of those messages
 
+
         String exchangeName;
         exchangeName = compareNamesAlphabetically(sender, receiver);
         FanoutExchange exchange = new FanoutExchange(exchangeName, false, true, null);
@@ -178,11 +182,11 @@ public class ChatServices {
 
         Map<String, Object> argsGir = new HashMap<>();
         argsGir.put("x-dead-letter-exchange", "dead-letter-" + receiver);
-        argsGir.put("x-message-ttl", 3600000);
+        argsGir.put("x-message-ttl", 360000000);
 
         Map<String, Object> argsSender = new HashMap<>();
         argsSender.put("x-dead-letter-exchange", "dead-letter-" + sender);
-        argsSender.put("x-message-ttl", 3600000);
+        argsSender.put("x-message-ttl", 360000000);
 
 
         Queue girande = new Queue("user." + receiver, false, false, true, argsGir);
@@ -211,7 +215,7 @@ public class ChatServices {
                 amqpAdmin.declareBinding((Binding) i);
             }
         });
-        System.out.println(amqpAdmin.getQueueProperties("user." + sender));
+//        System.out.println(amqpAdmin.getQueueProperties("user." + sender));
 
 
 //        ConnectionFactory factory = new ConnectionFactory();
@@ -232,24 +236,27 @@ public class ChatServices {
 //        rabbitTemplate.convertAndSend(exchangeName,"",chatMessage);
 //    }
 
-    public void createQueuesAndExchangeForGroupChat(String groupId) {
-        System.out.println(230);
+    public void createQueuesAndExchangeForGroupChat(String groupId, String sender) {
+        System.out.println(240);
         Optional<GroupChat> groupChat = groupChatRepo.findById(groupId);
-        if (groupChat.isPresent()) {
-            String exchange = "G_" + groupChat.get().getName();
+        groupChat.ifPresent(groupChat1 -> {
+            System.out.println(243);
+            String exchange = "G_" + groupChat1.getName();
             FanoutExchange group = new FanoutExchange(exchange, false, true, null);
-            List<String> chatUsers = groupChat.get().getMembers();
+            List<String> chatUsers = groupChat1.getMembers();
             amqpAdmin.declareExchange(group);
             for (String id : chatUsers) {
-                Optional<ChatUser> user=userRepo.findById(id);
-                user.ifPresent(u->{
+                Optional<ChatUser> user = userRepo.findById(id);
+                user.ifPresent(u -> {
                     if (rabbitManagementTemplate.getQueue("user." + u.getUsername()) != null) {
+                        System.out.println(252);
                         Queue userQueue = rabbitManagementTemplate.getQueue("user." + u.getUsername());
                         Binding using = BindingBuilder.bind(userQueue).to(group);
                         amqpAdmin.declareBinding(using);
                     } else {
                         Map<String, Object> args = new HashMap<>();
                         args.put("x-dead-letter-exchange", "dead-letter-" + u.getUsername());
+                        System.out.println(258);
                         args.put("x-message-ttl", 360000000);
                         Queue using = new Queue("user." + u.getUsername(), false, false, true, args);
                         Binding userBind = BindingBuilder.bind(using).to(group);
@@ -258,6 +265,27 @@ public class ChatServices {
                     }
                 });
             }
+        });
+        if (groupChat.isEmpty()) {
+            System.out.println(267);
+            FanoutExchange error = new FanoutExchange("error", false, false, null);
+            Queue errorQ = rabbitManagementTemplate.getQueue("user." + sender);
+            amqpAdmin.declareExchange(error);
+            Binding b = BindingBuilder.bind(errorQ).to(error);
+            amqpAdmin.declareBinding(b);
+            rabbitTemplate.convertAndSend("error", "", "this group chat doesnt exist");
+            amqpAdmin.deleteExchange("error");
+            amqpAdmin.deleteQueue("user." + sender);
+        }
+        if (userRepo.findByUsername(sender).isEmpty()) {
+            FanoutExchange error = new FanoutExchange("error", false, false, null);
+            Queue errorQ = rabbitManagementTemplate.getQueue("user." + sender);
+            amqpAdmin.declareExchange(error);
+            Binding b = BindingBuilder.bind(errorQ).to(error);
+            amqpAdmin.declareBinding(b);
+            rabbitTemplate.convertAndSend("error", "", "this user doesnt exist");
+            amqpAdmin.deleteExchange("error");
+            amqpAdmin.deleteQueue("user." + sender);
         }
 
     }
@@ -272,4 +300,23 @@ public class ChatServices {
         }
         return fullName;
     }
+
+    public boolean CheckAvailability(String name) {
+        Exchange exchange = rabbitManagementTemplate.getExchange(name);
+        return exchange == null;
+    }
+
+    public void sendErrorMessageToUser(String username) {
+        FanoutExchange errorEx = new FanoutExchange("errorEx", false, false, null);
+        Queue user = rabbitManagementTemplate.getQueue(username);
+        amqpAdmin.declareExchange(errorEx);
+        Binding errorBind = BindingBuilder.bind(user).to(errorEx);
+        amqpAdmin.declareBinding(errorBind);
+        ChatMessage chatMessage1 = new ChatMessage();
+        chatMessage1.setTextContent("there is an error");
+        chatMessage1.setContentType("error");
+        rabbitTemplate.convertAndSend("errorEx", "", chatMessage1);
+        rabbitManagementTemplate.deleteExchange(errorEx);
+    }
+
 }

@@ -1,10 +1,10 @@
 package com.example.websocketdemo.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler;
 import org.springframework.web.socket.config.annotation.*;
 import org.springframework.web.socket.server.HandshakeHandler;
 
@@ -15,11 +15,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private final handShakerInterceptor handshakerInterceptor;
     private final ChannelInterceptor inboundMessageChannelInterceptor;
     private final HandshakeHandler DoingHandShake;
-
-    public WebSocketConfig(handShakerInterceptor handshakerInterceptor, ChannelInterceptor inboundMessageChannelInterceptor, HandshakeHandler doingHandShake) {
+    private MessageChannel clientOutboundChannel;
+    public WebSocketConfig(handShakerInterceptor handshakerInterceptor, ChannelInterceptor inboundMessageChannelInterceptor, HandshakeHandler doingHandShake, MessageChannel clientOutboundChannel) {
         this.handshakerInterceptor = handshakerInterceptor;
         this.inboundMessageChannelInterceptor = inboundMessageChannelInterceptor;
         DoingHandShake = doingHandShake;
+        this.clientOutboundChannel = clientOutboundChannel;
     }
 
     @Override
@@ -40,7 +41,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registration.interceptors(inboundMessageChannelInterceptor);
     }
 
-
+    @Override
+    public void configureClientOutboundChannel(ChannelRegistration registration) {
+        registration.interceptors(inboundMessageChannelInterceptor);
+    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
