@@ -39,6 +39,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(inboundMessageChannelInterceptor);
+
     }
 
     @Override
@@ -52,7 +53,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         //   Use this for enabling a Full featured broker like RabbitMQ or ActiveMQ
 
         registry.setApplicationDestinationPrefixes("/app","/user")
-                .enableStompBrokerRelay("/topic/user","/temp-queue/user","/queue/user")
+                .enableStompBrokerRelay("/queue/user")
                 .setRelayHost("localhost")
                 .setRelayPort(61613)
                 .setClientLogin("guest")
