@@ -1,4 +1,4 @@
-package com.example.websocketdemo.RestController;
+package com.example.websocketdemo.controller;
 
 import com.example.websocketdemo.Exceptions.MapValidationError;
 import com.example.websocketdemo.Services.ChatServices;

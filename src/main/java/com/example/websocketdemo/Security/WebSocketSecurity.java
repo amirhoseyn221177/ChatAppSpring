@@ -1,4 +1,4 @@
-package com.example.websocketdemo.config;
+package com.example.websocketdemo.Security;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Configuration;
