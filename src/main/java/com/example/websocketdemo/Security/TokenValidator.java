@@ -32,7 +32,7 @@ public class TokenValidator {
 
     public boolean validateToken(String token){
         try{
-            Jwts.parser().setSigningKey("SecretKeyToGenJWTs").parseClaimsJws(token);
+            Jwts.parser().setSigningKey("amir2211").parseClaimsJws(token);
             return true;
         }catch (SignatureException e){
             System.out.println("Invalid JWT Signature");
@@ -44,6 +44,8 @@ public class TokenValidator {
             System.out.println("Unsupported JWT token");
         }catch (IllegalArgumentException e){
             System.out.println("JWT claims string is empty");
+        }catch (Exception e){
+            System.out.println(e.getLocalizedMessage());
         }
         return  false;
     }

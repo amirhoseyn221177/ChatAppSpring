@@ -13,6 +13,7 @@ import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,9 +28,10 @@ public class ChatServices {
     private final RabbitManagementTemplate rabbitManagementTemplate;
     private final RabbitTemplate rabbitTemplate;
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
-                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate) {
+                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
@@ -37,6 +39,7 @@ public class ChatServices {
         this.rabbitManagementTemplate = rabbitManagementTemplate;
         this.rabbitTemplate = rabbitTemplate;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
@@ -59,8 +62,9 @@ public class ChatServices {
         return groupChat;
     }
 
-    public void createUser(ChatUser user) {
-        userRepo.save(user);
+    public ChatUser createUser(ChatUser user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+      return   userRepo.save(user);
     }
 
     public void deleteUser(String id) {

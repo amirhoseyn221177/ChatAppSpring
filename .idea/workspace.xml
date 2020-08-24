@@ -44,14 +44,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_5_0_3_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_auth0_java_jwt_3_10_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_stephenc_jcip_jcip_annotations_1_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_nimbusds_nimbus_jose_jwt_7_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_oauth_spring_security_oauth2_2_5_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_config_5_2_0_M3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_messaging_5_0_3_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_oauth2_core_5_0_3_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_oauth2_jose_5_2_0_M3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_oauth2_resource_server_5_2_0_M3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_5_2_0_M3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/springboot-websocket.iml" beforeDir="false" afterPath="$PROJECT_DIR$/springboot-websocket.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/CustomUserServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/CustomUserServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/WebsocketDemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/WebsocketDemoApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Exceptions/AuthenticationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Exceptions/AuthenticationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/TokenValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/TokenValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/WebSocketSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/WebSocketSecurity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/ChatServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/ChatServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/InboundMessageChannelInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/InboundMessageChannelInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WebSocketConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/ChatRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/ChatRestController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/RestController/ChatRestController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/ChatServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/ChatServices.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/WebsocketDemoApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/WebsocketDemoApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/InboundMessageChannelInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/InboundMessageChannelInterceptor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/SecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WebSocketConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WebSocketConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WebSocketSecurity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatUser.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +207,9 @@
       <workItem from="1597994859202" duration="224000" />
       <workItem from="1597995092913" duration="5196000" />
       <workItem from="1598084685452" duration="627000" />
-      <workItem from="1598163186635" duration="7350000" />
+      <workItem from="1598163186635" duration="7712000" />
+      <workItem from="1598256635933" duration="2764000" />
+      <workItem from="1598259414439" duration="5592000" />
     </task>
     <task id="LOCAL-00001" summary="salam">
       <created>1596629729396</created>
@@ -229,16 +255,20 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2581" y="365" width="588" height="357" key="#Notifications/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596515350887" />
-    <state x="814" y="132" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1598178021355">
+    <state x="814" y="132" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1598262212501">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="2691" y="108" width="374" height="633" key="#com.intellij.ide.util.MemberChooser/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596851498135" />
     <state x="814" y="132" width="553" height="592" key="#com.intellij.ide.util.MemberChooser/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596977737632" />
-    <state x="814" y="132" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598178021355" />
+    <state x="814" y="132" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598262212501" />
     <state x="597" y="223" width="788" height="668" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1596961461822">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="597" y="223" width="788" height="668" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596961461822" />
+    <state x="714" y="421" width="554" height="279" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1598178410737">
+      <screen x="72" y="27" width="1848" height="1053" />
+    </state>
+    <state x="714" y="421" width="554" height="279" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598178410737" />
     <state x="729" y="265" width="524" height="509" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog" timestamp="1597718078351">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
@@ -257,54 +287,54 @@
     <state x="2655" y="291" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596849415602" />
     <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596961784819" />
     <state x="779" y="311" key="FileChooserDialogImpl/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598176909228" />
-    <state width="1802" height="276" key="GridCell.Tab.0.bottom" timestamp="1598164078280">
+    <state width="1802" height="276" key="GridCell.Tab.0.bottom" timestamp="1598265323652">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state width="1874" height="256" key="GridCell.Tab.0.bottom/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596852236501" />
     <state width="1802" height="275" key="GridCell.Tab.0.bottom/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596981895639" />
-    <state width="1802" height="276" key="GridCell.Tab.0.bottom/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598164078280" />
-    <state width="1802" height="276" key="GridCell.Tab.0.center" timestamp="1598164078280">
+    <state width="1802" height="276" key="GridCell.Tab.0.bottom/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598265323652" />
+    <state width="1802" height="276" key="GridCell.Tab.0.center" timestamp="1598265323652">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state width="1874" height="256" key="GridCell.Tab.0.center/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596852236501" />
     <state width="1802" height="275" key="GridCell.Tab.0.center/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596981895639" />
-    <state width="1802" height="276" key="GridCell.Tab.0.center/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598164078280" />
-    <state width="1802" height="276" key="GridCell.Tab.0.left" timestamp="1598164078279">
+    <state width="1802" height="276" key="GridCell.Tab.0.center/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598265323652" />
+    <state width="1802" height="276" key="GridCell.Tab.0.left" timestamp="1598265323651">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state width="1874" height="256" key="GridCell.Tab.0.left/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596852236501" />
     <state width="1802" height="275" key="GridCell.Tab.0.left/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596981895639" />
-    <state width="1802" height="276" key="GridCell.Tab.0.left/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598164078279" />
-    <state width="1802" height="276" key="GridCell.Tab.0.right" timestamp="1598164078280">
+    <state width="1802" height="276" key="GridCell.Tab.0.left/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598265323651" />
+    <state width="1802" height="276" key="GridCell.Tab.0.right" timestamp="1598265323652">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state width="1874" height="256" key="GridCell.Tab.0.right/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596852236501" />
     <state width="1802" height="275" key="GridCell.Tab.0.right/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596981895639" />
-    <state width="1802" height="276" key="GridCell.Tab.0.right/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598164078280" />
-    <state width="1802" height="276" key="GridCell.Tab.1.bottom" timestamp="1598164078281">
+    <state width="1802" height="276" key="GridCell.Tab.0.right/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598265323652" />
+    <state width="1802" height="276" key="GridCell.Tab.1.bottom" timestamp="1598265323652">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state width="1874" height="256" key="GridCell.Tab.1.bottom/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596852236501" />
     <state width="1802" height="275" key="GridCell.Tab.1.bottom/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596981895639" />
-    <state width="1802" height="276" key="GridCell.Tab.1.bottom/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598164078281" />
-    <state width="1802" height="276" key="GridCell.Tab.1.center" timestamp="1598164078281">
+    <state width="1802" height="276" key="GridCell.Tab.1.bottom/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598265323652" />
+    <state width="1802" height="276" key="GridCell.Tab.1.center" timestamp="1598265323652">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state width="1874" height="256" key="GridCell.Tab.1.center/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596852236501" />
     <state width="1802" height="275" key="GridCell.Tab.1.center/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596981895639" />
-    <state width="1802" height="276" key="GridCell.Tab.1.center/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598164078281" />
-    <state width="1802" height="276" key="GridCell.Tab.1.left" timestamp="1598164078280">
+    <state width="1802" height="276" key="GridCell.Tab.1.center/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598265323652" />
+    <state width="1802" height="276" key="GridCell.Tab.1.left" timestamp="1598265323652">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state width="1874" height="256" key="GridCell.Tab.1.left/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596852236501" />
     <state width="1802" height="275" key="GridCell.Tab.1.left/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596981895639" />
-    <state width="1802" height="276" key="GridCell.Tab.1.left/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598164078280" />
-    <state width="1802" height="276" key="GridCell.Tab.1.right" timestamp="1598164078281">
+    <state width="1802" height="276" key="GridCell.Tab.1.left/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598265323652" />
+    <state width="1802" height="276" key="GridCell.Tab.1.right" timestamp="1598265323652">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state width="1874" height="256" key="GridCell.Tab.1.right/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1596852236501" />
     <state width="1802" height="275" key="GridCell.Tab.1.right/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596981895639" />
-    <state width="1802" height="276" key="GridCell.Tab.1.right/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598164078281" />
+    <state width="1802" height="276" key="GridCell.Tab.1.right/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598265323652" />
     <state width="1802" height="340" key="GridCell.Tab.2.bottom" timestamp="1597432321270">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
@@ -362,15 +392,20 @@
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="522" y="272" width="938" height="654" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1597431444359" />
-    <state x="2174" y="117" width="1306" height="706" maximized="true" key="dock-window-1" timestamp="1597319654253">
+    <state x="1920" y="117" width="1372" height="1009" maximized="true" key="dock-window-1" timestamp="1598257390752">
       <screen x="1920" y="117" width="1920" height="1080" />
     </state>
     <state x="2517" y="0" width="1219" height="706" maximized="true" key="dock-window-1/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1596272920273" />
-    <state x="2174" y="117" width="1306" height="706" maximized="true" key="dock-window-1/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1597319654253" />
-    <state x="1920" y="0" width="1340" height="1009" maximized="true" key="dock-window-2" timestamp="1595926932441">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="1920" y="117" width="1372" height="1009" maximized="true" key="dock-window-1/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598257390752" />
+    <state x="2248" y="117" width="1372" height="1009" key="dock-window-2" timestamp="1598259766035">
+      <screen x="1920" y="117" width="1920" height="1080" />
     </state>
     <state x="1920" y="0" width="1340" height="1009" maximized="true" key="dock-window-2/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1595926932441" />
+    <state x="2248" y="117" width="1372" height="1009" key="dock-window-2/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598259766035" />
+    <state x="2060" y="117" width="1372" height="1009" key="dock-window-3" timestamp="1598259766035">
+      <screen x="1920" y="117" width="1920" height="1080" />
+    </state>
+    <state x="2060" y="117" width="1372" height="1009" key="dock-window-3/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598259766035" />
     <state x="729" y="314" width="524" height="485" key="extract.method.dialog" timestamp="1597833677746">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
