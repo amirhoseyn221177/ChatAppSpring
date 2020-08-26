@@ -6,7 +6,7 @@ import PrivateMessage from './PrivateMessage/PrivateMessage';
 import CreateGroupChat from './publicChatApp/CreateGroupChat';
 import CreateUser from './CreateUser';
 import AddingMember from './publicChatApp/AddingMember';
-import SignIn from './LoginIN';
+import SignIn from './Login';
 
 function App() {
   return (

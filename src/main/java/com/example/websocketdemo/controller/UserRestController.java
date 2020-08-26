@@ -38,7 +38,8 @@ public class UserRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registering(@RequestBody @Valid ChatUser chatUser, BindingResult result) {
+    public ResponseEntity<?> registering(@RequestBody  ChatUser chatUser, BindingResult result) {
+        System.out.println(chatUser);
         ResponseEntity<?> error = mapValidationError.MapValidationService(result);
         if (error != null) return error;
        ChatUser chatUser1= chatServices.createUser(chatUser);
@@ -46,18 +47,17 @@ public class UserRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, BindingResult result){
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest, BindingResult result,
+                                   @RequestHeader Map<String,Object> allHeaders){
+        System.out.println(allHeaders);
+        System.out.println(loginRequest);
         ResponseEntity<?> error = mapValidationError.MapValidationService(result);
         if(error!=null)return error;
-        Authentication authentication =authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),loginRequest.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt="bearer "+ tokenValidator.generateToken(authentication);
+        String jwt =chatServices.SendToken(loginRequest.getUsername(), loginRequest.getPassword());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization",jwt);
-        return new ResponseEntity<>(null,httpHeaders,HttpStatus.OK);
+        Map<String ,Object> body= new HashMap<>();
+        body.put("Token",jwt);
+        return new ResponseEntity<>(body,httpHeaders,HttpStatus.OK);
     }
 }

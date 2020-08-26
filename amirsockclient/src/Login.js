@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Axios from 'axios';
 
 
 
@@ -53,6 +54,12 @@ const SignIn = () => {
     const [password,setPassword]=useState(null)
     const classes = useStyles();
 
+    var SendAuth=async()=>{
+      let content={password:password,username:username}
+        const resp = await Axios.post('/user/login',content,{headers:{"hello":"salam"}})
+        const data = await resp.data
+        console.log(data)
+    }
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -75,7 +82,8 @@ const SignIn = () => {
                         name="username"
                         autoComplete="username"
                         autoFocus
-                        oncha
+                        onChange={e=>setUsername(e.target.value)}
+                        
                     />
                     <TextField
                         variant="outlined"
@@ -87,17 +95,19 @@ const SignIn = () => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={e=>setPassword(e.target.value)}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
                     />
                     <Button
-                        type="submit"
+                        type="button"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={SendAuth}
                     >
                         Sign In
           </Button>

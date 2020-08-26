@@ -26,13 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserServices customUserServices;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final AuthenticationHandler authenticated;
+    private final AuthenticationHandler authenticationHandler;
 
-    public SecurityConfig(CustomUserServices customUserServices, BCryptPasswordEncoder bCryptPasswordEncoder, JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationHandler authenticated) {
+    public SecurityConfig(CustomUserServices customUserServices, BCryptPasswordEncoder bCryptPasswordEncoder, JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationHandler authenticationHandler) {
         this.customUserServices = customUserServices;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.authenticated = authenticated;
+        this.authenticationHandler = authenticationHandler;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(authenticated).and()
+                .exceptionHandling().authenticationEntryPoint(authenticationHandler).and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

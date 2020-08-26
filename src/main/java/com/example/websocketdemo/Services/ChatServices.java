@@ -5,6 +5,7 @@ import com.example.websocketdemo.Exceptions.userNotFoundException;
 import com.example.websocketdemo.Repository.ChatRepo;
 import com.example.websocketdemo.Repository.GroupChatRepo;
 import com.example.websocketdemo.Repository.UserRepo;
+import com.example.websocketdemo.Security.TokenValidator;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatUser;
 import com.example.websocketdemo.model.GroupChat;
@@ -13,6 +14,10 @@ import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +34,11 @@ public class ChatServices {
     private final RabbitTemplate rabbitTemplate;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final TokenValidator tokenValidator;
 
     public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
-                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder) {
+                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
@@ -40,6 +47,8 @@ public class ChatServices {
         this.rabbitTemplate = rabbitTemplate;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.tokenValidator = tokenValidator;
     }
 
 
@@ -92,7 +101,16 @@ public class ChatServices {
             throw new GroupNotFoundException("there is no such a group");
 
         }
+    }
 
+    public String SendToken(String username,String password){
+        Authentication authentication =authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        username,password
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return "bearer "+ tokenValidator.generateToken(authentication);
 
     }
 
