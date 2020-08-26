@@ -13,9 +13,9 @@ import java.util.Map;
 public class DoingHandShake implements HandshakeHandler {
     @Override
     public boolean doHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws HandshakeFailureException {
-        System.out.println(request.getAsyncRequestControl(response));
-        System.out.println(response);
-        System.out.println(wsHandler);
+//        System.out.println(request.getAsyncRequestControl(response));
+//        System.out.println(response);
+//        System.out.println(wsHandler);
         System.out.println(20);
         return true;
     }

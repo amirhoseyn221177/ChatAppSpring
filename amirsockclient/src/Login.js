@@ -12,7 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Axios from 'axios';
+import { connect } from 'react-redux'
+import { withRouter } from "react-router-dom"
+import { SendingAuth } from './action';
 
 
 
@@ -49,16 +51,14 @@ var Copyright = () => {
     );
 }
 
-const SignIn = () => {
-    const [username,setUsername]=useState(null)
-    const [password,setPassword]=useState(null)
+const SignIn = props => {
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
     const classes = useStyles();
 
-    var SendAuth=async()=>{
-      let content={password:password,username:username}
-        const resp = await Axios.post('/user/login',content,{headers:{"hello":"salam"}})
-        const data = await resp.data
-        console.log(data)
+    var SendAuth =  () => {
+        props.sendAuth(username,password)
+        props.history.push('/privatechat')
     }
     return (
         <Container component="main" maxWidth="xs">
@@ -82,8 +82,8 @@ const SignIn = () => {
                         name="username"
                         autoComplete="username"
                         autoFocus
-                        onChange={e=>setUsername(e.target.value)}
-                        
+                        onChange={e => setUsername(e.target.value)}
+
                     />
                     <TextField
                         variant="outlined"
@@ -95,7 +95,7 @@ const SignIn = () => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        onChange={e=>setPassword(e.target.value)}
+                        onChange={e => setPassword(e.target.value)}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
@@ -132,4 +132,16 @@ const SignIn = () => {
     );
 }
 
-export default SignIn;
+const maptoState=state=>{
+    return{
+        auth:state.auth.token
+    }
+}
+
+const maptoprops=dispatch=>{
+    return{
+        sendAuth:(username,password)=>dispatch(SendingAuth(username,password))
+    }
+}
+
+export default connect(maptoState,maptoprops)(withRouter(SignIn));

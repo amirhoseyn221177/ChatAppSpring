@@ -1,6 +1,7 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect, useRef,usec } from "react";
 import Stomp from "stompjs";
 import { withRouter } from "react-router-dom";
+import {connect} from 'react-redux'
 
 var stompClient = null;
 var PrivateMessage = (props) => {
@@ -8,15 +9,26 @@ var PrivateMessage = (props) => {
   const [otherUser, setOtheruser] = useState("");
   const [broadCastMessage, setBroadCastMessage] = useState([]);
   const [value, setValue] = useState("");
-
+  const [token,setToken]= useState("")
+  useEffect(()=>{
+    grabbingToken()
+//eslint-disable-next-line
+ },[props.auth])
+var grabbingToken=()=>{
+  setToken(props.auth)
+}
   var connect = () => {
+    console.log(21)
+    console.log(token)
     stompClient = Stomp.client("ws://localhost:8080/ws");
-    stompClient.connect({}, onConnected);
+    stompClient.connect({Authorization:'bearer '+token}, onConnected);
 
     //I controle these from the backend
-    stompClient.heartbeat.outgoing=20000
-    stompClient.heartbeat.incoming=1
+    stompClient.heartbeat.outgoing=0
+    stompClient.heartbeat.incoming=0
   };
+
+  
 
   var diconnecting = () => {
     stompClient.disconnect(() => {
@@ -35,16 +47,16 @@ var PrivateMessage = (props) => {
   }
 
   var onConnected = () => {
-    console.log(38)
+    console.log(52)
     stompClient.subscribe(`/queue/user.${user}`, onMessageReceived, {
       "durable": false, "exclusive": false, "auto-delete": true, "x-dead-letter-exchange": "dead-letter-" + user,
       "x-message-ttl":360000000,
     });
-    stompClient.send(
-      `/app/addPrivateUser/${user}`,
-      { exchangeName:compareNamesAlphabetically(user,otherUser) },
-      JSON.stringify({ sender: user, receiver: otherUser })
-    );
+    // stompClient.send(
+    //   `/app/addPrivateUser/${user}`,
+    //   { exchangeName:compareNamesAlphabetically(user,otherUser)},
+    //   JSON.stringify({ sender: user, receiver: otherUser })
+    // );
   };
 
   var onMessageReceived = (payload) => {
@@ -101,4 +113,10 @@ var PrivateMessage = (props) => {
   );
 };
 
-export default withRouter(PrivateMessage);
+const maptoState=state=>{
+  return{
+    auth:state.auth.token
+  }
+}
+
+export default withRouter(connect(maptoState)(PrivateMessage));

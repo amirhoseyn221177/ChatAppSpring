@@ -2,6 +2,7 @@ package com.example.websocketdemo.controller;
 
 import com.example.websocketdemo.Services.ChatServices;
 import com.example.websocketdemo.model.ChatMessage;
+import com.example.websocketdemo.model.LoginRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
@@ -61,7 +62,6 @@ public class WebSocketEventListener {
 //        String privateUsername = (String) headerAccessor.getSessionAttributes().get("private-username");
 //        String groupname =  headerAccessor.getFirstNativeHeader("groupname");
 //        System.out.println("we are in handle disconnect");
-//
 //        if(username != null) {
 //            logger.info("User Disconnected : " + username);
 //

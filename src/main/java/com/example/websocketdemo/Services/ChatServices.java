@@ -73,7 +73,7 @@ public class ChatServices {
 
     public ChatUser createUser(ChatUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-      return   userRepo.save(user);
+        return userRepo.save(user);
     }
 
     public void deleteUser(String id) {
@@ -103,14 +103,14 @@ public class ChatServices {
         }
     }
 
-    public String SendToken(String username,String password){
-        Authentication authentication =authenticationManager.authenticate(
+    public String SendToken(String username, String password) {
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        username,password
+                        username, password
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "bearer "+ tokenValidator.generateToken(authentication);
+        return "bearer " + tokenValidator.generateToken(authentication);
 
     }
 
@@ -193,7 +193,6 @@ public class ChatServices {
         // Alternate exchange is when a message doesnt have a proper key and there fore exchanges
         // like topic and direct cant publish it there fore we use an alternate
         // exchange which is fanout to be a publisher of those messages
-
 
         String exchangeName;
         exchangeName = compareNamesAlphabetically(sender, receiver);

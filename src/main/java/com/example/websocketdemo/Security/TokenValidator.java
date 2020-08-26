@@ -20,6 +20,7 @@ public class TokenValidator {
         Map<String,Object> claims= new HashMap<>();
         claims.put("id",userId);
         claims.put("username",chatUser.getUsername());
+
         return Jwts.builder()
                 .setSubject(userId)
                 .setClaims(claims)

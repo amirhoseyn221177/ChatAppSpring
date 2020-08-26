@@ -7,17 +7,15 @@ import org.springframework.security.config.annotation.web.messaging.MessageSecur
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
 @Configuration
-
 public class WebSocketSecurity extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureInbound(MessageSecurityMetadataSourceRegistry message){
         message
-                .simpDestMatchers("/ws/**").authenticated()
-                .nullDestMatcher().authenticated()
-                .simpTypeMatchers(SimpMessageType.CONNECT,SimpMessageType.DISCONNECT,SimpMessageType.DISCONNECT,
-                        SimpMessageType.UNSUBSCRIBE,SimpMessageType.SUBSCRIBE).authenticated()
+                .simpTypeMatchers(SimpMessageType.SUBSCRIBE,SimpMessageType.CONNECT).permitAll()
+                .simpDestMatchers("/ws").authenticated()
                 .anyMessage().authenticated();
+
     }
 
     @Override

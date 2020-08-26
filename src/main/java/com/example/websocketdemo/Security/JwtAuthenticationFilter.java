@@ -32,12 +32,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       try {
           String jwt =getJwtFromRequest(request);
           if(StringUtils.hasText(jwt)&&tokenValidator.validateToken(jwt)){
+
               String userId=tokenValidator.GetIdFromToken(jwt);
               ChatUser chatUser = customUserServices.loadByID(userId);
               UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(
                       chatUser,null, Collections.emptyList());
               authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
               SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+              System.out.println(SecurityContextHolder.getContext().getAuthentication());
           }
       }catch (Exception e){
           System.out.println(e.getMessage());
