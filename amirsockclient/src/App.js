@@ -6,6 +6,7 @@ import PrivateMessage from './PrivateMessage/PrivateMessage';
 import CreateGroupChat from './publicChatApp/CreateGroupChat';
 import CreateUser from './CreateUser';
 import AddingMember from './publicChatApp/AddingMember';
+import SignIn from './LoginIN';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route exact path="/creategroup" component={CreateGroupChat}/>
       <Route exact path="/createuser" component={CreateUser}/>
       <Route exact path="/adding" component={AddingMember}/>
+      <Route exact path="/login" component={SignIn}/>
     </Switch>
   </BrowserRouter>
   

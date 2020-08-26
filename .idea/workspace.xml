@@ -44,38 +44,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_auth0_java_jwt_3_10_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_stephenc_jcip_jcip_annotations_1_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_nimbusds_nimbus_jose_jwt_7_2_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_oauth_spring_security_oauth2_2_5_0_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_config_5_2_0_M3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_messaging_5_0_3_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_oauth2_core_5_0_3_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_oauth2_jose_5_2_0_M3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_oauth2_resource_server_5_2_0_M3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_5_2_0_M3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/springboot-websocket.iml" beforeDir="false" afterPath="$PROJECT_DIR$/springboot-websocket.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Exceptions/AuthenticationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Exceptions/AuthenticationHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/TokenValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/TokenValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/WebSocketSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/WebSocketSecurity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/ChatServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/ChatServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/InboundMessageChannelInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/InboundMessageChannelInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WebSocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/ChatRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/ChatRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/RestController/ChatRestController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/ChatServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/ChatServices.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/WebsocketDemoApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/WebsocketDemoApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/InboundMessageChannelInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/InboundMessageChannelInterceptor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/SecurityConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WebSocketConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WebSocketConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WebSocketSecurity.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatUser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amirsockclient/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amirsockclient/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amirsockclient/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/src/App.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,17 +109,6 @@
     <option name="notificationShown" value="true" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="WebsocketDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="springboot-websocket" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.websocketdemo.WebsocketDemoApplication" />
@@ -210,6 +171,7 @@
       <workItem from="1598163186635" duration="7712000" />
       <workItem from="1598256635933" duration="2764000" />
       <workItem from="1598259414439" duration="5592000" />
+      <workItem from="1598420556680" duration="604000" />
     </task>
     <task id="LOCAL-00001" summary="salam">
       <created>1596629729396</created>
@@ -402,10 +364,10 @@
     </state>
     <state x="1920" y="0" width="1340" height="1009" maximized="true" key="dock-window-2/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1595926932441" />
     <state x="2248" y="117" width="1372" height="1009" key="dock-window-2/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598259766035" />
-    <state x="2060" y="117" width="1372" height="1009" key="dock-window-3" timestamp="1598259766035">
+    <state x="2060" y="117" width="1372" height="1009" key="dock-window-3" timestamp="1598421770786">
       <screen x="1920" y="117" width="1920" height="1080" />
     </state>
-    <state x="2060" y="117" width="1372" height="1009" key="dock-window-3/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598259766035" />
+    <state x="2060" y="117" width="1372" height="1009" key="dock-window-3/72.27.1848.1053/1920.117.1920.1080@72.27.1848.1053" timestamp="1598421770786" />
     <state x="729" y="314" width="524" height="485" key="extract.method.dialog" timestamp="1597833677746">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
