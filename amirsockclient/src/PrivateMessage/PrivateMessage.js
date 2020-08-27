@@ -52,11 +52,11 @@ var grabbingToken=()=>{
       "durable": false, "exclusive": false, "auto-delete": true, "x-dead-letter-exchange": "dead-letter-" + user,
       "x-message-ttl":360000000,
     });
-    // stompClient.send(
-    //   `/app/addPrivateUser/${user}`,
-    //   { exchangeName:compareNamesAlphabetically(user,otherUser)},
-    //   JSON.stringify({ sender: user, receiver: otherUser })
-    // );
+    stompClient.send(
+      `/app/addPrivateUser/${user}`,
+      { exchangeName:compareNamesAlphabetically(user,otherUser),Authorization:'bearer '+token},
+      JSON.stringify({ sender: user, receiver: otherUser })
+    );
   };
 
   var onMessageReceived = (payload) => {

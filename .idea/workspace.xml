@@ -44,56 +44,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_18_12.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_config_5_0_3_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_core_5_0_3_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_messaging_5_0_3_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_5_0_3_RELEASE.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amirsockclient/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amirsockclient/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amirsockclient/src/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/src/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/amirsockclient/src/PrivateMessage/PrivateMessage.js" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/src/PrivateMessage/PrivateMessage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amirsockclient/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/springboot-websocket.iml" beforeDir="false" afterPath="$PROJECT_DIR$/springboot-websocket.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/TokenValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/TokenValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/WebSocketSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Security/WebSocketSecurity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/ChatServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/ChatServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/DoingHandShake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/DoingHandShake.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/InboundMessageChannelInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/InboundMessageChannelInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WebSocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/handShakerInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/handShakerInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/UserRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/UserRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/WebSocketEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/WebSocketEventListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application 2.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/ChatServices/chatService 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Repository/ChatRepo 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Repository/GroupChatRepo 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Repository/UserRepo 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Security/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Security/JwtAuthenticationFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Security/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Security/TokenValidator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Security/TokenValidator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Security/WebSocketSecurity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Security/WebSocketSecurity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/ChatServices 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/WebsocketDemoApplication 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/DoingHandShake 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/DoingHandShake.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/DoingHandShake.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/InboundMessageChannelInterceptor 2.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/InboundMessageChannelInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/InboundMessageChannelInterceptor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/RabbitMqConfig 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WebSocketConfig 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WebSocketConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WebSocketConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/handShakerInterceptor 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/handShakerInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/handShakerInterceptor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/controller/ChatController 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/controller/UserRestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/controller/UserRestController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/controller/WebSocketEventListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/controller/WebSocketEventListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatMessage 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatUser 2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/GroupChat 2.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,6 +175,7 @@
       <workItem from="1598427798672" duration="31000" />
       <workItem from="1598427869175" duration="1627000" />
       <workItem from="1598429789854" duration="8228000" />
+      <workItem from="1598485421018" duration="715000" />
     </task>
     <task id="LOCAL-00001" summary="salam">
       <created>1596629729396</created>
