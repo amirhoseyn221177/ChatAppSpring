@@ -32,6 +32,9 @@ public class ChatUser implements UserDetails {
     @NotBlank(message = "password should not be blank")
     @Size(min = 4,max = 10, message = "please use 4 to 10 characters")
     private String password;
+    private List<Role> roles=new ArrayList<>();
+
+
 
     public String getId() {
         return id;
@@ -80,6 +83,15 @@ public class ChatUser implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
