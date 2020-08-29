@@ -12,10 +12,9 @@ public class WebSocketSecurity extends AbstractSecurityWebSocketMessageBrokerCon
     @Override
     public void configureInbound(MessageSecurityMetadataSourceRegistry message){
         message
-                .simpTypeMatchers(SimpMessageType.SUBSCRIBE,SimpMessageType.CONNECT).permitAll()
                 .simpDestMatchers("/ws").authenticated()
+                .nullDestMatcher().authenticated()
                 .anyMessage().authenticated();
-
     }
 
     @Override

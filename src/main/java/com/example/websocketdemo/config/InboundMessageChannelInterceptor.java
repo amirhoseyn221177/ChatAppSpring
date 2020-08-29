@@ -1,6 +1,5 @@
 package com.example.websocketdemo.config;
 
-import com.example.websocketdemo.Exceptions.FanOutNotFoundException;
 import com.example.websocketdemo.Security.TokenValidator;
 import com.example.websocketdemo.Services.CustomUserServices;
 import com.example.websocketdemo.model.ChatUser;
@@ -11,12 +10,9 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,30 +30,27 @@ public class InboundMessageChannelInterceptor implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
         StompHeaderAccessor stompHeaderAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-        assert stompHeaderAccessor != null;
-        if (StompCommand.CONNECT.equals(stompHeaderAccessor.getCommand())) {
+        try {
+            assert stompHeaderAccessor != null;
+            if (StompCommand.CONNECT.equals(stompHeaderAccessor.getCommand())) {
                 List<String> authorization = stompHeaderAccessor.getNativeHeader("Authorization");
-
-//            assert authorization != null;
-//            String accessToken=authorization.get(0).split(" ")[1];
-//            Jwt jwt= jwtDecoder.decode(accessToken);
-//            JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-//            Authentication authentication=jwtAuthenticationConverter.convert(jwt);
-//            stompHeaderAccessor.setUser(authentication);
                 assert authorization != null;
                 String bearerToken = authorization.get(0);
-                System.out.println();
                 if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("bearer")) {
-                    String token =bearerToken.substring(7);
+                    String token = bearerToken.substring(7);
                     String userId = tokenValidator.GetIdFromToken(token);
                     ChatUser chatUser = customUserServices.loadByID(userId);
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                            chatUser,null, Collections.emptyList()
+                            chatUser, null, Collections.emptyList()
                     );
-//                    Principal principal = (Principal) authentication.getPrincipal();
+                    System.out.println("we are in pre send ");
                     stompHeaderAccessor.setUser(authenticationToken);
                 }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+
 
         return message;
     }

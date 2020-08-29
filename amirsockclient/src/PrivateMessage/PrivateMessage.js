@@ -54,7 +54,7 @@ var grabbingToken=()=>{
     });
     stompClient.send(
       `/app/addPrivateUser/${user}`,
-      { exchangeName:compareNamesAlphabetically(user,otherUser),Authorization:'bearer '+token},
+      { exchangeName:compareNamesAlphabetically(user,otherUser)},
       JSON.stringify({ sender: user, receiver: otherUser })
     );
   };

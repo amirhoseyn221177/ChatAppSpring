@@ -9,6 +9,7 @@ import com.example.websocketdemo.model.LoginRequest;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,8 +53,9 @@ public class ChatRestController {
         System.out.println(jsonResponse);
         return new ResponseEntity<>(jsonResponse, HttpStatus.ACCEPTED);
     }
-    @GetMapping("/getall")
-    public ResponseEntity<?> gettingAllUsers() {
+    @GetMapping("/getall/{userId}")
+    @PreAuthorize("principal== #userId" )
+    public ResponseEntity<?> gettingAllUsers(@PathVariable String userId) {
         return new ResponseEntity<>(chatServices.getAll(), HttpStatus.OK);
     }
 

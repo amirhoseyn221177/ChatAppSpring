@@ -48,6 +48,7 @@ public class UserRestController {
                                    @RequestHeader Map<String, Object> allHeaders) {
         System.out.println(allHeaders);
         System.out.println(loginRequest);
+        System.out.println(51);
         ResponseEntity<?> error = mapValidationError.MapValidationService(result);
         if (error != null) return error;
         String jwt = chatServices.SendToken(loginRequest.getUsername(), loginRequest.getPassword());
@@ -55,12 +56,6 @@ public class UserRestController {
         httpHeaders.add("Authorization", jwt);
         Map<String, Object> body = new HashMap<>();
         body.put("token", jwt);
-        UsernamePasswordAuthenticationToken authentication= new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(),loginRequest.getPassword(), Collections.emptyList()
-        ) ;
-
-      SecurityContextHolder.getContext().setAuthentication(authentication);
-
         return new ResponseEntity<>(body, httpHeaders, HttpStatus.OK);
     }
 }

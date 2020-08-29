@@ -109,7 +109,6 @@ public class ChatServices {
                         username, password
                 )
         );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         return "bearer " + tokenValidator.generateToken(authentication);
 
     }
