@@ -14,7 +14,7 @@ const CreateUser = (props) => {
       password: password,
     };
     try{
-      const resp = await Axios.post("/restchat/createuser", content);
+      const resp = await Axios.post("/user/register", content);
       console.log(resp.data);
     }catch(e){
       console.error(e.message)

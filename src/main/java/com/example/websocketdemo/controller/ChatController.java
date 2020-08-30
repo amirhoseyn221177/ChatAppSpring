@@ -3,6 +3,7 @@ package com.example.websocketdemo.controller;
 import com.example.websocketdemo.Exceptions.FanOutNotFoundException;
 import com.example.websocketdemo.Services.ChatServices;
 import com.example.websocketdemo.model.ChatMessage;
+import com.example.websocketdemo.model.ChatUser;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.messaging.MessageHeaders;
@@ -86,7 +87,7 @@ public class ChatController {
 			List<?> name = (List<?>) Objects.requireNonNull(simpMessageHeaderAccessor.getSessionAttributes()).get("exchangeName");
 			if(chatServices.CheckAvailability((String)name.get(0))){
 				System.out.println(76);
-				chatServices.sendErrorMessageToUser("user."+chatMessage.getSender());
+				chatServices.sendErrorMessageToUser(chatMessage.getSender());
 				throw new FanOutNotFoundException("Error has occurred");
 			}
 			rabbitTemplate.convertAndSend((String) name.get(0), "", chatMessage);
@@ -105,7 +106,9 @@ public class ChatController {
 		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("private-username", chatMessage.getSender());
 		headerAccessor.getSessionAttributes().put("private-receiver", chatMessage.getReceiver());
 		headerAccessor.getSessionAttributes().put("exchangeName", headerAccessor.getNativeHeader("exchangeName"));
-
+//		if(!chatServices.receiverExist(chatMessage.getSender(),chatMessage.getReceiver())){
+//			return null;
+//		}
 		chatServices.createQueuesAndExchangeForPrivateChat(chatMessage.getSender(), chatMessage.getReceiver());
 		return chatMessage;
 	}

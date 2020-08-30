@@ -17,7 +17,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -328,7 +327,7 @@ public class ChatServices {
 
     public void sendErrorMessageToUser(String username) {
         FanoutExchange errorEx = new FanoutExchange("errorEx", false, false, null);
-        Queue user = rabbitManagementTemplate.getQueue(username);
+        Queue user = rabbitManagementTemplate.getQueue("user."+username);
         amqpAdmin.declareExchange(errorEx);
         Binding errorBind = BindingBuilder.bind(user).to(errorEx);
         amqpAdmin.declareBinding(errorBind);
@@ -338,5 +337,15 @@ public class ChatServices {
         rabbitTemplate.convertAndSend("errorEx", "", chatMessage1);
         rabbitManagementTemplate.deleteExchange(errorEx);
     }
+
+    public boolean receiverExist(String sender, String receiver) {
+        Optional<ChatUser> chatUser = userRepo.findByUsername(receiver);
+        if (chatUser.isEmpty()) {
+            sendErrorMessageToUser(sender);
+            return false;
+        }
+        return true;
+    }
+
 
 }

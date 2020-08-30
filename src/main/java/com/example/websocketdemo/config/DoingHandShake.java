@@ -17,6 +17,6 @@ public class DoingHandShake implements HandshakeHandler {
 //        System.out.println(response);
 //        System.out.println(wsHandler);
         System.out.println(20);
-        return true;
+        return false;
     }
 }

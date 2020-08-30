@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect, useRef,usec } from "react";
+import React, { useState, Fragment, useEffect} from "react";
 import Stomp from "stompjs";
 import { withRouter } from "react-router-dom";
 import {connect} from 'react-redux'
@@ -21,14 +21,16 @@ var grabbingToken=()=>{
     console.log(21)
     console.log(token)
     stompClient = Stomp.client("ws://localhost:8080/ws");
-    stompClient.connect({Authorization:'bearer '+token}, onConnected);
+    stompClient.connect({Authorization:'bearer '+token}, onConnected,onError);
 
     //I controle these from the backend
     stompClient.heartbeat.outgoing=0
     stompClient.heartbeat.incoming=0
   };
 
-  
+  var onError=(e)=>{
+    console.error(e)
+  }
 
   var diconnecting = () => {
     stompClient.disconnect(() => {
@@ -64,6 +66,7 @@ var grabbingToken=()=>{
     console.log(message)
     if(message.contentType==="error"){
       diconnecting()
+      console.log(message.contentType)
     }
     setBroadCastMessage((prev) => [...prev, message.textContent]);
   };

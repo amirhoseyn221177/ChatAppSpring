@@ -31,6 +31,7 @@ public class InboundMessageChannelInterceptor implements ChannelInterceptor {
     public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
         StompHeaderAccessor stompHeaderAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
         try {
+            System.out.println(34);
             assert stompHeaderAccessor != null;
             if (StompCommand.CONNECT.equals(stompHeaderAccessor.getCommand())) {
                 List<String> authorization = stompHeaderAccessor.getNativeHeader("Authorization");
@@ -43,15 +44,12 @@ public class InboundMessageChannelInterceptor implements ChannelInterceptor {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                             chatUser, null, Collections.emptyList()
                     );
-                    System.out.println("we are in pre send ");
                     stompHeaderAccessor.setUser(authenticationToken);
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getLocalizedMessage());
         }
-
-
         return message;
     }
 
