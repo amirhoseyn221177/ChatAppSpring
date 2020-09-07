@@ -6,6 +6,7 @@ import com.example.websocketdemo.Repository.ChatRepo;
 import com.example.websocketdemo.Repository.GroupChatRepo;
 import com.example.websocketdemo.Repository.UserRepo;
 import com.example.websocketdemo.Security.TokenValidator;
+import com.example.websocketdemo.config.AWSConfig;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatUser;
 import com.example.websocketdemo.model.GroupChat;
@@ -20,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -35,9 +37,10 @@ public class ChatServices {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManager authenticationManager;
     private final TokenValidator tokenValidator;
+    private final AWSConfig awsConfig;
 
     public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
-                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator) {
+                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator, AWSConfig awsConfig) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
@@ -48,6 +51,7 @@ public class ChatServices {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authenticationManager = authenticationManager;
         this.tokenValidator = tokenValidator;
+        this.awsConfig = awsConfig;
     }
 
 
@@ -347,5 +351,9 @@ public class ChatServices {
         return true;
     }
 
+
+    public URL gettingPreSigned(){
+      return awsConfig.preSignedURl();
+    }
 
 }

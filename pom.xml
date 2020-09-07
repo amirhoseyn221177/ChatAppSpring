@@ -69,13 +69,6 @@
 			<version>3.10</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.security</groupId>-->
-<!--			<artifactId>spring-security-core</artifactId>-->
-<!--		</dependency>-->
-
-
 
 
 		<!-- Following dependency is required for Full Featured STOMP Broker Relay -->
@@ -84,14 +77,6 @@
 		    <artifactId>spring-boot-starter-reactor-netty</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
-<!--		<dependency>-->
-<!--			<groupId>com.auth0</groupId>-->
-<!--			<artifactId>java-jwt</artifactId>-->
-<!--			<version>3.10.3</version>-->
-<!--		</dependency>-->
-
-		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
@@ -147,6 +132,19 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-bom</artifactId>
+			<version>1.11.856</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.11.856</version>
 		</dependency>
 	</dependencies>
 

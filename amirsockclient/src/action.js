@@ -9,6 +9,7 @@ export const SendingAuth = (username, password) => {
             const resp = await Axios.post('/user/login', content, { headers: { "hello": "salam" } })
             let bearerToken = resp.headers["authorization"]
             let token = bearerToken.substring(7)
+            console.log(token)
             dispatch(TokenAuth(token))
         } catch (e) {
             console.log(e.response)

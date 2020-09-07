@@ -2,6 +2,7 @@ import React, { useState, Fragment, useEffect} from "react";
 import Stomp from "stompjs";
 import { withRouter } from "react-router-dom";
 import {connect} from 'react-redux'
+import Axios from "axios";
 
 var stompClient = null;
 var PrivateMessage = (props) => {
@@ -10,6 +11,7 @@ var PrivateMessage = (props) => {
   const [broadCastMessage, setBroadCastMessage] = useState([]);
   const [value, setValue] = useState("");
   const [token,setToken]= useState("")
+  const [file,setFile]=useState("")
   useEffect(()=>{
     grabbingToken()
 //eslint-disable-next-line
@@ -71,15 +73,37 @@ var grabbingToken=()=>{
     setBroadCastMessage((prev) => [...prev, message.textContent]);
   };
 
-  var sendMessage = () => {
-    var chatMessage = {
-      textContent: value,
-      sender: user,
-      receiver: otherUser,
-    };
-    var url = `/user/sendPrivateMessage/${user}`;
-    stompClient.send(url, { wow: "sending" }, JSON.stringify(chatMessage));
+  var sendMessage = async(e) => {
+    let content=e.target.files
+    console.log(content[0])
+    const resp= await Axios.get('/restchat/presignedurl',{headers:{"Authorization":'bearer '+token}});
+    const data = await resp.data
+    console.log(data)
+    const salam = await Axios.put(data.link,content[0])
+    console.log(salam)
+    // var chatMessage = {
+    //   textContent: value,
+    //   sender: user,
+    //   receiver: otherUser,
+    // };
+    // var url = `/user/sendPrivateMessage/${user}`;
+    // stompClient.send(url, { wow: "sending" }, JSON.stringify(chatMessage));
   };
+
+  // var gettingFile=(e)=>{
+  //   let content=e.target.files
+  //   let reader= new FileReader()
+
+  //   reader.onload=()=>{
+  //     let data =reader.result
+  //     console.log(typeof(data))
+  //     let blobyFile=new FormData()
+  //     blobyFile.append("amir2211",data)
+  //     console.log(blobyFile)
+  //     setFile(blobyFile)
+  //   }
+  //   reader.readAsDataURL(content[0])
+  // }
 
   return (
     <Fragment>
@@ -108,6 +132,7 @@ var grabbingToken=()=>{
           <button type="button" onClick={connect}>
             connect
           </button>
+          <input type='file' name='image' accept="image/*" onChange={e=>sendMessage(e)}/>
           <button type="button" onClick={diconnecting}>disconnect</button>
         </form>
         <div>{broadCastMessage}</div>

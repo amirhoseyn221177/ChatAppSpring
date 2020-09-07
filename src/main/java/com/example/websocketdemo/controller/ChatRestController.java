@@ -10,6 +10,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/restchat")
 @CrossOrigin("*")
@@ -60,6 +64,14 @@ public class ChatRestController {
     @DeleteMapping("/deleteuser/{userId}")
     public void deletingUser(@PathVariable String userId) {
         chatServices.deleteUser(userId);
+    }
+
+    @GetMapping("/presignedurl")
+    public ResponseEntity<?> sendingPreSignedURL(){
+        URL url =chatServices.gettingPreSigned();
+        Map<String,Object> urls=new HashMap<>();
+        urls.put("link",url);
+        return new ResponseEntity<>(urls,HttpStatus.OK);
     }
 
 
