@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import java.net.URL;
 
@@ -17,7 +18,6 @@ public class AWSConfig {
     private final String accessKey="AKIA3HZEOI6AKVTKQF4O";
     private final String secretKey="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";
     private final  Regions regions=Regions.US_WEST_2;
-
 
     @Bean
     public URL preSignedURl(){
@@ -35,7 +35,7 @@ public class AWSConfig {
         String bucket = "advancednodejs";
         GeneratePresignedUrlRequest preSigned= new GeneratePresignedUrlRequest(bucket,"amir2211", HttpMethod.PUT)
                 .withExpiration(expiration);
-//                .withContentType("*/*");
+//                .withContentType("image/*");
         URL url = client.generatePresignedUrl(preSigned);
         System.out.println(url);
 

@@ -1,7 +1,7 @@
-import React, { useState, Fragment, useEffect} from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import Stomp from "stompjs";
 import { withRouter } from "react-router-dom";
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import Axios from "axios";
 
 var stompClient = null;
@@ -10,27 +10,30 @@ var PrivateMessage = (props) => {
   const [otherUser, setOtheruser] = useState("");
   const [broadCastMessage, setBroadCastMessage] = useState([]);
   const [value, setValue] = useState("");
-  const [token,setToken]= useState("")
-  const [file,setFile]=useState("")
-  useEffect(()=>{
+  const [token, setToken] = useState("")
+  const [file, setFile] = useState("")
+  const [isItFile, setIsItFile] = useState(false)
+  
+  useEffect(() => {
     grabbingToken()
-//eslint-disable-next-line
- },[props.auth])
-var grabbingToken=()=>{
-  setToken(props.auth)
-}
+    //eslint-disable-next-line
+  }, [])
+  var grabbingToken = () => {
+    let token = localStorage.getItem('token')
+    setToken(token)
+  }
   var connect = () => {
     console.log(21)
     console.log(token)
     stompClient = Stomp.client("ws://localhost:8080/ws");
-    stompClient.connect({Authorization:'bearer '+token}, onConnected,onError);
+    stompClient.connect({ Authorization: 'bearer ' + token }, onConnected, onError);
 
     //I controle these from the backend
-    stompClient.heartbeat.outgoing=0
-    stompClient.heartbeat.incoming=0
+    stompClient.heartbeat.outgoing = 0
+    stompClient.heartbeat.incoming = 0
   };
 
-  var onError=(e)=>{
+  var onError = (e) => {
     console.error(e)
   }
 
@@ -54,11 +57,11 @@ var grabbingToken=()=>{
     console.log(52)
     stompClient.subscribe(`/queue/user.${user}`, onMessageReceived, {
       "durable": false, "exclusive": false, "auto-delete": true, "x-dead-letter-exchange": "dead-letter-" + user,
-      "x-message-ttl":360000000,
+      "x-message-ttl": 360000000,
     });
     stompClient.send(
       `/app/addPrivateUser/${user}`,
-      { exchangeName:compareNamesAlphabetically(user,otherUser)},
+      { exchangeName: compareNamesAlphabetically(user, otherUser) },
       JSON.stringify({ sender: user, receiver: otherUser })
     );
   };
@@ -66,44 +69,43 @@ var grabbingToken=()=>{
   var onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
     console.log(message)
-    if(message.contentType==="error"){
+    if (message.contentType === "error") {
       diconnecting()
       console.log(message.contentType)
     }
+    if(message.contentType==="media") setBroadCastMessage(prev=>[...prev, message.mediaContent])
     setBroadCastMessage((prev) => [...prev, message.textContent]);
   };
 
-  var sendMessage = async(e) => {
-    let content=e.target.files
-    console.log(content[0])
-    const resp= await Axios.get('/restchat/presignedurl',{headers:{"Authorization":'bearer '+token}});
-    const data = await resp.data
-    console.log(data)
-    const salam = await Axios.put(data.link,content[0])
-    console.log(salam)
-    // var chatMessage = {
-    //   textContent: value,
-    //   sender: user,
-    //   receiver: otherUser,
-    // };
-    // var url = `/user/sendPrivateMessage/${user}`;
-    // stompClient.send(url, { wow: "sending" }, JSON.stringify(chatMessage));
+  var sendMessage = async () => {
+    let AWSUrl = null;
+    var chatMessage = {
+      textContent: value,
+      sender: user,
+      receiver: otherUser,
+      mediaContent: null,
+      contentType: null
+    };
+    if (isItFile) {
+      const resp = await Axios.get('/restchat/presignedurl', { headers: { "Authorization": 'bearer ' + token } });
+      const data = await resp.data
+      console.log(data)
+      const AWSResp = await Axios.put(data.link, file[0])
+      console.log(AWSResp)
+      AWSUrl = AWSResp.config.url
+      chatMessage.contentType= "media"
+      chatMessage.mediaContent= AWSUrl
+    } 
+
+    var url = `/user/sendPrivateMessage/${user}`;
+    stompClient.send(url, { wow: "sending" }, JSON.stringify(chatMessage));
   };
 
-  // var gettingFile=(e)=>{
-  //   let content=e.target.files
-  //   let reader= new FileReader()
-
-  //   reader.onload=()=>{
-  //     let data =reader.result
-  //     console.log(typeof(data))
-  //     let blobyFile=new FormData()
-  //     blobyFile.append("amir2211",data)
-  //     console.log(blobyFile)
-  //     setFile(blobyFile)
-  //   }
-  //   reader.readAsDataURL(content[0])
-  // }
+  var gettingFile = (e) => {
+    let content = e.target.files
+    setFile(content)
+    setIsItFile(true)
+  }
 
   return (
     <Fragment>
@@ -132,7 +134,7 @@ var grabbingToken=()=>{
           <button type="button" onClick={connect}>
             connect
           </button>
-          <input type='file' name='image' accept="image/*" onChange={e=>sendMessage(e)}/>
+          <input type='file' name='image' accept="image/*" onChange={e => gettingFile(e)} />
           <button type="button" onClick={diconnecting}>disconnect</button>
         </form>
         <div>{broadCastMessage}</div>
@@ -141,9 +143,9 @@ var grabbingToken=()=>{
   );
 };
 
-const maptoState=state=>{
-  return{
-    auth:state.auth.token
+const maptoState = state => {
+  return {
+    auth: state.auth.token
   }
 }
 

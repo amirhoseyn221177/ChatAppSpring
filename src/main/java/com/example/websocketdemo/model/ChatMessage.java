@@ -20,7 +20,7 @@ public class ChatMessage {
     @Id
     private String Id;
     private String textContent;
-    private byte [] mediaContent ;
+    private String  mediaContent ;
     @NotNull(message = "you should clarify the type of content")
     private String contentType;
     @NotNull(message = "you should declare a sender ")
@@ -46,11 +46,11 @@ public class ChatMessage {
         this.textContent = textContent;
     }
 
-    public byte[] getMediaContent() {
+    public String getMediaContent() {
         return mediaContent;
     }
 
-    public void setMediaContent(byte[] mediaContent) {
+    public void setMediaContent(String mediaContent) {
         this.mediaContent = mediaContent;
     }
 

@@ -14,6 +14,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.core.env.Environment;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,9 +39,10 @@ public class ChatServices {
     private final AuthenticationManager authenticationManager;
     private final TokenValidator tokenValidator;
     private final AWSConfig awsConfig;
+    private final Environment environment;
 
     public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
-                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator, AWSConfig awsConfig) {
+                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator, AWSConfig awsConfig, Environment environment) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
@@ -52,6 +54,7 @@ public class ChatServices {
         this.authenticationManager = authenticationManager;
         this.tokenValidator = tokenValidator;
         this.awsConfig = awsConfig;
+        this.environment = environment;
     }
 
 
@@ -75,6 +78,7 @@ public class ChatServices {
     }
 
     public ChatUser createUser(ChatUser user) {
+        System.out.println(environment.getProperty("bucket.name"));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
@@ -166,7 +170,7 @@ public class ChatServices {
                         texts.add(chatMessage.getTextContent());
                         groupChat.get().setTexts(texts);
                     } else {
-                        List<byte[]> medias = groupChat.get().getMedias();
+                        List<String> medias = groupChat.get().getMedias();
                         medias.add(chatMessage.getMediaContent());
                         groupChat.get().setMedias(medias);
                     }

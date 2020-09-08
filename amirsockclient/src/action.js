@@ -10,6 +10,7 @@ export const SendingAuth = (username, password) => {
             let bearerToken = resp.headers["authorization"]
             let token = bearerToken.substring(7)
             console.log(token)
+            localStorage.setItem("token",token)
             dispatch(TokenAuth(token))
         } catch (e) {
             console.log(e.response)

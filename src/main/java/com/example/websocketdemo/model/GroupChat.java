@@ -24,7 +24,7 @@ public class GroupChat {
     private List<String> members = new ArrayList<>();
     private List<String> admins = new ArrayList<>();
     private List<String> texts = new ArrayList<>();
-    private List<byte []> medias = new ArrayList<>();
+    private List<String> medias = new ArrayList<>();
     private List<String> activeUsers = new ArrayList<>();
 
     public String getId() {
@@ -75,13 +75,11 @@ public class GroupChat {
         this.texts = texts;
     }
 
-    public List<byte[]> getMedias() {
+    public List<String> getMedias() {
         return medias;
     }
 
-    public void setMedias(List<byte[]> medias) {
+    public void setMedias(List<String> medias) {
         this.medias = medias;
     }
-
-
 }
