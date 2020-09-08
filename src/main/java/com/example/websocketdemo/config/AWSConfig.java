@@ -15,8 +15,7 @@ import java.net.URL;
 
 @Configuration
 public class AWSConfig {
-    private final String accessKey="AKIA3HZEOI6AKVTKQF4O";
-    private final String secretKey="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";
+//
     private final  Regions regions=Regions.US_WEST_2;
 
     @Bean
