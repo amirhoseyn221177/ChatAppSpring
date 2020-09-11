@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController()
+@RestController
 @RequestMapping("/user")
 @CrossOrigin("*")
 
@@ -57,5 +57,11 @@ public class UserRestController {
         Map<String, Object> body = new HashMap<>();
         body.put("token", jwt);
         return new ResponseEntity<>(body, httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/upload")
+    public void uploading (){
+        System.out.println(64);
+        chatServices.downloadFromS3();
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,6 +74,5 @@ public class ChatRestController {
         urls.put("link",url);
         return new ResponseEntity<>(urls,HttpStatus.OK);
     }
-
 
 }

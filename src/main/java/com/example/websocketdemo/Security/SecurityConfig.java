@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/user/**").permitAll()
+                .antMatchers("/user/**").permitAll()
 //                .antMatchers(HttpMethod.GET,"/restchat/presignedurl").permitAll()
                 .antMatchers("/ws").permitAll()
                 .anyRequest().authenticated();

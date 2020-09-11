@@ -14,11 +14,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import java.net.URL;
+import java.util.concurrent.Executors;
 
 @Configuration
 public class AWSConfig {
-    private final String accessKey="AKIA3HZEOI6AEXVDOD35";
-    private final String secretKey ="AKIA3HZEOI6AEXVDOD35";
+
     private final  Regions regions=Regions.US_WEST_2;
 
     @Bean
@@ -32,13 +32,15 @@ public class AWSConfig {
 
 
     @Bean
-    public TransferManager creatingTransferManager(){
-        TransferManager tm= TransferManagerBuilder.standard()
-                .withMultipartUploadThreshold((long)100 *1024*1025)
+    public TransferManager creatingTransferManager() {
+
+        return TransferManagerBuilder.standard()
+                .withMultipartUploadThreshold((long) 100 * 1024 * 1025)
                 .withS3Client(creatClient())
+                .withExecutorFactory(() -> Executors.newFixedThreadPool(10))
                 .build();
 
-        
+
     }
 
 

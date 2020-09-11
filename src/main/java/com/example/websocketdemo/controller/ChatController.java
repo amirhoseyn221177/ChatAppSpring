@@ -66,14 +66,14 @@ public class ChatController {
 	}
 
 	@MessageMapping("/addUser")
-	public ChatMessage addUser(@Payload ChatMessage chatMessage,
+	public void addUser(@Payload ChatMessage chatMessage,
 							   SimpMessageHeaderAccessor headerAccessor, StompHeaderAccessor stompHeaderAccessor) {
 		// Add user in web socket session
 		System.out.println(55);
 		chatServices.createQueuesAndExchangeForGroupChat(chatMessage.getGroupChat(),chatMessage.getSender());
 		Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", chatMessage.getSender());
 		headerAccessor.getSessionAttributes().put("groupName", chatMessage.getGroupChat());
-		return chatMessage;
+
 	}
 
 
@@ -82,18 +82,7 @@ public class ChatController {
 	@MessageMapping("/sendPrivateMessage/{username}")
 	public void sendPrivateMessage(@Payload ChatMessage chatMessage,
 								   SimpMessageHeaderAccessor simpMessageHeaderAccessor)  {
-		try{
-			System.out.println(chatMessage.getSender());
-			List<?> name = (List<?>) Objects.requireNonNull(simpMessageHeaderAccessor.getSessionAttributes()).get("exchangeName");
-			if(chatServices.CheckAvailability((String)name.get(0))){
-				System.out.println(76);
-				chatServices.sendErrorMessageToUser(chatMessage.getSender());
-				throw new FanOutNotFoundException("Error has occurred");
-			}
-			rabbitTemplate.convertAndSend((String) name.get(0), "", chatMessage);
-		}catch (Exception e){
-			System.out.println(e.getMessage());
-		}
+		chatServices.sendPrivateMessage(chatMessage,simpMessageHeaderAccessor);
 
 	}
 

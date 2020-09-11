@@ -1,34 +1,44 @@
 package com.example.websocketdemo.Services;
 
 import com.amazonaws.HttpMethod;
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.event.ProgressListener;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.Upload;
+import com.amazonaws.util.IOUtils;
+import com.example.websocketdemo.Exceptions.FanOutNotFoundException;
 import com.example.websocketdemo.Exceptions.GroupNotFoundException;
 import com.example.websocketdemo.Exceptions.userNotFoundException;
 import com.example.websocketdemo.Repository.ChatRepo;
 import com.example.websocketdemo.Repository.GroupChatRepo;
+import com.example.websocketdemo.Repository.PrivateChatRepo;
 import com.example.websocketdemo.Repository.UserRepo;
 import com.example.websocketdemo.Security.TokenValidator;
 import com.example.websocketdemo.config.AWSConfig;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatUser;
 import com.example.websocketdemo.model.GroupChat;
+import com.example.websocketdemo.model.PrivateChat;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -48,9 +58,10 @@ public class ChatServices {
     private final AWSConfig awsConfig;
     private final Environment environment;
     private final Regions regions=Regions.US_WEST_2;
+    private final PrivateChatRepo privateChatRepo;
 
     public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
-                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator, AWSConfig awsConfig, Environment environment) {
+                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator, AWSConfig awsConfig, Environment environment, PrivateChatRepo privateChatRepo) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
@@ -63,6 +74,7 @@ public class ChatServices {
         this.tokenValidator = tokenValidator;
         this.awsConfig = awsConfig;
         this.environment = environment;
+        this.privateChatRepo = privateChatRepo;
     }
 
 
@@ -188,6 +200,42 @@ public class ChatServices {
             }
 
         });
+    }
+
+    public void savePrivateMessage(ChatMessage chatMessage,PrivateChat  privateChat){
+            if(chatMessage.getContentType().equals("media")){
+                List<String> medias=privateChat.getMedias();
+                medias.add(chatMessage.getMediaContent());
+                privateChat.setMedias(medias);
+            }else {
+                List<String> texts= privateChat.getTexts();
+                texts.add(chatMessage.getTextContent());
+                privateChat.setTexts(texts);
+            }
+            privateChatRepo.save(privateChat);
+        }
+
+
+
+    public void sendPrivateMessage(ChatMessage chatMessage, SimpMessageHeaderAccessor simpMessageHeaderAccessor){
+//        Optional<PrivateChat> OPprivateChat=privateChatRepo.findById(chatId);
+        List<String> users=new ArrayList<>();
+        users.add(chatMessage.getReceiver());
+        users.add(chatMessage.getSender());
+        Optional<PrivateChat> OPprivateChat=privateChatRepo.findByUsers(users);
+        OPprivateChat.ifPresent(privateChat -> savePrivateMessage(chatMessage, privateChat));
+        try{
+            System.out.println(chatMessage.getSender());
+            List<?> name = (List<?>) Objects.requireNonNull(simpMessageHeaderAccessor.getSessionAttributes()).get("exchangeName");
+            if(CheckAvailability((String)name.get(0))){
+                System.out.println(76);
+                sendErrorMessageToUser(chatMessage.getSender());
+                throw new FanOutNotFoundException("Error has occurred");
+            }
+            rabbitTemplate.convertAndSend((String) name.get(0), "", chatMessage);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public List<ChatUser> getAll() {
@@ -380,6 +428,50 @@ public class ChatServices {
         return url;
     }
 
-    public void uploadingToS3(Multipart)
+    // not as useful since i want to do it in front end
+    public void uploadingToS3(String path){
+        String bucket = "advancednodejs";
+        String key="amir.png";
+        File file= new File("/home/amir/Downloads/trans.png");
+        TransferManager tm  = awsConfig.creatingTransferManager();
+
+        //Progress listener is for seeing how much byte we are sending
+        ProgressListener progressListener = progressEvent -> System.out.println(
+                "Transferred bytes: " + progressEvent.getBytesTransferred());
+        PutObjectRequest request = new PutObjectRequest(
+                bucket, key, file);
+        request.setGeneralProgressListener(progressListener);
+        Upload upload = tm.upload(request);
+        try {
+            upload.waitForCompletion();
+        } catch (InterruptedException e) {
+            System.out.println(e.getLocalizedMessage());;
+        }
+
+    }
+
+
+    //downloading from a bucket
+    @Async
+    public void downloadFromS3(){
+        System.out.println(416);
+        String bucket = "advancednodejs";
+        String key="amir.png";
+        TransferManager transferManager=awsConfig.creatingTransferManager();
+        ProgressListener progressListener=progressEvent -> {
+            System.out.println(progressEvent.getBytesTransferred());
+        };
+
+        S3Object s3Object= awsConfig.creatClient().getObject(bucket,key);
+        S3ObjectInputStream stream=s3Object.getObjectContent();
+        try {
+            byte [] content= IOUtils.toByteArray(stream);
+            ByteArrayResource arrayResource= new ByteArrayResource(content);
+            System.out.println(arrayResource.contentLength()); // content type :application/Octet-stream
+        } catch (IOException e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+
 
 }

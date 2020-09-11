@@ -3,6 +3,8 @@ import Stomp from "stompjs";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux'
 import Axios from "axios";
+import AWS from 'aws-sdk'
+
 
 var stompClient = null;
 var PrivateMessage = (props) => {
@@ -87,12 +89,7 @@ var PrivateMessage = (props) => {
       contentType: null
     };
     if (isItFile) {
-      const resp = await Axios.get('/restchat/presignedurl', { headers: { "Authorization": 'bearer ' + token } });
-      const data = await resp.data
-      console.log(data)
-      const AWSResp = await Axios.put(data.link, file[0])
-      console.log(AWSResp)
-      AWSUrl = AWSResp.config.url
+     AWSUrl= uploadingToS3()
       chatMessage.contentType= "media"
       chatMessage.mediaContent= AWSUrl
     } 
@@ -101,10 +98,27 @@ var PrivateMessage = (props) => {
     stompClient.send(url, { wow: "sending" }, JSON.stringify(chatMessage));
   };
 
+  var uploadingToS3=async()=>{
+    const resp = await Axios.get('/restchat/presignedurl', { headers: { "Authorization": 'bearer ' + token } });
+    const data = await resp.data
+    console.log(data)
+    const AWSResp = await Axios.put(data.link, file[0])
+    console.log(AWSResp)
+    return AWSResp.config.url
+
+  }
+
   var gettingFile = (e) => {
     let content = e.target.files
-    setFile(content)
-    setIsItFile(true)
+    let fileSize=content[0].size
+    console.log(fileSize)
+    if(fileSize>5*Math.pow(10,9)){
+      console.log("its too big my guys")
+    }else{
+      setFile(content)
+      setIsItFile(true)
+    }
+
   }
 
   return (
