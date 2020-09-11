@@ -43,7 +43,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="" />
+    <list default="true" id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/ChatServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/ChatServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/AWSConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/AWSConfig.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -184,6 +188,7 @@
       <workItem from="1598772924601" duration="4624000" />
       <workItem from="1598778903120" duration="2000" />
       <workItem from="1599572902997" duration="5058000" />
+      <workItem from="1599757659571" duration="1810000" />
     </task>
     <task id="LOCAL-00001" summary="salam">
       <created>1596629729396</created>

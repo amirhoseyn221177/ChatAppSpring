@@ -1,5 +1,12 @@
 package com.example.websocketdemo.Services;
 
+import com.amazonaws.HttpMethod;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.example.websocketdemo.Exceptions.GroupNotFoundException;
 import com.example.websocketdemo.Exceptions.userNotFoundException;
 import com.example.websocketdemo.Repository.ChatRepo;
@@ -40,6 +47,7 @@ public class ChatServices {
     private final TokenValidator tokenValidator;
     private final AWSConfig awsConfig;
     private final Environment environment;
+    private final Regions regions=Regions.US_WEST_2;
 
     public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
                         AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator, AWSConfig awsConfig, Environment environment) {
@@ -357,7 +365,21 @@ public class ChatServices {
 
 
     public URL gettingPreSigned(){
-      return awsConfig.preSignedURl();
+        AmazonS3 client=awsConfig.creatClient();
+        java.util.Date expiration = new java.util.Date();
+        long expTimeMillis = expiration.getTime();
+        expTimeMillis += 1000 * 60 * 60;
+        expiration.setTime(expTimeMillis);
+
+        String bucket = "advancednodejs";
+        GeneratePresignedUrlRequest preSigned= new GeneratePresignedUrlRequest(bucket,"amir2211", HttpMethod.PUT)
+                .withExpiration(expiration);
+//                .withContentType("image/*");
+        URL url = client.generatePresignedUrl(preSigned);
+        System.out.println(url);
+        return url;
     }
+
+    public void uploadingToS3(Multipart)
 
 }
