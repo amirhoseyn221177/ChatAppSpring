@@ -15,7 +15,7 @@ const CreateUser = (props) => {
     };
     try{
       const resp = await Axios.post("/user/register", content);
-      console.log(resp.data);
+      console.log(resp);
     }catch(e){
       console.error(e.message)
     }

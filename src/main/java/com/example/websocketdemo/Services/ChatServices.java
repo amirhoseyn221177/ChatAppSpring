@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.util.IOUtils;
 import com.example.websocketdemo.Exceptions.FanOutNotFoundException;
 import com.example.websocketdemo.Exceptions.GroupNotFoundException;
+import com.example.websocketdemo.Exceptions.UsernameAlreadyExistException;
 import com.example.websocketdemo.Exceptions.userNotFoundException;
 import com.example.websocketdemo.Repository.ChatRepo;
 import com.example.websocketdemo.Repository.GroupChatRepo;
@@ -27,9 +28,9 @@ import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,6 +39,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -51,7 +54,6 @@ public class ChatServices {
     private final AmqpAdmin amqpAdmin;
     private final RabbitManagementTemplate rabbitManagementTemplate;
     private final RabbitTemplate rabbitTemplate;
-    private final SimpMessagingTemplate simpMessagingTemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManager authenticationManager;
     private final TokenValidator tokenValidator;
@@ -61,14 +63,13 @@ public class ChatServices {
     private final PrivateChatRepo privateChatRepo;
 
     public ChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
-                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, SimpMessagingTemplate simpMessagingTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator, AWSConfig awsConfig, Environment environment, PrivateChatRepo privateChatRepo) {
+                        AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TokenValidator tokenValidator, AWSConfig awsConfig, Environment environment, PrivateChatRepo privateChatRepo) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
         this.amqpAdmin = amqpAdmin;
         this.rabbitManagementTemplate = rabbitManagementTemplate;
         this.rabbitTemplate = rabbitTemplate;
-        this.simpMessagingTemplate = simpMessagingTemplate;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authenticationManager = authenticationManager;
         this.tokenValidator = tokenValidator;
@@ -98,6 +99,8 @@ public class ChatServices {
     }
 
     public ChatUser createUser(ChatUser user) {
+        Optional<ChatUser> repetitive=userRepo.findByUsername(user.getUsername());
+        if(repetitive.isPresent())throw new UsernameAlreadyExistException("Sorry but this username is taken");
         System.out.println(environment.getProperty("bucket.name"));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
@@ -458,9 +461,7 @@ public class ChatServices {
         String bucket = "advancednodejs";
         String key="amir.png";
         TransferManager transferManager=awsConfig.creatingTransferManager();
-        ProgressListener progressListener=progressEvent -> {
-            System.out.println(progressEvent.getBytesTransferred());
-        };
+        ProgressListener progressListener=progressEvent -> System.out.println(progressEvent.getBytesTransferred());
 
         S3Object s3Object= awsConfig.creatClient().getObject(bucket,key);
         S3ObjectInputStream stream=s3Object.getObjectContent();
@@ -473,5 +474,19 @@ public class ChatServices {
         }
     }
 
+
+    public ByteArrayResource gettingFile(){
+        File file = new File("/home/amir/Downloads/stream.mp4");
+        try {
+            InputStreamResource inputStreamResource= new InputStreamResource(new FileInputStream(file));
+            byte []content =IOUtils.toByteArray(inputStreamResource.getInputStream());
+            ByteArrayResource arrayResource= new ByteArrayResource(content);
+            System.out.println(arrayResource);
+            return arrayResource;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

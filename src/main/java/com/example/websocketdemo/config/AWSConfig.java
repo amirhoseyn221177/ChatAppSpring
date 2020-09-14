@@ -18,7 +18,8 @@ import java.util.concurrent.Executors;
 
 @Configuration
 public class AWSConfig {
-
+    private final String accessKey="AKIA3HZEOI6ADHEQ5TFA";
+    private final String secretKey="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";
     private final  Regions regions=Regions.US_WEST_2;
 
     @Bean

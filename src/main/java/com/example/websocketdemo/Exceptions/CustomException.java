@@ -33,4 +33,10 @@ public class CustomException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(fanOutNotFoundResponse,HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUSerExist(UsernameAlreadyExistException ex, WebRequest webRequest){
+        UsernameAlreadyExistResponse usernameAlreadyExistResponse=new UsernameAlreadyExistResponse(ex.getMessage());
+        return new ResponseEntity<>(usernameAlreadyExistResponse,HttpStatus.BAD_REQUEST);
+    }
+
 }
