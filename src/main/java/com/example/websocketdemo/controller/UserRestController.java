@@ -78,18 +78,9 @@ public class UserRestController {
 
     @GetMapping("/download")
     public ResponseEntity<?> downloadingFile(){
-        ByteArrayResource inputStreamResource= chatServices.gettingFile();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add("content-Type","application/octet-stream");
-//        httpHeaders.add("content");
-
         try {
-            return ResponseEntity.ok()
-                    .contentLength(inputStreamResource.contentLength())
-                    .contentType(MediaType.parseMediaType("application/octet-stream"))
-                    .body(inputStreamResource);
-        } catch (Exception e) {
+            return chatServices.prepareContent(null);
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

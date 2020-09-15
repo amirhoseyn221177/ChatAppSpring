@@ -8,6 +8,9 @@ import com.example.websocketdemo.config.AWSConfig;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 @Component
 public class starter implements CommandLineRunner {
     private final ChatRepo chatRepo;
@@ -29,7 +32,7 @@ public class starter implements CommandLineRunner {
         System.out.println(chatRepo.findAll());
         System.out.println(userRepo.findAll());
         System.out.println(groupChatRepo.findAll());
-        System.out.println(chatServices.gettingFile());
+//        System.out.println(  Files.size(Path.of("/home/amir/Downloads/stream.mp4")));
 //        awsConfig.preSignedURl();
 //        chatRepo.deleteAll();
 //        userRepo.deleteAll();

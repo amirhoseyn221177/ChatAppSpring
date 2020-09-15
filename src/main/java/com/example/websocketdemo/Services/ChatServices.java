@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
+import com.amazonaws.services.xray.model.Http;
 import com.amazonaws.util.IOUtils;
 import com.example.websocketdemo.Exceptions.FanOutNotFoundException;
 import com.example.websocketdemo.Exceptions.GroupNotFoundException;
@@ -29,6 +30,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -38,11 +41,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -474,19 +477,66 @@ public class ChatServices {
         }
     }
 
+    public ResponseEntity<byte []> prepareContent(String range) throws IOException {
+        long rangeStart=0;
+        long rangeEnd;
+        byte[] data;
+        long fileSize=0;
+        File file= new File("/home/amir/Downloads/stream.mp4");
 
-    public ByteArrayResource gettingFile(){
-        File file = new File("/home/amir/Downloads/stream.mp4");
-        try {
-            InputStreamResource inputStreamResource= new InputStreamResource(new FileInputStream(file));
-            byte []content =IOUtils.toByteArray(inputStreamResource.getInputStream());
-            ByteArrayResource arrayResource= new ByteArrayResource(content);
-            System.out.println(arrayResource);
-            return arrayResource;
-        } catch (Exception e) {
-            e.printStackTrace();
+            fileSize= Files.size(Path.of("/home/amir/Downloads/stream.mp4"));
+
+        if(range==null){
+            return ResponseEntity.ok()
+                    .header("Content-Type","video/mp4")
+                    .header("Content-Length",String.valueOf(fileSize))
+                    .body(readByteRange(rangeStart,fileSize-1));
         }
-        return null;
+        String[] ranges= range.split("_");
+        rangeStart=Long.parseLong(ranges[0].substring(0));
+        if(ranges.length>1){
+            rangeEnd=Long.parseLong(ranges[1]);
+        }else {
+            rangeEnd=fileSize-1;
+        }if(rangeEnd>fileSize){
+            rangeEnd=fileSize-1;
+        }
+        data= readByteRange(rangeStart,rangeEnd);
+        String contentLength=String.valueOf((rangeEnd-rangeStart)+1);
+        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
+                .header("Content-Type","video/mp4")
+                .header("Accept-Ranges","bytes")
+                .header("Content-Length",contentLength)
+                .header("Content-Range","bytes"+" "+rangeStart+"-"+rangeEnd+"/"+fileSize)
+                .body(data);
+
     }
 
-}
+
+    public byte[] readByteRange( long start ,long end){
+        File file = new File("/home/amir/Downloads/stream.mp4");
+        try (InputStream inputStream = new FileInputStream(file);
+             ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
+            byte[] data = new byte[1024];
+            int nRead;
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                bufferedOutputStream.write(data, 0, nRead);
+            }
+            bufferedOutputStream.flush();
+            byte[] result = new byte[(int) (end - start) + 1];
+            System.arraycopy(bufferedOutputStream.toByteArray(), (int) start, result, 0, result.length);
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new byte[0];
+    }
+
+    }
+
+
+
+
+
+
+
