@@ -77,13 +77,8 @@ public class UserRestController {
     }
 
     @GetMapping("/download")
-    public ResponseEntity<?> downloadingFile(){
-        try {
-            return chatServices.prepareContent(null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public void downloadingFile(){
+        chatServices.downloadFromS3();
     }
 
 }

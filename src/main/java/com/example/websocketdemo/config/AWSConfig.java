@@ -18,8 +18,8 @@ import java.util.concurrent.Executors;
 
 @Configuration
 public class AWSConfig {
-    private final String accessKey="AKIA3HZEOI6ADHEQ5TFA";
-    private final String secretKey="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";
+    private final String accessKey="AKIA3HZEOI6AOILQL6YD";
+    private final String secretKey="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";
     private final  Regions regions=Regions.US_WEST_2;
 
     @Bean
@@ -36,7 +36,7 @@ public class AWSConfig {
     public TransferManager creatingTransferManager() {
 
         return TransferManagerBuilder.standard()
-                .withMultipartUploadThreshold((long) 100 * 1024 * 1025)
+                .withMultipartUploadThreshold((long) 5 * 1024 * 1025)
                 .withS3Client(creatClient())
                 .withExecutorFactory(() -> Executors.newFixedThreadPool(10))
                 .build();

@@ -5,6 +5,7 @@ import com.amazonaws.event.ProgressListener;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.transfer.Download;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.services.xray.model.Http;
@@ -435,10 +436,11 @@ public class ChatServices {
     }
 
     // not as useful since i want to do it in front end
-    public void uploadingToS3(String path){
+    @Async
+    public void uploadingToS3(){
         String bucket = "advancednodejs";
-        String key="amir.png";
-        File file= new File("/home/amir/Downloads/trans.png");
+        String key="amir.iso";
+        File file= new File("/Users/amirsayyar/Downloads/ubuntu.iso");
         TransferManager tm  = awsConfig.creatingTransferManager();
 
         //Progress listener is for seeing how much byte we are sending
@@ -459,80 +461,92 @@ public class ChatServices {
 
     //downloading from a bucket
     @Async
-    public void downloadFromS3(){
+    public void downloadFromS3() {
         System.out.println(416);
         String bucket = "advancednodejs";
-        String key="amir.png";
-        TransferManager transferManager=awsConfig.creatingTransferManager();
-        ProgressListener progressListener=progressEvent -> System.out.println(progressEvent.getBytesTransferred());
+        TransferManager transferManager = awsConfig.creatingTransferManager();
+        ProgressListener progressListener = progressEvent -> System.out.println(progressEvent.getBytesTransferred());
+        GetObjectRequest getObjectRequest = new GetObjectRequest(bucket,"amir.iso");
+        getObjectRequest.setGeneralProgressListener(progressListener);
+        Download download = transferManager.download(getObjectRequest, new File("/Users/amirsayyar/Desktop/amir.iso"));
 
-        S3Object s3Object= awsConfig.creatClient().getObject(bucket,key);
-        S3ObjectInputStream stream=s3Object.getObjectContent();
         try {
-            byte [] content= IOUtils.toByteArray(stream);
-            ByteArrayResource arrayResource= new ByteArrayResource(content);
-            System.out.println(arrayResource.contentLength()); // content type :application/Octet-stream
-        } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
-        }
-    }
-
-    public ResponseEntity<byte []> prepareContent(String range) throws IOException {
-        long rangeStart=0;
-        long rangeEnd;
-        byte[] data;
-        long fileSize=0;
-        File file= new File("/home/amir/Downloads/stream.mp4");
-
-            fileSize= Files.size(Path.of("/home/amir/Downloads/stream.mp4"));
-
-        if(range==null){
-            return ResponseEntity.ok()
-                    .header("Content-Type","video/mp4")
-                    .header("Content-Length",String.valueOf(fileSize))
-                    .body(readByteRange(rangeStart,fileSize-1));
-        }
-        String[] ranges= range.split("_");
-        rangeStart=Long.parseLong(ranges[0].substring(0));
-        if(ranges.length>1){
-            rangeEnd=Long.parseLong(ranges[1]);
-        }else {
-            rangeEnd=fileSize-1;
-        }if(rangeEnd>fileSize){
-            rangeEnd=fileSize-1;
-        }
-        data= readByteRange(rangeStart,rangeEnd);
-        String contentLength=String.valueOf((rangeEnd-rangeStart)+1);
-        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
-                .header("Content-Type","video/mp4")
-                .header("Accept-Ranges","bytes")
-                .header("Content-Length",contentLength)
-                .header("Content-Range","bytes"+" "+rangeStart+"-"+rangeEnd+"/"+fileSize)
-                .body(data);
-
-    }
-
-
-    public byte[] readByteRange( long start ,long end){
-        File file = new File("/home/amir/Downloads/stream.mp4");
-        try (InputStream inputStream = new FileInputStream(file);
-             ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
-            byte[] data = new byte[1024];
-            int nRead;
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                bufferedOutputStream.write(data, 0, nRead);
-            }
-            bufferedOutputStream.flush();
-            byte[] result = new byte[(int) (end - start) + 1];
-            System.arraycopy(bufferedOutputStream.toByteArray(), (int) start, result, 0, result.length);
-            return result;
-        } catch (IOException e) {
+            download.wait();
+            if(download.isDone()) System.out.println("its done brother");
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return new byte[0];
+//        S3Object s3Object = awsConfig.creatClient().getObject(bucket, key);
+//        S3ObjectInputStream stream = s3Object.getObjectContent();
+//        try {
+////            byte[] content = IOUtils.toByteArray(stream);
+////            ByteArrayResource arrayResource = new ByteArrayResource(content);
+////            System.out.println(arrayResource.contentLength()); // Content-Type:application/Octet-stream
+////            FileOutputStream outputStream = new FileOutputStream("/Users/amirsayyar/Desktop/salam.iso");
+////            outputStream.write(stream.getDelegateStream().readAllBytes());
+//        } catch (IOException e) {
+//            System.out.println(e.getLocalizedMessage());
+//
+//        }
     }
+}
 
-    }
+//    public ResponseEntity<byte []> prepareContent(String range) throws IOException {
+//        long rangeStart=0;
+//        long rangeEnd;
+//        byte[] data;
+//        long fileSize=0;
+//        File file= new File("/Users/amirsayyar/Downloads/ubuntu.iso");
+//
+//            fileSize= Files.size(Path.of("/Users/amirsayyar/Downloads/ubuntu.iso"));
+//
+//        if(range==null){
+//            return ResponseEntity.ok()
+//                    .header("Content-Type","video/mp4")
+//                    .header("Content-Length",String.valueOf(fileSize))
+//                    .body(readByteRange(rangeStart,500000));
+//        }
+//        String[] ranges= range.split("_");
+//        rangeStart=Long.parseLong(ranges[0].substring(0));
+//        if(ranges.length>1){
+//            rangeEnd=Long.parseLong(ranges[1]);
+//        }else {
+//            rangeEnd=fileSize-1;
+//        }if(rangeEnd>fileSize){
+//            rangeEnd=fileSize-1;
+//        }
+//        data= readByteRange(rangeStart,rangeEnd);
+//        String contentLength=String.valueOf((rangeEnd-rangeStart)+1);
+//        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
+//                .header("Content-Type","application/octet-stream")
+//                .header("Accept-Ranges","bytes")
+//                .header("Content-Length",contentLength)
+//                .header("Content-Range","bytes"+" "+rangeStart+"-"+rangeEnd+"/"+fileSize)
+//                .body(data);
+//
+//    }
+//
+//
+//    public byte[] readByteRange( long start ,long end){
+//        File file = new File("/Users/amirsayyar/Downloads/ubuntu.iso");
+//        try (InputStream inputStream = new FileInputStream(file);
+//             ByteArrayOutputStream bufferedOutputStream = new ByteArrayOutputStream()) {
+//            byte[] data = new byte[1024];
+//            int nRead;
+//            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+//                bufferedOutputStream.write(data, 0, nRead);
+//            }
+//            bufferedOutputStream.flush();
+//            byte[] result = new byte[(int) (end - start) + 1];
+//            System.arraycopy(bufferedOutputStream.toByteArray(), (int) start, result, 0, result.length);
+//            return result;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return new byte[0];
+//    }
+
+
 
 
 
