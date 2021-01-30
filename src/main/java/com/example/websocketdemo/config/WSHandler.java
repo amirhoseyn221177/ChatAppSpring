@@ -1,6 +1,7 @@
 package com.example.websocketdemo.config;
 
 import com.example.websocketdemo.Services.ChatServices;
+import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.RabbitTools;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -37,10 +38,12 @@ public class WSHandler extends AbstractWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         System.out.println(session.getAttributes().get("authorization"));
 
-        if(session.getAttributes().get("authorization")!=null) {
+        if(session.getAttributes().get("authorization")!=null ) {
             if(!chatServices.checkAuthorization(session))
         {
+
             System.out.println(40);
+            System.out.println(session);
             session.sendMessage(new TextMessage("sorry you are not authorized"));
             session.getAttributes().remove("authorization");
             System.out.println(session.getAttributes());

@@ -183,25 +183,29 @@ public class ChatServices {
 
 
     public void sendingAllQueuedMessagesToUser(WebSocketSession session) throws InterruptedException {
+        System.out.println(186);
         Gson gson = new Gson();
         String username = Objects.requireNonNull(session.getUri()).toString().substring(4);
         if (rabbitManagementTemplate.getQueue("user." + username) != null) {
             List<String> allMessages = new ArrayList<>();
             int numberOfMessages = (int) amqpAdmin.getQueueProperties("user." + username).get("QUEUE_MESSAGE_COUNT");
-            for (int i = 0; i < numberOfMessages; i++) {
-                byte[] binary = rabbitTemplate.receive("user." + username).getBody();
-                String Smesssage = new String(binary, StandardCharsets.UTF_8);
-                allMessages.add(Smesssage);
+            if(numberOfMessages>0){
+                for (int i = 0; i < numberOfMessages; i++) {
+                    byte[] binary = rabbitTemplate.receive("user." + username).getBody();
+                    String Smesssage = new String(binary, StandardCharsets.UTF_8);
+                    allMessages.add(Smesssage);
 
+                }
+                try {
+                    session.sendMessage(new TextMessage(gson.toJson(allMessages)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                System.out.println("no message for this user"+username);
             }
-            try {
-                session.sendMessage(new TextMessage(gson.toJson(allMessages)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else{
-            System.out.println("no message for this user"+username);
         }
+
     }
 
     public void addMessageToQueue(String message) {
@@ -218,6 +222,7 @@ public class ChatServices {
                     senderSession=allSessions.get(chatMessage.getSender());
                 }
                 try {
+                    System.out.println("this is the sesssion for sender:"+senderSession);
                     sendingAllQueuedMessagesToUser(session);
                     if (senderSession != null) {
                         sendingAllQueuedMessagesToUser(senderSession);

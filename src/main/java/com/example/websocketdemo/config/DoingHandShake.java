@@ -16,7 +16,8 @@ public class DoingHandShake extends DefaultHandshakeHandler {
     // good for authentication
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-        return null;
+        System.out.println(request.getHeaders());
+        return null ;
     }
 
 

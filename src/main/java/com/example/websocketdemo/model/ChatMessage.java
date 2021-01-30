@@ -28,6 +28,7 @@ public class ChatMessage {
     private String groupChat;
     private String receiver;
 	private Long dateTime=new Date().getTime();
+	private String token;
 
 //    public String getId() {
 //        return Id;

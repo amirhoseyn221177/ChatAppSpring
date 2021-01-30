@@ -16,6 +16,7 @@ public class handShakerInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse,
                                    WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
+        System.out.println("in before hanshake");
         if(serverHttpRequest instanceof ServletServerHttpRequest){
             ServletServerHttpRequest servletServerHttpRequest=(ServletServerHttpRequest) serverHttpRequest;
             HttpSession session =servletServerHttpRequest.getServletRequest().getSession(true);
