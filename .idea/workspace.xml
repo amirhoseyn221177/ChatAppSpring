@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/5.3.3.RELEASE/spring-security-core-5.3.3.RELEASE.jar!/org/springframework/security/authentication/AuthenticationManager.class" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectId" id="1ezfE6Mn6F6sjOppXrjjZUUqCs0" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="ToolWindowAnt.ShowToolbar" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MossSwing-master" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="ReaderModeSettings">
+    <option name="enabled" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration name="WebsocketDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-websocket" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.websocketdemo.WebsocketDemoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="" />
+      <created>1595329227029</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1595329227029</updated>
+      <workItem from="1595329230817" duration="1615000" />
+      <workItem from="1595331111302" duration="787000" />
+      <workItem from="1595371895677" duration="4230000" />
+      <workItem from="1595376489929" duration="432000" />
+      <workItem from="1595404910404" duration="16957000" />
+      <workItem from="1595732592899" duration="5000" />
+      <workItem from="1595732610907" duration="15205000" />
+      <workItem from="1595920300728" duration="8395000" />
+      <workItem from="1596008303624" duration="85000" />
+      <workItem from="1596008410722" duration="5332000" />
+      <workItem from="1596079757529" duration="7430000" />
+      <workItem from="1596102007711" duration="2713000" />
+      <workItem from="1596255030180" duration="7793000" />
+      <workItem from="1596262930923" duration="110000" />
+      <workItem from="1596263049530" duration="9293000" />
+      <workItem from="1596335264069" duration="18653000" />
+      <workItem from="1596367711457" duration="952000" />
+      <workItem from="1596498427643" duration="310000" />
+      <workItem from="1596514913657" duration="1392000" />
+      <workItem from="1596526769132" duration="2519000" />
+      <workItem from="1596529296587" duration="6046000" />
+      <workItem from="1596595600189" duration="2588000" />
+      <workItem from="1596629851541" duration="887000" />
+      <workItem from="1596631216807" duration="16000" />
+      <workItem from="1596849411082" duration="11120000" />
+      <workItem from="1596960054710" duration="2951000" />
+      <workItem from="1596965718199" duration="36000" />
+      <workItem from="1596973414810" duration="8429000" />
+      <workItem from="1597137086276" duration="9691000" />
+      <workItem from="1597280484082" duration="17277000" />
+      <workItem from="1597428402299" duration="3928000" />
+      <workItem from="1597710777224" duration="8721000" />
+      <workItem from="1597797885919" duration="4935000" />
+      <workItem from="1597803204387" duration="3617000" />
+      <workItem from="1597828433263" duration="9314000" />
+      <workItem from="1597985094437" duration="8000" />
+      <workItem from="1597985110845" duration="1131000" />
+      <workItem from="1597994859202" duration="224000" />
+      <workItem from="1597995092913" duration="5196000" />
+      <workItem from="1598084685452" duration="627000" />
+      <workItem from="1598163186635" duration="7712000" />
+      <workItem from="1598256635933" duration="2764000" />
+      <workItem from="1598259414439" duration="5592000" />
+      <workItem from="1598420556680" duration="604000" />
+      <workItem from="1598427798672" duration="31000" />
+      <workItem from="1598427869175" duration="1627000" />
+      <workItem from="1598429789854" duration="8228000" />
+      <workItem from="1598485421018" duration="1447000" />
+      <workItem from="1598487827939" duration="168000" />
+      <workItem from="1598688670068" duration="4280000" />
+      <workItem from="1598739583744" duration="4457000" />
+      <workItem from="1598772848305" duration="61000" />
+      <workItem from="1598772924601" duration="4624000" />
+      <workItem from="1598778903120" duration="2000" />
+      <workItem from="1599572902997" duration="5058000" />
+      <workItem from="1599757659571" duration="1810000" />
+      <workItem from="1599816032738" duration="2740000" />
+      <workItem from="1599824126662" duration="1392000" />
+      <workItem from="1599911970749" duration="315000" />
+      <workItem from="1599921244026" duration="1988000" />
+      <workItem from="1599988443018" duration="890000" />
+      <workItem from="1600032463059" duration="2602000" />
+      <workItem from="1600107548600" duration="1121000" />
+      <workItem from="1600110603292" duration="1720000" />
+      <workItem from="1600123207959" duration="602000" />
+      <workItem from="1600124246348" duration="7000" />
+      <workItem from="1600132433956" duration="1301000" />
+      <workItem from="1600180258429" duration="1304000" />
+      <workItem from="1609053083069" duration="613000" />
+      <workItem from="1609121300779" duration="7230000" />
+      <workItem from="1609210003152" duration="4792000" />
+      <workItem from="1609500569391" duration="3904000" />
+      <workItem from="1609504832250" duration="7372000" />
+      <workItem from="1609577864730" duration="2756000" />
+      <workItem from="1609663435695" duration="5235000" />
+      <workItem from="1610435774199" duration="6690000" />
+      <workItem from="1610519083347" duration="59000" />
+      <workItem from="1610742410970" duration="631000" />
+      <workItem from="1610956296891" duration="78000" />
+      <workItem from="1611313811767" duration="1344000" />
+      <workItem from="1611410886145" duration="2000" />
+      <workItem from="1611540654879" duration="2000" />
+      <workItem from="1611753016059" duration="1308000" />
+      <workItem from="1611789704331" duration="599000" />
+      <workItem from="1611986995404" duration="4976000" />
+      <workItem from="1612065061402" duration="4143000" />
+      <workItem from="1612142972605" duration="12725000" />
+      <workItem from="1612852927360" duration="4895000" />
+      <workItem from="1613192133383" duration="5531000" />
+      <workItem from="1613388030290" duration="237000" />
+      <workItem from="1613906054627" duration="13000" />
+    </task>
+    <task id="LOCAL-00001" summary="salam">
+      <created>1596629729396</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1596629729396</updated>
+    </task>
+    <task id="LOCAL-00002" summary="salam">
+      <created>1596629865618</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1596629865618</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/.." />
+    </ignored-roots>
+    <MESSAGE value="salam" />
+    <option name="LAST_COMMIT_MESSAGE" value="salam" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.StackOverflowError" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
