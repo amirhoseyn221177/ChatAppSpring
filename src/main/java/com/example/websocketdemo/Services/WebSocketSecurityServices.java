@@ -1,13 +1,14 @@
 package com.example.websocketdemo.Services;
 
 import com.example.websocketdemo.Exceptions.BadTokenException;
+import com.example.websocketdemo.Repository.PrivateChatRepo;
 import com.example.websocketdemo.Repository.UserRepo;
 import com.example.websocketdemo.Security.TokenValidator;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatUser;
+import com.example.websocketdemo.model.PrivateChat;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -22,18 +23,20 @@ public class WebSocketSecurityServices {
     private final TokenValidator tokenValidator;
     private final UserRepo userRepo;
     private final CustomUserServices customUserServices;
-    public WebSocketSecurityServices(TokenValidator tokenValidator, UserRepo userRepo, CustomUserServices customUserServices) {
+    private final PrivateChatRepo privateChatRepo;
+    public WebSocketSecurityServices(TokenValidator tokenValidator, UserRepo userRepo, CustomUserServices customUserServices, PrivateChatRepo privateChatRepo) {
         this.tokenValidator = tokenValidator;
         this.userRepo = userRepo;
         this.customUserServices = customUserServices;
+        this.privateChatRepo = privateChatRepo;
     }
 
     public boolean isTheMessageAuthorized(WebSocketSession session, TextMessage message) {
         try {
-            Gson gson = new Gson();
-            ChatMessage chatMessage = gson.fromJson(message.getPayload(), ChatMessage.class);
+            ChatMessage chatMessage = gettingMessageFromSocket(message);
             String token = chatMessage.getToken();
             String jwt = tokenValidator.getJwtFromRequest(token);
+
             boolean response = (boolean) doFilterForSockets(jwt, chatMessage.getSender()).get("authenticated");
             System.out.println("response" + " " + response);
             if (response) {
@@ -49,7 +52,11 @@ public class WebSocketSecurityServices {
 
     }
 
+    private ChatMessage gettingMessageFromSocket(TextMessage message) {
+        Gson gson = new Gson();
+        return gson.fromJson(message.getPayload(), ChatMessage.class);
 
+    }
 
 
     public Map<String,Object> doFilterForSockets(String token, String username){
@@ -84,4 +91,7 @@ public class WebSocketSecurityServices {
                 new SimpleGrantedAuthority(role)).collect(Collectors.toList());
         return authorities;
     }
+
+
+
 }

@@ -9,7 +9,7 @@ export const SendingAuth = (username, password) => {
             const resp = await Axios.post('/user/login', content)
             let bearerToken = resp.headers["authorization"]
             let token = bearerToken.substring(7)
-            localStorage.setItem("token",token)
+            localStorage.setItem(`token for ${username}`,token)
             dispatch(TokenAuth(token))
         } catch (e) {
             console.log(e.response)

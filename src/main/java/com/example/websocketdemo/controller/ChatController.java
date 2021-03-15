@@ -62,12 +62,12 @@ public class ChatController {
 
 	/*--------------------Private chat--------------------*/
 
-	@MessageMapping("/sendPrivateMessage/{username}")
-	public void sendPrivateMessage(@Payload ChatMessage chatMessage,
-								   SimpMessageHeaderAccessor simpMessageHeaderAccessor)  {
-		privateChatServices.sendPrivateMessage(chatMessage,simpMessageHeaderAccessor);
-
-	}
+//	@MessageMapping("/sendPrivateMessage/{username}")
+//	public void sendPrivateMessage(@Payload ChatMessage chatMessage,
+//								   SimpMessageHeaderAccessor simpMessageHeaderAccessor)  {
+//		privateChatServices.sendPrivateMessage(chatMessage,simpMessageHeaderAccessor);
+//
+//	}
 
 
 

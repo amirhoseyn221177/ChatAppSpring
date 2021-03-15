@@ -284,41 +284,52 @@ public class PrivateChatServices {
 
     public void createPrivateChat(ChatUser user1,ChatUser user2){
         PrivateChat privateChat= new PrivateChat();
-        List<ChatUser> users= privateChat.getUsers();
-        users.add(user1);
-        users.add(user2);
+        List<String> users= privateChat.getUsers();
+        users.add(user1.getUsername());
+        users.add(user2.getUsername());
         privateChat.setUsers(users);
+        privateChatRepo.save(privateChat);
+        Optional<PrivateChat> pr= privateChatRepo.findByUsers(users);
+        pr.ifPresent(System.out::println);
     }
 
-    public void saveMessage(TextMessage message){
-        Gson gson= new Gson();
-        ChatMessage chatMessage = gson.fromJson(message.getPayload(),ChatMessage.class);
+    public void saveMessage(TextMessage message)  {
+        ChatMessage chatMessage = gettingMessageFromSocket(message);
         Optional<ChatUser> optionSender =userRepo.findByUsername(chatMessage.getSender());
         Optional<ChatUser> optionReceiver = userRepo.findByUsername(chatMessage.getReceiver());
 
         if(optionSender.isPresent() && optionReceiver.isPresent()){
             ChatUser sender = optionSender.get();
             ChatUser receiver = optionReceiver.get();
+            System.out.println(sender);
+            List<String> users= new ArrayList<>();
+            users.add(chatMessage.getSender());
+            users.add(chatMessage.getReceiver());
+            Optional<PrivateChat> optionPrivateChat= privateChatRepo.findByUsers(users);
 
-            if(sender.getPrivateChats().containsKey(receiver.getUsername())&&
-            receiver.getPrivateChats().containsKey(sender.getUsername())){
-                String privateChatId=sender.getPrivateChats().get(receiver.getUsername());
-                Optional<PrivateChat> optionPrivateChat= privateChatRepo.findById(privateChatId);
-                if(optionPrivateChat.isPresent()){
+            if(optionPrivateChat.isPresent()){
                     PrivateChat privateChat = optionPrivateChat.get();
+                System.out.println(privateChat);
                     List<ChatMessage> allMessages=privateChat.getMessages();
                     allMessages.add(chatMessage);
                     privateChat.setMessages(allMessages);
                     privateChatRepo.save(privateChat);
-                }
 
             }else{
                 createPrivateChat(sender,receiver);
+                saveMessage(message);
             }
 
         }
 
     }
+
+    public ChatMessage gettingMessageFromSocket(TextMessage message) {
+        Gson gson = new Gson();
+        return gson.fromJson(message.getPayload(), ChatMessage.class);
+
+    }
+
 }
 
 

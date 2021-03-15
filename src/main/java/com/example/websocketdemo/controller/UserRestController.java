@@ -57,10 +57,10 @@ public class UserRestController {
         body.put("token", jwt);
         return new ResponseEntity<>(body, httpHeaders, HttpStatus.OK);
     }
-
-    @GetMapping("/download")
-    public void downloadingFile(){
-        privateChatServices.downloadFromS3();
-    }
+//
+//    @GetMapping("/download")
+//    public void downloadingFile(){
+//        privateChatServices.downloadFromS3();
+//    }
 
 }

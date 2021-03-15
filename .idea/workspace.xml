@@ -24,6 +24,19 @@
   <component name="ChangeListManager">
     <list default="true" id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amirsockclient/src/PrivateMessage/PrivateMessage.js" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/src/PrivateMessage/PrivateMessage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amirsockclient/src/action.js" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/src/action.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot-websocket.iml" beforeDir="false" afterPath="$PROJECT_DIR$/springboot-websocket.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/PrivateChatServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/PrivateChatServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/WebSocketSecurityServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/WebSocketSecurityServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WSConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WSConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WSHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WSHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/UserRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/UserRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/PrivateChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/PrivateChat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/starter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/starter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +91,7 @@
     <property name="ToolWindowAnt.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MossSwing-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../71321491_P3" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -209,6 +222,12 @@
       <workItem from="1613192133383" duration="5531000" />
       <workItem from="1613388030290" duration="237000" />
       <workItem from="1613906054627" duration="13000" />
+      <workItem from="1614926822995" duration="46000" />
+      <workItem from="1615021258906" duration="475000" />
+      <workItem from="1615186653424" duration="53000" />
+      <workItem from="1615619568377" duration="32000" />
+      <workItem from="1615796902786" duration="2471000" />
+      <workItem from="1615799603429" duration="5113000" />
     </task>
     <task id="LOCAL-00001" summary="salam">
       <created>1596629729396</created>

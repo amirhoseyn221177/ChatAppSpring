@@ -19,8 +19,7 @@ public class WSConfiguration implements WebSocketConfigurer {
         this.doingHandShake = doingHandShake;
     }
 
-// one good idea is that we let the socket gets connected but till its getting authorized it is not allowed to do anthything
-    // at all and we can do it in map in handShakerInterceptor 
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(wsHandler,"/ws/**").setAllowedOrigins("*")

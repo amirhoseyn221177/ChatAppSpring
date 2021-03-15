@@ -17,6 +17,6 @@ import java.util.List;
 public class PrivateChat {
     @Id
     private String Id;
-    private List<ChatUser> users=new ArrayList<>();
+    private List<String> users=new ArrayList<>();
     private List<ChatMessage> messages = new ArrayList<>();
 }
