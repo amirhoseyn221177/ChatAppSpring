@@ -1,57 +1,29 @@
 package com.example.websocketdemo.Services;
 
-import com.amazonaws.HttpMethod;
-import com.amazonaws.event.ProgressListener;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
-import com.amazonaws.services.s3.transfer.Download;
-import com.amazonaws.services.s3.transfer.TransferManager;
-import com.amazonaws.services.s3.transfer.Upload;
-import com.amazonaws.services.xray.model.Http;
-import com.amazonaws.util.IOUtils;
-import com.example.websocketdemo.Exceptions.FanOutNotFoundException;
-import com.example.websocketdemo.Exceptions.GroupNotFoundException;
 import com.example.websocketdemo.Exceptions.UsernameAlreadyExistException;
-import com.example.websocketdemo.Exceptions.userNotFoundException;
 import com.example.websocketdemo.Repository.ChatRepo;
 import com.example.websocketdemo.Repository.GroupChatRepo;
 import com.example.websocketdemo.Repository.PrivateChatRepo;
 import com.example.websocketdemo.Repository.UserRepo;
 import com.example.websocketdemo.Security.TokenValidator;
-import com.example.websocketdemo.config.AWSConfig;
 import com.example.websocketdemo.model.*;
 import com.google.gson.Gson;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitManagementTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.DirectMessageListenerContainer;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class PrivateChatServices {
@@ -66,12 +38,14 @@ public class PrivateChatServices {
     private final TokenValidator tokenValidator;
     private final Environment environment;
     private final PrivateChatRepo privateChatRepo;
+    private final HybridEncryption hybridEncryption;
     private Map<String, WebSocketSession> allSessions = new HashMap<>();
 
     public PrivateChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
                                AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate,
                                BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager,
-                               TokenValidator tokenValidator, Environment environment, PrivateChatRepo privateChatRepo) {
+                               TokenValidator tokenValidator, Environment environment, PrivateChatRepo privateChatRepo,
+                               HybridEncryption hybridEncryption) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
@@ -83,6 +57,7 @@ public class PrivateChatServices {
         this.tokenValidator = tokenValidator;
         this.environment = environment;
         this.privateChatRepo = privateChatRepo;
+        this.hybridEncryption = hybridEncryption;
     }
 
 
@@ -327,9 +302,11 @@ public class PrivateChatServices {
     public ChatMessage gettingMessageFromSocket(TextMessage message) {
         Gson gson = new Gson();
         return gson.fromJson(message.getPayload(), ChatMessage.class);
-
     }
 
+    public String encryption(String message){
+       return hybridEncryption.encryptingWith_AES_RSA(message);
+    }
 }
 
 

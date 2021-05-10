@@ -10,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
+
 @Component
 public class starter implements CommandLineRunner {
     private final ChatRepo chatRepo;
@@ -31,11 +33,14 @@ public class starter implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        String message = "salam sexy niggers";
+        privateChatServices.encryption(message);
 //        System.out.println(chatRepo.findAll());
 //        System.out.println(userRepo.findAll());
 ////        System.out.println(groupChatRepo.findAll());
 //        chatRepo.deleteAll();
 //        userRepo.deleteAll();
 //        groupChatRepo.deleteAll();
+
     }
 }
