@@ -23,6 +23,8 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.*;
 
 @Service
@@ -39,13 +41,14 @@ public class PrivateChatServices {
     private final Environment environment;
     private final PrivateChatRepo privateChatRepo;
     private final HybridEncryption hybridEncryption;
+    private final HybridDecryption hybridDecryption;
     private Map<String, WebSocketSession> allSessions = new HashMap<>();
 
     public PrivateChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
                                AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate,
                                BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager,
                                TokenValidator tokenValidator, Environment environment, PrivateChatRepo privateChatRepo,
-                               HybridEncryption hybridEncryption) {
+                               HybridEncryption hybridEncryption, HybridDecryption hybridDecryption) {
         this.chatRepo = chatRepo;
         this.groupChatRepo = groupChatRepo;
         this.userRepo = userRepo;
@@ -58,6 +61,7 @@ public class PrivateChatServices {
         this.environment = environment;
         this.privateChatRepo = privateChatRepo;
         this.hybridEncryption = hybridEncryption;
+        this.hybridDecryption = hybridDecryption;
     }
 
 
@@ -304,9 +308,16 @@ public class PrivateChatServices {
         return gson.fromJson(message.getPayload(), ChatMessage.class);
     }
 
-    public String encryption(String message){
-       return hybridEncryption.encryptingWith_AES_RSA(message);
+    public List<String> encryption(String message, PublicKey publicKey){
+       return hybridEncryption.encryptingWith_AES_RSA(message,publicKey);
     }
+
+    public String decryption (List<String> encryptedMSG, PrivateKey privateKey){
+        return hybridDecryption.decryptionFlow(encryptedMSG,privateKey,"AES","AES/ECB/PKCS5Padding",
+                "RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
+    }
+
+
 }
 
 
