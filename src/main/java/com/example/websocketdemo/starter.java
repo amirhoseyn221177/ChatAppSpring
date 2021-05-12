@@ -50,7 +50,7 @@ public class starter implements CommandLineRunner {
         PrivateKey privateKey= rsaKey.gettingPrivateKey();
         ChatMessage message = new ChatMessage();
         message.setContentType("abudlah");
-        message.setTextContent("salam lil baby nigger");
+        message.setTextContent("salam lil baby ");
         message.setSender("amir2211");
         message.setReceiver("moh2211");
 
