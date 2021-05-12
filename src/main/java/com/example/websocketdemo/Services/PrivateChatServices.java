@@ -308,7 +308,7 @@ public class PrivateChatServices {
         return gson.fromJson(message.getPayload(), ChatMessage.class);
     }
 
-    public List<String> encryption(String message, PublicKey publicKey){
+    public List<String> encryption(ChatMessage message, PublicKey publicKey){
        return hybridEncryption.encryptingWith_AES_RSA(message,publicKey);
     }
 

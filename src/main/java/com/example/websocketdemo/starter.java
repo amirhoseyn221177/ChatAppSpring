@@ -6,6 +6,7 @@ import com.example.websocketdemo.Repository.PrivateChatRepo;
 import com.example.websocketdemo.Repository.UserRepo;
 import com.example.websocketdemo.Services.PrivateChatServices;
 import com.example.websocketdemo.config.AWSConfig;
+import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.RsaKey;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigInteger;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -46,7 +48,12 @@ public class starter implements CommandLineRunner {
         RsaKey rsaKey= new RsaKey(mod,pvtExp,pubExp);
         PublicKey publicKey = rsaKey.gettingPublicKey();
         PrivateKey privateKey= rsaKey.gettingPrivateKey();
-        String message = "salam sexy niggers";
+        ChatMessage message = new ChatMessage();
+        message.setContentType("abudlah");
+        message.setTextContent("salam lil baby nigger");
+        message.setSender("amir2211");
+        message.setReceiver("moh2211");
+
         List<String> encryptedMes= privateChatServices.encryption(message,publicKey);
         privateChatServices.decryption(encryptedMes,privateKey);
 //        System.out.println(chatRepo.findAll());

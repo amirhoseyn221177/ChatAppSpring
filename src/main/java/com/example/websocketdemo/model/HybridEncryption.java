@@ -23,16 +23,17 @@ public class HybridEncryption {
 
 
 
-    public List<String> encryptingWith_AES_RSA(String chatMessage, PublicKey publicKey){
+    public List<String> encryptingWith_AES_RSA(ChatMessage chatMessage, PublicKey publicKey){
 
         try {
+            System.out.println(chatMessage);
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(128);
+            keyGenerator.init(256);
             SecretKey AESKey = keyGenerator.generateKey();
             byte[] AESKeyByte = AESKey.getEncoded();
             System.out.println("\n@EncFlow: Original AES Key");
             System.out.println(Arrays.toString(AESKeyByte));
-            byte[] messageByte= chatMessage.getBytes(StandardCharsets.UTF_8);
+            byte[] messageByte= chatMessage.toString().getBytes(StandardCharsets.UTF_8);
             byte[] encryptedData = SymmetricCipherEncryption(messageByte,"AES/ECB/PKCS5Padding",AESKey);
             System.out.println("\n@Encrypted Content Bytes");
             System.out.println(Arrays.toString(encryptedData));

@@ -19,12 +19,12 @@ import java.util.List;
 @Component
 public class HybridDecryption {
 
-    public String decryptionFlow(List<String> encryptedMessage, PrivateKey privateKey, String AES_Algo, String symmetricAlgo, String asymmetricAlgo){
-        byte [] AES_EncKeyByte = Base64.getDecoder().decode(encryptedMessage.get(1));
-        byte [] dataEncByte = Base64.getDecoder().decode(encryptedMessage.get(0));
 
-        System.out.println(26);
-        System.out.println(Arrays.toString(AES_EncKeyByte));
+    public String decryptionFlow(List<String> encryptedMessage, PrivateKey privateKey, String AES_Algo, String symmetricAlgo, String asymmetricAlgo){
+        byte [] dataEncByte = Base64.getDecoder().decode(encryptedMessage.get(0));
+        byte [] AES_EncKeyByte = Base64.getDecoder().decode(encryptedMessage.get(1));
+
+
         byte [] decryptedAESByte = asymmetricCipherDecryption(AES_EncKeyByte,asymmetricAlgo,privateKey);
         System.out.println("\n@Secret Key Bytes: ");
         System.out.println(Arrays.toString(decryptedAESByte));
@@ -43,7 +43,7 @@ public class HybridDecryption {
     public byte[] symmetricCipherDecryption(byte[] encryptedMessage , String algo , SecretKey key){
         Cipher cipher;
         byte [] msg= null;
-        System.out.println(46);
+
         try {
             cipher= Cipher.getInstance(algo);
             cipher.init(Cipher.DECRYPT_MODE,key);
@@ -51,7 +51,6 @@ public class HybridDecryption {
 
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException |
                 IllegalBlockSizeException | BadPaddingException e) {
-            System.out.println(54);
             System.out.println(e.getMessage());
         }
 
@@ -61,20 +60,14 @@ public class HybridDecryption {
     public byte[] asymmetricCipherDecryption(byte[] encryptedMsg,String algo,PrivateKey privateKey){
         Cipher cipher;
         byte [] msg= null;
-        System.out.println(64);
-
         try {
             cipher= Cipher.getInstance(algo);
-            System.out.println(68);
             cipher.init(Cipher.DECRYPT_MODE,privateKey);
-            System.out.println(70);
             msg=cipher.doFinal(encryptedMsg);
-            System.out.println(72);
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException |
                 IllegalBlockSizeException | BadPaddingException e) {
             System.out.println(e);
         }
-
         return  msg;
     }
 
