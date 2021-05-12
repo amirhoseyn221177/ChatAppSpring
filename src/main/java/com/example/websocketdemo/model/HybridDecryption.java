@@ -62,11 +62,13 @@ public class HybridDecryption {
         byte [] msg= null;
         try {
             cipher= Cipher.getInstance(algo);
+            System.out.println(65);
+            System.out.println(privateKey);
             cipher.init(Cipher.DECRYPT_MODE,privateKey);
             msg=cipher.doFinal(encryptedMsg);
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException |
                 IllegalBlockSizeException | BadPaddingException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return  msg;
     }

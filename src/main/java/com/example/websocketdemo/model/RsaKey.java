@@ -1,49 +1,51 @@
 package com.example.websocketdemo.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
 import java.math.BigInteger;
 import java.security.*;
 
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
+@Component
+@Data
+@AllArgsConstructor
 public class RsaKey {
+    private  PrivateKey privateKey;
+    private  PublicKey publicKey;
 
-
-    private final BigInteger mod;
-    private final BigInteger prvtInteger;
-    private final BigInteger pubInteger;
-
-    public RsaKey(BigInteger mod, BigInteger prvtInteger, BigInteger pubInteger) {
-        this.mod = mod;
-        this.prvtInteger = prvtInteger;
-        this.pubInteger = pubInteger;
+    public RsaKey() {
+        this.gettingKeyPair();
     }
 
+    public void gettingKeyPair(){
+        // this method uses user defined exponents to create a private key
+//        try{
+//            if(prvtInteger==null|| mod==null) throw new InvalidKeyException(" no private expo or Mod ");
+//            RSAPrivateKeySpec keySpec = new RSAPrivateKeySpec(mod,prvtInteger);
+//            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//            return keyFactory.generatePrivate(keySpec);
+//
+//        }catch (Exception e){
+//            System.out.println("the error is "+ e.getMessage());
+//        }
 
-    public PrivateKey gettingPrivateKey(){
-        try{
-            if(prvtInteger==null|| mod==null) throw new InvalidKeyException(" no private expo or Mod ");
-            RSAPrivateKeySpec keySpec = new RSAPrivateKeySpec(mod,prvtInteger);
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            return keyFactory.generatePrivate(keySpec);
-        }catch (Exception e){
-            System.out.println("the error is "+ e.getMessage());
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            SecureRandom secureRandom = new SecureRandom();
+            keyPairGenerator.initialize(2048,secureRandom);
+            KeyPair keyPair= keyPairGenerator.generateKeyPair();
+            this.privateKey = keyPair.getPrivate();
+            this.publicKey = keyPair.getPublic();
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e.getMessage());
         }
-        return null;
     }
 
 
-    public PublicKey gettingPublicKey(){
-        try{
-            if(pubInteger==null|| mod==null) throw new InvalidKeyException(" no public expo or Mod ");
-            RSAPublicKeySpec keySpec = new RSAPublicKeySpec(mod,pubInteger);
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            return  keyFactory.generatePublic(keySpec);
-        }catch (Exception e){
-            System.out.println("the error is "+ e.getMessage());
-
-        }
-        return null;
-    }
 }

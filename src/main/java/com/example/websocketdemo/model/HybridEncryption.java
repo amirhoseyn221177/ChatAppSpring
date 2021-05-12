@@ -26,11 +26,11 @@ public class HybridEncryption {
     public List<String> encryptingWith_AES_RSA(ChatMessage chatMessage, PublicKey publicKey){
 
         try {
-            System.out.println(chatMessage);
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
             keyGenerator.init(256);
             SecretKey AESKey = keyGenerator.generateKey();
             byte[] AESKeyByte = AESKey.getEncoded();
+
             System.out.println("\n@EncFlow: Original AES Key");
             System.out.println(Arrays.toString(AESKeyByte));
             byte[] messageByte= chatMessage.toString().getBytes(StandardCharsets.UTF_8);
