@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -23,6 +25,7 @@ public class HybridDecryption {
     public String decryptionFlow(List<String> encryptedMessage, PrivateKey privateKey, String AES_Algo, String symmetricAlgo, String asymmetricAlgo){
         byte [] dataEncByte = Base64.getDecoder().decode(encryptedMessage.get(0));
         byte [] AES_EncKeyByte = Base64.getDecoder().decode(encryptedMessage.get(1));
+        byte [] IVByte = Base64.getDecoder().decode(encryptedMessage.get(2));
 
 
         byte [] decryptedAESByte = asymmetricCipherDecryption(AES_EncKeyByte,asymmetricAlgo,privateKey);
@@ -30,7 +33,7 @@ public class HybridDecryption {
         System.out.println(Arrays.toString(decryptedAESByte));
         SecretKey AES_Key = new SecretKeySpec(decryptedAESByte,0,decryptedAESByte.length,AES_Algo);
 
-        byte[] dataDecrypted = symmetricCipherDecryption(dataEncByte,symmetricAlgo,AES_Key);
+        byte[] dataDecrypted = symmetricCipherDecryption(dataEncByte,symmetricAlgo,AES_Key,IVByte);
         System.out.println("\n@Data Bytes: ");
         System.out.println(Arrays.toString(dataDecrypted));
 
@@ -40,17 +43,17 @@ public class HybridDecryption {
     }
 
 
-    public byte[] symmetricCipherDecryption(byte[] encryptedMessage , String algo , SecretKey key){
+    public byte[] symmetricCipherDecryption(byte[] encryptedMessage , String algo , SecretKey key, byte[] ivByte){
         Cipher cipher;
         byte [] msg= null;
-
+        IvParameterSpec iv = new IvParameterSpec(ivByte);
         try {
             cipher= Cipher.getInstance(algo);
-            cipher.init(Cipher.DECRYPT_MODE,key);
+            cipher.init(Cipher.DECRYPT_MODE,key,iv);
             msg=cipher.doFinal(encryptedMessage);
 
-        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException |
-                IllegalBlockSizeException | BadPaddingException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException |
+                BadPaddingException | InvalidAlgorithmParameterException e) {
             System.out.println(e.getMessage());
         }
 

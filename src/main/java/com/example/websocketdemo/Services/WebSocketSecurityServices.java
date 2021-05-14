@@ -32,6 +32,7 @@ public class WebSocketSecurityServices {
     }
 
     public boolean isTheMessageAuthorized(WebSocketSession session, TextMessage message) {
+
         try {
             ChatMessage chatMessage = gettingMessageFromSocket(message);
             String token = chatMessage.getToken();
@@ -91,6 +92,8 @@ public class WebSocketSecurityServices {
                 new SimpleGrantedAuthority(role)).collect(Collectors.toList());
         return authorities;
     }
+
+
 
 
 

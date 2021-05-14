@@ -42,7 +42,7 @@ public class PrivateChatServices {
     private final PrivateChatRepo privateChatRepo;
     private final HybridEncryption hybridEncryption;
     private final HybridDecryption hybridDecryption;
-    private Map<String, WebSocketSession> allSessions = new HashMap<>();
+    private final Map<String, WebSocketSession> allSessions = new HashMap<>();
 
     public PrivateChatServices(ChatRepo chatRepo, GroupChatRepo groupChatRepo, UserRepo userRepo,
                                AmqpAdmin amqpAdmin, RabbitManagementTemplate rabbitManagementTemplate, RabbitTemplate rabbitTemplate,
@@ -293,7 +293,6 @@ public class PrivateChatServices {
                     allMessages.add(chatMessage);
                     privateChat.setMessages(allMessages);
                     privateChatRepo.save(privateChat);
-
             }else{
                 createPrivateChat(sender,receiver);
                 saveMessage(message);
@@ -313,9 +312,37 @@ public class PrivateChatServices {
     }
 
     public String decryption (List<String> encryptedMSG, PrivateKey privateKey){
-        return hybridDecryption.decryptionFlow(encryptedMSG,privateKey,"AES","AES/ECB/PKCS5Padding",
+        return hybridDecryption.decryptionFlow(encryptedMSG,privateKey,"AES","AES/CBC/PKCS5Padding",
                 "RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
     }
+
+
+    public RsaKey creatingRSAKeyPair(ChatUser user1,ChatUser user2){
+        Map<String, Date> user1KeyManager = user1.getKeyManageUsers();
+        Map<String, Date> user2KeyManager = user2.getKeyManageUsers();
+        if(!user1KeyManager.containsKey(user2.getId()) || !user2KeyManager.containsKey(user1.getId())){
+            Date date = new Date();
+            if(user1KeyManager.containsKey(user2.getId())){
+                user1KeyManager.replace(user2.getId(),date);
+            }else {
+                user1KeyManager.put(user2.getId(),date);
+            }
+            if(user2KeyManager.containsKey(user1.getId())){
+                user2KeyManager.replace(user1.getId(),date);
+            }else{
+                user2KeyManager.put(user1.getId(),date);
+            }
+            return new RsaKey();
+        }
+        return null;
+    }
+
+    public boolean firstTime(ChatUser user1,ChatUser user2){
+        return !(user1.getKeyManageUsers().containsKey(user2.getId()) &&
+                user2.getKeyManageUsers().containsKey(user1.getId()));
+    }
+
+
 
 
 }

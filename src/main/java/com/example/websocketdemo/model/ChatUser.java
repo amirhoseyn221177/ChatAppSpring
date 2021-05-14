@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Component
 public class ChatUser implements UserDetails {
     @Id
     private String id;
@@ -31,6 +33,7 @@ public class ChatUser implements UserDetails {
     @Size(min = 4,max = 10, message = "please use 4 to 10 characters")
     private String password;
     private List<Role> roles=new ArrayList<>();
+    private Map<String,Date> keyManageUsers = new HashMap<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
