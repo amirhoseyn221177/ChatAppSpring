@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChatRepo extends MongoRepository<ChatMessage,String> {
     void deleteById(String Id);
+    void findBy
 }

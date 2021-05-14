@@ -54,7 +54,7 @@ public class starter implements CommandLineRunner {
         List<String> encryptedMes= privateChatServices.encryption(message,rsaKey.getPublicKey());
         privateChatServices.decryption(encryptedMes,rsaKey.getPrivateKey());
 
-        
+
 //        System.out.println(chatRepo.findAll());
 //        System.out.println(userRepo.findAll());
 ////        System.out.println(groupChatRepo.findAll());

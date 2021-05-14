@@ -1,12 +1,12 @@
 package com.example.websocketdemo.Services;
 
 import com.example.websocketdemo.Exceptions.BadTokenException;
+import com.example.websocketdemo.Repository.ChatRepo;
 import com.example.websocketdemo.Repository.PrivateChatRepo;
 import com.example.websocketdemo.Repository.UserRepo;
 import com.example.websocketdemo.Security.TokenValidator;
 import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.ChatUser;
-import com.example.websocketdemo.model.PrivateChat;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,17 +24,21 @@ public class WebSocketSecurityServices {
     private final UserRepo userRepo;
     private final CustomUserServices customUserServices;
     private final PrivateChatRepo privateChatRepo;
-    public WebSocketSecurityServices(TokenValidator tokenValidator, UserRepo userRepo, CustomUserServices customUserServices, PrivateChatRepo privateChatRepo) {
+    private final PrivateChatServices privateChatServices;
+    public WebSocketSecurityServices(TokenValidator tokenValidator, UserRepo userRepo,
+                                     CustomUserServices customUserServices, PrivateChatRepo privateChatRepo,
+                                     PrivateChatServices privateChatServices) {
         this.tokenValidator = tokenValidator;
         this.userRepo = userRepo;
         this.customUserServices = customUserServices;
         this.privateChatRepo = privateChatRepo;
+        this.privateChatServices = privateChatServices;
     }
 
     public boolean isTheMessageAuthorized(WebSocketSession session, TextMessage message) {
 
         try {
-            ChatMessage chatMessage = gettingMessageFromSocket(message);
+            ChatMessage chatMessage = ConvertMessageFromSocket(message);
             String token = chatMessage.getToken();
             String jwt = tokenValidator.getJwtFromRequest(token);
 
@@ -53,9 +57,19 @@ public class WebSocketSecurityServices {
 
     }
 
-    private ChatMessage gettingMessageFromSocket(TextMessage message) {
+    private ChatMessage ConvertMessageFromSocket(TextMessage message) {
         Gson gson = new Gson();
-        return gson.fromJson(message.getPayload(), ChatMessage.class);
+        ChatMessage chatMessage=  gson.fromJson(message.getPayload(), ChatMessage.class);
+        Optional<ChatUser> optionalChatUser = userRepo.findByUsername(chatMessage.getSender());
+        Optional<ChatUser> optionalChatUser2=userRepo.findByUsername(chatMessage.getReceiver());
+        if (optionalChatUser.isPresent()&&optionalChatUser2.isPresent()){
+            ChatUser chatUser = optionalChatUser.get();
+            ChatUser chatUser1 = optionalChatUser2.get();
+            if(privateChatServices.firstTime(chatUser1,chatUser)){
+
+            }
+        }
+
 
     }
 
