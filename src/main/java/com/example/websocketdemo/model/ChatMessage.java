@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.security.PublicKey;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -30,5 +31,5 @@ public class ChatMessage {
 	private Long dateTime=new Date().getTime();
 	private String token;
 	private String HistoryId;
-
+	private PublicKey publicKey;
 }

@@ -13,8 +13,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -39,22 +43,24 @@ public class starter implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+//
+//        RsaKey rsaKey= new RsaKey();
+//        ChatMessage message = new ChatMessage();
+//        message.setContentType("abudlah");
+//        message.setTextContent("salam lil baby ");
+//        message.setSender("amir2211");
+//        message.setReceiver("moh2211");
+//
+//
+//
+//
+//
+//        List<String> encryptedMes= privateChatServices.encryption(message,rsaKey.getPublicKey());
+//        privateChatServices.decryption(encryptedMes,rsaKey.getPrivateKey());
+//        List<String> data = new ArrayList<>();
 
-        RsaKey rsaKey= new RsaKey();
-        ChatMessage message = new ChatMessage();
-        message.setContentType("abudlah");
-        message.setTextContent("salam lil baby ");
-        message.setSender("amir2211");
-        message.setReceiver("moh2211");
 
 
-
-
-
-        List<String> encryptedMes= privateChatServices.encryption(message,rsaKey.getPublicKey());
-        privateChatServices.decryption(encryptedMes,rsaKey.getPrivateKey());
-
-        
 //        System.out.println(chatRepo.findAll());
 //        System.out.println(userRepo.findAll());
 ////        System.out.println(groupChatRepo.findAll());

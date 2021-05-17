@@ -7,6 +7,7 @@ import CreateGroupChat from './publicChatApp/CreateGroupChat';
 import CreateUser from './CreateUser';
 import AddingMember from './publicChatApp/AddingMember';
 import SignIn from './Login';
+import encryption from './encryption';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route exact path="/createuser" component={CreateUser}/>
       <Route exact path="/adding" component={AddingMember}/>
       <Route exact path="/login" component={SignIn}/>
+      <Route path="/" component={encryption}/>
     </Switch>
   </BrowserRouter>
   

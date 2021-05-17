@@ -21,14 +21,10 @@ import java.util.stream.Collectors;
 @Service
 public class WebSocketSecurityServices {
     private final TokenValidator tokenValidator;
-    private final UserRepo userRepo;
     private final CustomUserServices customUserServices;
-    private final PrivateChatRepo privateChatRepo;
-    public WebSocketSecurityServices(TokenValidator tokenValidator, UserRepo userRepo, CustomUserServices customUserServices, PrivateChatRepo privateChatRepo) {
+    public WebSocketSecurityServices(TokenValidator tokenValidator, CustomUserServices customUserServices) {
         this.tokenValidator = tokenValidator;
-        this.userRepo = userRepo;
         this.customUserServices = customUserServices;
-        this.privateChatRepo = privateChatRepo;
     }
 
     public boolean isTheMessageAuthorized(WebSocketSession session, TextMessage message) {
@@ -56,7 +52,6 @@ public class WebSocketSecurityServices {
     private ChatMessage gettingMessageFromSocket(TextMessage message) {
         Gson gson = new Gson();
         return gson.fromJson(message.getPayload(), ChatMessage.class);
-
     }
 
 
@@ -92,6 +87,7 @@ public class WebSocketSecurityServices {
                 new SimpleGrantedAuthority(role)).collect(Collectors.toList());
         return authorities;
     }
+
 
 
 

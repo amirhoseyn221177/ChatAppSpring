@@ -31,6 +31,7 @@ public class HybridEncryption {
             keyGenerator.init(256);
             SecretKey AESKey = keyGenerator.generateKey();
             byte[] AESKeyByte = AESKey.getEncoded();
+            System.out.println(AESKeyByte.length);
 
             System.out.println("\n@EncFlow: Original AES Key");
             System.out.println(Arrays.toString(AESKeyByte));

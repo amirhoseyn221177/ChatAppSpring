@@ -3,7 +3,9 @@ package com.example.websocketdemo.controller;
 import com.example.websocketdemo.Exceptions.MapValidationError;
 import com.example.websocketdemo.Services.PrivateChatServices;
 import com.example.websocketdemo.model.ChatUser;
+import com.example.websocketdemo.model.HybridDecryption;
 import com.example.websocketdemo.model.LoginRequest;
+import com.example.websocketdemo.model.testClass;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -22,12 +25,14 @@ public class UserRestController {
 
     private final MapValidationError mapValidationError;
     private final PrivateChatServices privateChatServices;
+    private final HybridDecryption hybridDecryption;
 
 
-    public UserRestController(MapValidationError mapValidationError, PrivateChatServices privateChatServices) {
+    public UserRestController(MapValidationError mapValidationError, PrivateChatServices privateChatServices, HybridDecryption hybridDecryption) {
         this.mapValidationError = mapValidationError;
         this.privateChatServices = privateChatServices;
 
+        this.hybridDecryption = hybridDecryption;
     }
 
     @PostMapping("/register")
@@ -57,10 +62,17 @@ public class UserRestController {
         body.put("token", jwt);
         return new ResponseEntity<>(body, httpHeaders, HttpStatus.OK);
     }
-//
-//    @GetMapping("/download")
-//    public void downloadingFile(){
-//        privateChatServices.downloadFromS3();
-//    }
 
+    @PostMapping("/dec")
+    public ResponseEntity<?> gettingData(@RequestBody testClass objects){
+        System.out.println("we are here");
+        System.out.println(objects.getKey());
+        byte[] keys = Base64.getDecoder().decode(objects.getKey());
+        byte[] iv = Base64.getDecoder().decode(objects.getIv());
+        System.out.println(Arrays.toString(keys));
+        byte[] text = Base64.getDecoder().decode(objects.getText());
+        System.out.println(text.length);
+        System.out.println(new String(hybridDecryption.symmetricCipherDecryption(text,"AES/CBC/PKCS5Padding",keys,iv)));
+        return  new ResponseEntity<>(HttpStatus.OK);
+    }
 }

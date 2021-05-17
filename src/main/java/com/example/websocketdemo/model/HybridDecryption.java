@@ -33,7 +33,7 @@ public class HybridDecryption {
         System.out.println(Arrays.toString(decryptedAESByte));
         SecretKey AES_Key = new SecretKeySpec(decryptedAESByte,0,decryptedAESByte.length,AES_Algo);
 
-        byte[] dataDecrypted = symmetricCipherDecryption(dataEncByte,symmetricAlgo,AES_Key,IVByte);
+        byte[] dataDecrypted = symmetricCipherDecryption(dataEncByte,symmetricAlgo,AES_Key.getEncoded(),IVByte);
         System.out.println("\n@Data Bytes: ");
         System.out.println(Arrays.toString(dataDecrypted));
 
@@ -43,13 +43,14 @@ public class HybridDecryption {
     }
 
 
-    public byte[] symmetricCipherDecryption(byte[] encryptedMessage , String algo , SecretKey key, byte[] ivByte){
+    public byte[] symmetricCipherDecryption(byte[] encryptedMessage , String algo , byte[] key, byte[] ivByte){
         Cipher cipher;
         byte [] msg= null;
         IvParameterSpec iv = new IvParameterSpec(ivByte);
+        SecretKey secretKey= new SecretKeySpec(key,0,key.length,"AES");
         try {
             cipher= Cipher.getInstance(algo);
-            cipher.init(Cipher.DECRYPT_MODE,key,iv);
+            cipher.init(Cipher.DECRYPT_MODE,secretKey,iv);
             msg=cipher.doFinal(encryptedMessage);
 
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException |

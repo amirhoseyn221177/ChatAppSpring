@@ -24,14 +24,27 @@
   <component name="ChangeListManager">
     <list default="true" id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="salam">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amirsockclient/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amirsockclient/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amirsockclient/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/PrivateChatServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/PrivateChatServices.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/WebSocketSecurityServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/WebSocketSecurityServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/UserRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/UserRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/HybridDecryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/HybridDecryption.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/HybridEncryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/HybridEncryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/RsaKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/RsaKey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/starter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/starter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/PrivateChatServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/PrivateChatServices.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/WebSocketSecurityServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/WebSocketSecurityServices.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/controller/UserRestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/controller/UserRestController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatUser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/HybridDecryption.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/HybridDecryption.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/HybridEncryption.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/HybridEncryption.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/KeyManageUsers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/RsaKey.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/RsaKey.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/starter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/starter.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -108,17 +121,6 @@
     <option name="enabled" value="false" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="WebsocketDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="springboot-websocket" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.websocketdemo.WebsocketDemoApplication" />
@@ -244,7 +246,11 @@
       <workItem from="1620708024608" duration="4238000" />
       <workItem from="1620820262292" duration="4357000" />
       <workItem from="1620873971777" duration="653000" />
-      <workItem from="1620947858872" duration="9642000" />
+      <workItem from="1620947858872" duration="10728000" />
+      <workItem from="1621042110001" duration="161000" />
+      <workItem from="1621042317051" duration="20103000" />
+      <workItem from="1621154490218" duration="903000" />
+      <workItem from="1621245687326" duration="599000" />
     </task>
     <task id="LOCAL-00001" summary="salam">
       <created>1596629729396</created>

@@ -4,15 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.security.PublicKey;
 import java.util.*;
 
 @Document
@@ -33,7 +31,8 @@ public class ChatUser implements UserDetails {
     @Size(min = 4,max = 10, message = "please use 4 to 10 characters")
     private String password;
     private List<Role> roles=new ArrayList<>();
-    private Map<String,Date> keyManageUsers = new HashMap<>();
+    private Map<String,UserPublicKey> keyManageUsers = new HashMap<>();
+    private PublicKey publicKey;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -3,14 +3,9 @@ package com.example.websocketdemo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.math.BigInteger;
 import java.security.*;
 
-import java.security.spec.RSAPrivateKeySpec;
-import java.security.spec.RSAPublicKeySpec;
 
 @Component
 @Data
@@ -38,7 +33,7 @@ public class RsaKey {
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             SecureRandom secureRandom = new SecureRandom();
-            keyPairGenerator.initialize(2048,secureRandom);
+            keyPairGenerator.initialize(1028,secureRandom);
             KeyPair keyPair= keyPairGenerator.generateKeyPair();
             this.privateKey = keyPair.getPrivate();
             this.publicKey = keyPair.getPublic();

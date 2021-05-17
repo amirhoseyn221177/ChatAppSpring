@@ -317,20 +317,20 @@ public class PrivateChatServices {
     }
 
 
-    public RsaKey creatingRSAKeyPair(ChatUser user1,ChatUser user2){
-        Map<String, Date> user1KeyManager = user1.getKeyManageUsers();
-        Map<String, Date> user2KeyManager = user2.getKeyManageUsers();
+    public RsaKey SharingRSAPublicKey(ChatUser user1, ChatUser user2){
+        Map<String, UserPublicKey> user1KeyManager = user1.getKeyManageUsers();
+        Map<String, UserPublicKey> user2KeyManager = user2.getKeyManageUsers();
         if(!user1KeyManager.containsKey(user2.getId()) || !user2KeyManager.containsKey(user1.getId())){
             Date date = new Date();
             if(user1KeyManager.containsKey(user2.getId())){
-                user1KeyManager.replace(user2.getId(),date);
+                user1KeyManager.replace(user2.getId(),new UserPublicKey(user2.getPublicKey(),date));
             }else {
-                user1KeyManager.put(user2.getId(),date);
+                user1KeyManager.put(user2.getId(),new UserPublicKey(user2.getPublicKey(),date));
             }
             if(user2KeyManager.containsKey(user1.getId())){
-                user2KeyManager.replace(user1.getId(),date);
+                user2KeyManager.replace(user1.getId(),new UserPublicKey(user1.getPublicKey(),date));
             }else{
-                user2KeyManager.put(user1.getId(),date);
+                user2KeyManager.put(user1.getId(),new UserPublicKey(user1.getPublicKey(),date));
             }
             return new RsaKey();
         }
@@ -341,9 +341,6 @@ public class PrivateChatServices {
         return !(user1.getKeyManageUsers().containsKey(user2.getId()) &&
                 user2.getKeyManageUsers().containsKey(user1.getId()));
     }
-
-
-
 
 }
 

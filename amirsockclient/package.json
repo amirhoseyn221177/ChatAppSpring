@@ -11,6 +11,8 @@
     "@testing-library/user-event": "^7.1.2",
     "aws-sdk": "^2.822.0",
     "axios": "^0.21.1",
+    "cryptico": "^1.0.2",
+    "crypto-js": "^4.0.0",
     "react": "^17.0.1",
     "react-dom": "^16.14.0",
     "react-redux": "^7.2.2",
@@ -18,8 +20,11 @@
     "react-scripts": "^3.4.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "secure-random": "^1.1.2",
+    "sjcl": "^1.0.8",
     "sockjs-client": "^1.5.0",
-    "stompjs": "^2.3.3"
+    "stompjs": "^2.3.3",
+    "utf8": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
