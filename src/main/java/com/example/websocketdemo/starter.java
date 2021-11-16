@@ -64,9 +64,9 @@ public class starter implements CommandLineRunner {
 //        System.out.println(chatRepo.findAll());
 //        System.out.println(userRepo.findAll());
 ////        System.out.println(groupChatRepo.findAll());
-//        chatRepo.deleteAll();
-//        userRepo.deleteAll();
-//        groupChatRepo.deleteAll();
+        chatRepo.deleteAll();
+        userRepo.deleteAll();
+        groupChatRepo.deleteAll();
 
     }
 }

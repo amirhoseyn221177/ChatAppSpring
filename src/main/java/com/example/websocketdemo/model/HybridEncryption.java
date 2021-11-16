@@ -28,7 +28,7 @@ public class HybridEncryption {
 
         try {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(256);
+            keyGenerator.init(256,new SecureRandom());
             SecretKey AESKey = keyGenerator.generateKey();
             byte[] AESKeyByte = AESKey.getEncoded();
             System.out.println(AESKeyByte.length);

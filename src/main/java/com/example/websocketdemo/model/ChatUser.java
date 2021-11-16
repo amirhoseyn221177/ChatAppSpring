@@ -32,7 +32,9 @@ public class ChatUser implements UserDetails {
     private String password;
     private List<Role> roles=new ArrayList<>();
     private Map<String,UserPublicKey> keyManageUsers = new HashMap<>();
-    private PublicKey publicKey;
+    private byte[] RSAPublicKey;
+    @NotBlank(message="you have to have a phone number")
+    private String phoneNumber;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

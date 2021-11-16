@@ -5,6 +5,7 @@ import { Fragment } from 'react'
 import Crypto from 'crypto-js'
 import axios from 'axios'
 import secureRandom from 'secure-random'
+import cryptico from 'cryptico'
 const Encryption = props => {
     const [AESKey, setAESKey] = useState(null)
     const [iv, setIV] = useState(null)
@@ -48,7 +49,6 @@ const Encryption = props => {
         //     iv: ivByte.toString(Crypto.enc.Base64),
         //     text: AES.ciphertext.toString(Crypto.enc.Base64)
         // })
-        console.log(decrypt.toString(Crypto.enc.Utf8))
 
 
     }
@@ -66,13 +66,21 @@ const Encryption = props => {
     }
 
 
+    var creatingRSAKeyPair=()=>{
+        var passphrase ="polo"
+
+        var KeyPair = cryptico.generateRSAKey(passphrase,1024)
+        console.log(cryptico.publicKeyString(KeyPair))
+    }
+
+
 
 
 
 
     return (
         <Fragment>
-            <button onClick={encrypt}>encryption</button>
+            <button onClick={creatingRSAKeyPair}>encryption</button>
         </Fragment>
     )
 

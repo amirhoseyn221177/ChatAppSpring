@@ -24,27 +24,23 @@
   <component name="ChangeListManager">
     <list default="true" id="5799f046-1975-4271-80c2-583dfe6a2f86" name="Default Changelist" comment="salam">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amirsockclient/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amirsockclient/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amirsockclient/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amirsockclient/src/encryption.js" beforeDir="false" afterPath="$PROJECT_DIR$/amirsockclient/src/encryption.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/PrivateChatServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/PrivateChatServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/WebSocketSecurityServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/Services/WebSocketSecurityServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WSHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/WSHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/handShakerInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/config/handShakerInterceptor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/UserRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/controller/UserRestController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/ChatUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/HybridDecryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/HybridDecryption.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/HybridEncryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/HybridEncryption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/RsaKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/model/RsaKey.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/starter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/websocketdemo/starter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/PrivateChatServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/PrivateChatServices.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/WebSocketSecurityServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/Services/WebSocketSecurityServices.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/AWSConfig$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/AWSConfig$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WSHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/WSHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/handShakerInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/config/handShakerInterceptor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/controller/UserRestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/controller/UserRestController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatMessage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/ChatUser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/HybridDecryption.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/HybridDecryption.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/HybridEncryption.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/HybridEncryption.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/KeyManageUsers.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/RsaKey.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/model/RsaKey.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/starter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/websocketdemo/starter.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,7 +107,6 @@
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
   </component>
   <component name="ReactorSettings">
@@ -250,7 +245,34 @@
       <workItem from="1621042110001" duration="161000" />
       <workItem from="1621042317051" duration="20103000" />
       <workItem from="1621154490218" duration="903000" />
-      <workItem from="1621245687326" duration="599000" />
+      <workItem from="1621245687326" duration="1758000" />
+      <workItem from="1623506510832" duration="1906000" />
+      <workItem from="1623563201543" duration="7755000" />
+      <workItem from="1623649231072" duration="5297000" />
+      <workItem from="1623769726718" duration="4000" />
+      <workItem from="1623855368483" duration="3054000" />
+      <workItem from="1623942978261" duration="1213000" />
+      <workItem from="1624111566745" duration="609000" />
+      <workItem from="1624126197483" duration="1278000" />
+      <workItem from="1624414671472" duration="6102000" />
+      <workItem from="1625647435773" duration="1042000" />
+      <workItem from="1625865094414" duration="620000" />
+      <workItem from="1625984658901" duration="5681000" />
+      <workItem from="1626419036392" duration="351000" />
+      <workItem from="1626875254322" duration="875000" />
+      <workItem from="1627116972139" duration="1264000" />
+      <workItem from="1627130159458" duration="4099000" />
+      <workItem from="1627887706492" duration="2242000" />
+      <workItem from="1628268900880" duration="1259000" />
+      <workItem from="1628714990865" duration="3000" />
+      <workItem from="1629268850545" duration="599000" />
+      <workItem from="1631250287303" duration="969000" />
+      <workItem from="1631599207732" duration="2181000" />
+      <workItem from="1631764498155" duration="1583000" />
+      <workItem from="1633756437628" duration="23000" />
+      <workItem from="1635918788709" duration="898000" />
+      <workItem from="1636322905280" duration="11000" />
+      <workItem from="1637058207610" duration="3379000" />
     </task>
     <task id="LOCAL-00001" summary="salam">
       <created>1596629729396</created>

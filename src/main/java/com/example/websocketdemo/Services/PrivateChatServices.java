@@ -1,5 +1,6 @@
 package com.example.websocketdemo.Services;
 
+import com.amazonaws.services.mq.model.NotFoundException;
 import com.example.websocketdemo.Exceptions.UsernameAlreadyExistException;
 import com.example.websocketdemo.Repository.ChatRepo;
 import com.example.websocketdemo.Repository.GroupChatRepo;
@@ -317,30 +318,48 @@ public class PrivateChatServices {
     }
 
 
-    public RsaKey SharingRSAPublicKey(ChatUser user1, ChatUser user2){
-        Map<String, UserPublicKey> user1KeyManager = user1.getKeyManageUsers();
-        Map<String, UserPublicKey> user2KeyManager = user2.getKeyManageUsers();
-        if(!user1KeyManager.containsKey(user2.getId()) || !user2KeyManager.containsKey(user1.getId())){
-            Date date = new Date();
-            if(user1KeyManager.containsKey(user2.getId())){
-                user1KeyManager.replace(user2.getId(),new UserPublicKey(user2.getPublicKey(),date));
-            }else {
-                user1KeyManager.put(user2.getId(),new UserPublicKey(user2.getPublicKey(),date));
-            }
-            if(user2KeyManager.containsKey(user1.getId())){
-                user2KeyManager.replace(user1.getId(),new UserPublicKey(user1.getPublicKey(),date));
-            }else{
-                user2KeyManager.put(user1.getId(),new UserPublicKey(user1.getPublicKey(),date));
-            }
-            return new RsaKey();
+    public byte[] userRSAPublicKey(String username){
+        Optional<ChatUser> OptionalChatUser = userRepo.findByUsername(username);
+        if(OptionalChatUser.isPresent()){
+           ChatUser chatUser = OptionalChatUser.get();
+           return chatUser.getRSAPublicKey();
+        }else{
+            throw new NotFoundException("there is no such a user");
         }
-        return null;
     }
 
     public boolean firstTime(ChatUser user1,ChatUser user2){
         return !(user1.getKeyManageUsers().containsKey(user2.getId()) &&
                 user2.getKeyManageUsers().containsKey(user1.getId()));
     }
+
+    public void saveRSA(byte[] userRSA, String username){
+        Optional<ChatUser> chatUser = userRepo.findByUsername(username);
+        if(chatUser.isPresent()){
+            ChatUser chatUser1 = chatUser.get();
+            chatUser1.setRSAPublicKey(userRSA);
+            userRepo.save(chatUser1);
+        }else{
+            throw new NotFoundException("there is no such a user");
+        }
+    }
+
+
+    public byte[] newFriend(String username,String friend){
+        Optional<ChatUser> chatUser = userRepo.findByUsername(username);
+        Optional<ChatUser> friendUser = userRepo.findByUsername(friend);
+        if(chatUser.isPresent() && friendUser.isPresent()){
+            ChatUser chatUser1 = chatUser.get();
+            ChatUser friendUser1 = friendUser.get();
+            chatUser1.getFriends().add(friend);
+            friendUser1.getFriends().add(username);
+            return friendUser1.getRSAPublicKey();
+        }else{
+             throw new NotFoundException("friend Doesnt have RSA");
+        }
+    }
+
+
 
 }
 

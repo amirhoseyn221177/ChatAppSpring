@@ -6,6 +6,8 @@ import com.example.websocketdemo.model.ChatUser;
 import com.example.websocketdemo.model.HybridDecryption;
 import com.example.websocketdemo.model.LoginRequest;
 import com.example.websocketdemo.model.testClass;
+import org.apache.http.protocol.HTTP;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,7 @@ public class UserRestController {
     @PostMapping("/register")
     public ResponseEntity<?> registering(@RequestBody ChatUser chatUser, BindingResult result) {
         try {
+            System.out.println(chatUser);
             ResponseEntity<?> error = mapValidationError.MapValidationService(result);
             if (error != null) return error;
             ChatUser chatUser1 = privateChatServices.createUser(chatUser);
@@ -74,5 +77,45 @@ public class UserRestController {
         System.out.println(text.length);
         System.out.println(new String(hybridDecryption.symmetricCipherDecryption(text,"AES/CBC/PKCS5Padding",keys,iv)));
         return  new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/rsa/{username}")
+    public  ResponseEntity<?> sendingRSA( @PathVariable String username , BindingResult result){
+        try{
+            System.out.println(username);
+            ResponseEntity<?> error = mapValidationError.MapValidationService(result);
+            if(error!= null) return  error;
+            byte[] RSAPublic = privateChatServices.userRSAPublicKey(username);
+            return  new ResponseEntity<>(RSAPublic, HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e.getLocalizedMessage());
+            return  new ResponseEntity<>("there is no such a user",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/exist")
+    public void checkIfUserExist(@RequestBody String phoneNumber){
+        System.out.println(phoneNumber);
+    }
+
+    @GetMapping("/rsa/provide/{username}")
+    public  ResponseEntity<?> askingForRSA(@PathVariable String username,@RequestBody byte[] rsa,BindingResult result){
+        try{
+            ResponseEntity<?> error = mapValidationError.MapValidationService(result);
+            if(error!=null)return error;
+            privateChatServices.saveRSA(rsa,username);
+            return new ResponseEntity<>("saved new RSA", HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e.getLocalizedMessage());
+            return  new ResponseEntity<>("could not get RSA",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/startchat/{username}/{friend}")
+    public ResponseEntity<?> addToFriendList(@PathVariable String username, @PathVariable String friend ){
+        byte[] friendRSA = privateChatServices.newFriend(username,friend);
+        Map<String, Object> body = new HashMap<>();
+        body.put("friendRSA", friendRSA);
+        return  new ResponseEntity<>(body,HttpStatus.OK);
     }
 }
